@@ -1,0 +1,80 @@
+<!-- 
+  CIVIL AT HAND — Shared HTML Components Reference
+  These are included in every page.
+  
+  To replace logo: Change the SVG inside .logo-emblem
+  To change phone: Search for 8708524647
+  To change email: Search for civilathand.work@gmail.com
+-->
+
+<!-- PAGE LOADER -->
+<div class="loader" id="pageLoader" aria-hidden="true">
+  <div class="loader-mark">
+    <div class="loader-ring"></div>
+    <svg class="loader-svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+      <path class="path-house" d="M6 42 L6 20 L24 8 L42 20 L42 42 Z M18 42 L18 28 L30 28 L30 42" 
+        stroke="#c8a84b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect class="path-door" x="21" y="30" width="6" height="12" rx="1" fill="#c8a84b" opacity="0"/>
+    </svg>
+  </div>
+  <div class="loader-brand">Civil At Hand</div>
+  <div class="loader-track"><div class="loader-fill"></div></div>
+</div>
+
+<!-- FLOATING WHATSAPP -->
+<a href="https://wa.me/918708524647?text=Hi%2C%20I%20need%20civil%20engineering%20help." 
+   target="_blank" rel="noopener" class="wa-float" aria-label="Chat on WhatsApp">
+  <span class="wa-label">Chat with us</span>
+  <svg viewBox="0 0 24 24" fill="currentColor">
+    <path d="M20.52 3.48A11.95 11.95 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.12.55 4.18 1.6 6L0 24l6.22-1.63A11.94 11.94 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.22-3.48-8.52zM12 22a9.94 9.94 0 0 1-5.08-1.39l-.36-.22-3.71.97.99-3.62-.24-.38A9.95 9.95 0 0 1 2 12c0-5.52 4.48-10 10-10s10 4.48 10 10-4.48 10-10 10zm5.44-7.52c-.3-.15-1.77-.87-2.04-.97s-.47-.15-.67.15-.77.97-.94 1.17-.35.22-.64.07a8.14 8.14 0 0 1-2.39-1.47 8.96 8.96 0 0 1-1.65-2.06c-.17-.3 0-.45.13-.6.12-.13.3-.35.45-.52s.2-.3.3-.5.05-.37-.02-.52-.67-1.62-.92-2.22c-.24-.58-.49-.5-.67-.51H6.9c-.2 0-.52.07-.79.37S5 8.63 5 9.72c0 1.1.8 2.15.91 2.3.12.15 1.57 2.4 3.8 3.36.53.23.94.37 1.26.47.53.17 1.01.15 1.39.09.42-.06 1.3-.53 1.48-1.04.18-.51.18-.95.13-1.04-.06-.09-.22-.15-.52-.3z"/>
+  </svg>
+</a>
+
+<!-- NAVBAR -->
+<header class="site-header">
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner" id="navInner">
+      <!-- LOGO — Replace SVG with your logo image later -->
+      <a href="index.html" class="nav-logo" aria-label="Civil At Hand – Home">
+        <div class="logo-emblem" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c8a84b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 22 L3 10 L12 3 L21 10 L21 22 Z"/>
+            <rect x="9" y="14" width="6" height="8"/>
+          </svg>
+        </div>
+        <div class="logo-words">
+          <div class="logo-name">Civil <span>At Hand</span></div>
+          <div class="logo-sub">Design &amp; Consultancy</div>
+        </div>
+      </a>
+
+      <div class="nav-links" role="menubar">
+        <a href="index.html" role="menuitem">Home</a>
+        <a href="services.html" role="menuitem">Services</a>
+        <a href="portfolio.html" role="menuitem">Portfolio</a>
+        <a href="tools.html" role="menuitem">Free Tools</a>
+        <a href="freelancer.html" role="menuitem">Freelancer</a>
+        <a href="student-guidance.html" role="menuitem">Students</a>
+        <a href="blog.html" role="menuitem">Blog</a>
+        <a href="contact.html" class="nav-cta" role="menuitem">Get a Quote</a>
+      </div>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle mobile menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+</header>
+
+<!-- MOBILE MENU -->
+<nav class="nav-mobile" id="navMobile" aria-label="Mobile navigation">
+  <button class="nav-mobile-close" id="navClose" aria-label="Close menu">✕</button>
+  <a href="index.html">Home</a>
+  <a href="services.html">Services</a>
+  <a href="portfolio.html">Portfolio</a>
+  <a href="tools.html">Free Tools</a>
+  <a href="freelancer.html">Freelancer</a>
+  <a href="student-guidance.html">Students</a>
+  <a href="blog.html">Blog</a>
+  <a href="contact.html" class="btn btn-gold">Get a Free Quote →</a>
+</nav>

@@ -1,12 +1,5 @@
-# robots.txt for Civil At Hand – Design & Consultancy
-# https://www.civilathand.com
-
 User-agent: *
 Allow: /
+Disallow: /SEO-STRATEGY-GUIDE.html
 
-# Sitemap location — update to your real domain
 Sitemap: https://www.civilathand.com/sitemap.xml
-
-# Disallow any admin or private folders if added later
-# Disallow: /admin/
-# Disallow: /private/

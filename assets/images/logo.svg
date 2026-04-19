@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60">
+  <rect width="240" height="60" rx="8" fill="transparent"/>
+  <g transform="translate(10,10)">
+    <svg width="40" height="40" viewBox="0 0 40 40">
+      <rect width="40" height="40" rx="8" fill="#060d18"/>
+      <path d="M7 33 L7 16 L20 8 L33 16 L33 33Z" fill="none" stroke="#c8a84b" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="16" y="23" width="8" height="10" rx="1" fill="#c8a84b" opacity="0.85"/>
+    </svg>
+  </g>
+  <text x="60" y="24" font-family="Georgia, serif" font-size="18" font-weight="600" fill="#eae4d8">Civil <tspan fill="#c8a84b">At Hand</tspan></text>
+  <text x="60" y="42" font-family="Arial, sans-serif" font-size="10" fill="#6e7f95" letter-spacing="2">DESIGN &amp; CONSULTANCY</text>
+</svg>

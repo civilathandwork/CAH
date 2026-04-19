@@ -1,29 +1,575 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Civil Engineering Blog – Construction Tips, House Planning Guides & BOQ Advice India | Civil At Hand</title>
-  <meta name="description" content="Free civil engineering knowledge hub: house construction cost guides, BOQ tips, structural design advice, and career guidance for Indian engineers and homebuilders."/>
-  <meta name="robots" content="index, follow"/>
-  <link rel="canonical" href="https://www.civilathand.com/blog.html"/>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'><rect width='40' height='40' rx='9' fill='%23060d18'/><path d='M7 33 L7 16 L20 8 L33 16 L33 33Z' fill='none' stroke='%23c8a84b' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/><rect x='16' y='23' width='8' height='10' rx='1' fill='%23c8a84b' opacity='0.85'/></svg>"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>Civil Engineering Blog – 3D Interactive | Civil At Hand</title>
+  <meta name="description" content="Immersive civil engineering knowledge: house construction costs, BOQ tips, structural guides with 3D interaction. Free advice for Indian engineers & homebuilders.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.civilathand.com/blog.html">
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='9' fill='%23060d18'/%3E%3Cpath d='M7 33 L7 16 L20 8 L33 16 L33 33Z' fill='none' stroke='%23c8a84b' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Crect x='16' y='23' width='8' height='10' rx='1' fill='%23c8a84b' opacity='0.85'/%3E%3C/svg%3E">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css"/>
+  <!-- GSAP + ScrollTrigger + Swiper -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <style>
+    /* ---------- RESET & VARIABLES ---------- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-deep: #060d18;
+      --bg-card: #0d2035;
+      --gold: #c8a84b;
+      --gold-light: rgba(200, 168, 75, 0.2);
+      --text-1: #f0f3f8;
+      --text-2: #b0c4de;
+      --font-serif: 'Cormorant Garamond', serif;
+      --font-sans: 'DM Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --header-height: 80px;
+      --card-radius: 20px;
+      --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    body {
+      background: var(--bg-deep);
+      color: var(--text-1);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    body.no-scroll { overflow: hidden; }
+    .container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    /* ---------- SCROLL PROGRESS ---------- */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 4px;
+      width: 0%;
+      background: var(--gold);
+      z-index: 1000;
+      box-shadow: 0 0 12px var(--gold);
+      transition: width 0.1s linear;
+    }
+    /* ---------- LOADER ---------- */
+    .loader {
+      position: fixed;
+      inset: 0;
+      background: var(--bg-deep);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.8s, visibility 0.8s;
+    }
+    .loader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .loader-mark { position: relative; width: 80px; height: 80px; margin-bottom: 20px; }
+    .loader-ring {
+      position: absolute;
+      inset: 0;
+      border: 2px solid rgba(200,168,75,0.1);
+      border-radius: 50%;
+      border-top-color: var(--gold);
+      animation: spin 1s linear infinite;
+    }
+    .loader-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .path-house {
+      stroke-dasharray: 200;
+      stroke-dashoffset: 200;
+      animation: drawHouse 2s ease forwards;
+    }
+    .path-door { opacity: 0; animation: fadeDoor 0.6s 1.4s forwards; }
+    .loader-brand {
+      font-family: var(--font-serif);
+      font-size: 1.8rem;
+      letter-spacing: 4px;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .loader-track {
+      width: 200px;
+      height: 2px;
+      background: rgba(200,168,75,0.15);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .loader-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--gold);
+      animation: fillBar 2s ease forwards;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    @keyframes drawHouse { to { stroke-dashoffset: 0; } }
+    @keyframes fadeDoor { to { opacity: 0.85; } }
+    @keyframes fillBar { 0% { width: 0%; } 80% { width: 80%; } 100% { width: 100%; } }
+
+    /* ---------- TYPOGRAPHY & UTILS ---------- */
+    h1, h2, h3, h4 { font-family: var(--font-serif); font-weight: 600; line-height: 1.2; }
+    h1 { font-size: clamp(2.8rem, 8vw, 4.5rem); }
+    h2 { font-size: clamp(1.8rem, 5vw, 2.5rem); }
+    h3 { font-size: 1.5rem; }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .tag-dot {
+      width: 8px; height: 8px; background: var(--gold); border-radius: 50%;
+      box-shadow: 0 0 10px var(--gold);
+    }
+    .lead { font-size: 1.2rem; color: var(--text-2); max-width: 700px; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 28px;
+      background: transparent;
+      border: 1.5px solid var(--gold);
+      color: var(--gold);
+      font-weight: 600;
+      border-radius: 40px;
+      text-decoration: none;
+      transition: var(--transition);
+      cursor: pointer;
+      font-family: var(--font-sans);
+    }
+    .btn-gold {
+      background: var(--gold);
+      color: var(--bg-deep);
+      border: none;
+    }
+    .btn-gold:hover { background: #dab75a; transform: translateY(-3px); box-shadow: 0 12px 20px -8px rgba(200,168,75,0.3); }
+    .btn:hover { background: rgba(200,168,75,0.1); transform: translateY(-3px); }
+    .btn-wa { background: #25D366; border-color: #25D366; color: #fff; }
+    .btn-wa:hover { background: #20b859; }
+
+    /* ---------- HEADER & NAV ---------- */
+    .site-header { position: fixed; top: 0; left: 0; width: 100%; z-index: 900; transition: background 0.3s; }
+    .site-header.scrolled { background: rgba(6,13,24,0.9); backdrop-filter: blur(12px); box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+    .navbar { padding: 0 24px; height: var(--header-height); }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 1320px; margin: 0 auto; height: 100%;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px; text-decoration: none;
+    }
+    .logo-emblem svg { display: block; }
+    .logo-words .logo-name {
+      font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700;
+      color: var(--text-1); line-height: 1.2;
+    }
+    .logo-name span { color: var(--gold); }
+    .logo-sub { font-size: 0.65rem; letter-spacing: 2px; color: var(--gold); text-transform: uppercase; }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a {
+      text-decoration: none; color: var(--text-2); font-weight: 500;
+      transition: color 0.2s; font-size: 0.95rem;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+    .nav-cta {
+      padding: 8px 20px !important;
+      border: 1.5px solid var(--gold);
+      border-radius: 30px;
+      color: var(--gold) !important;
+    }
+    .nav-toggle {
+      display: none; flex-direction: column; gap: 6px;
+      background: none; border: none; cursor: pointer; padding: 8px;
+    }
+    .nav-toggle span {
+      width: 28px; height: 2px; background: var(--gold);
+      transition: var(--transition);
+    }
+    /* Mobile Nav */
+    .nav-mobile {
+      position: fixed; inset: 0; background: var(--bg-deep);
+      z-index: 950; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      transform: translateX(100%); transition: transform 0.4s ease;
+    }
+    .nav-mobile.active { transform: translateX(0); }
+    .nav-mobile-close {
+      position: absolute; top: 30px; right: 30px;
+      background: none; border: none; color: var(--gold); font-size: 2rem;
+      cursor: pointer;
+    }
+    .nav-mobile a {
+      font-size: 1.8rem; margin: 16px 0; color: var(--text-1);
+      text-decoration: none; font-family: var(--font-serif);
+    }
+    /* Breadcrumb */
+    .breadcrumb { padding-top: calc(var(--header-height) + 20px); }
+    .bc-list {
+      display: flex; list-style: none; gap: 8px;
+      font-size: 0.9rem; color: var(--text-2);
+    }
+    .bc-list a { color: var(--gold); text-decoration: none; }
+    .bc-list li:not(:last-child)::after { content: "/"; margin-left: 8px; color: var(--text-2); }
+
+    /* ---------- HERO PARALLAX ---------- */
+    .page-hero {
+      padding: 40px 0 60px;
+      position: relative;
+    }
+    .page-hero-inner {
+      position: relative;
+      z-index: 2;
+    }
+    .hero-bg {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 120%;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+    .hero-bg svg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0.15;
+    }
+    .parallax-layer { will-change: transform; }
+
+    /* ---------- BLOG GRID & 3D CARDS ---------- */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      margin: 40px 0;
+    }
+    .blog-card {
+      background: var(--bg-card);
+      border-radius: var(--card-radius);
+      border: 1px solid rgba(200,168,75,0.15);
+      overflow: hidden;
+      transition: box-shadow 0.4s;
+      transform-style: preserve-3d;
+      transform: perspective(1200px) rotateX(0deg) rotateY(0deg);
+      will-change: transform;
+      box-shadow: 0 10px 20px -5px rgba(0,0,0,0.5);
+    }
+    .blog-card.featured {
+      grid-column: span 3;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+    }
+    .blog-card:hover {
+      box-shadow: 0 25px 35px -8px rgba(200,168,75,0.15);
+      border-color: rgba(200,168,75,0.4);
+    }
+    .blog-thumb {
+      position: relative;
+      background: #0a1e32;
+      aspect-ratio: 16/10;
+      overflow: hidden;
+    }
+    .blog-thumb svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      transition: transform 0.6s;
+    }
+    .blog-card:hover .blog-thumb svg {
+      transform: scale(1.03);
+    }
+    .blog-body {
+      padding: 24px 20px;
+    }
+    .blog-meta {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 12px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: var(--gold);
+    }
+    .blog-cat { text-transform: uppercase; letter-spacing: 1px; }
+    .blog-card h3 { margin-bottom: 10px; }
+    .blog-card p {
+      color: var(--text-2);
+      margin-bottom: 20px;
+      font-size: 0.95rem;
+    }
+    .blog-read {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .blog-read:hover { border-bottom-color: var(--gold); }
+    .blog-read svg { transition: transform 0.2s; }
+    .blog-read:hover svg { transform: translateX(4px); }
+
+    /* ---------- FEATURED CAROUSEL (SWIPER) ---------- */
+    .carousel-section {
+      margin: 60px 0;
+      position: relative;
+    }
+    .swiper {
+      width: 100%;
+      padding: 20px 0 50px;
+      overflow: visible !important;
+    }
+    .swiper-slide {
+      background: transparent;
+      border-radius: var(--card-radius);
+      transition: transform 0.3s;
+    }
+    .swiper-slide-active { z-index: 5; }
+    .featured-card {
+      background: var(--bg-card);
+      border-radius: var(--card-radius);
+      border: 1px solid rgba(200,168,75,0.2);
+      padding: 24px;
+      height: 100%;
+      backdrop-filter: blur(4px);
+    }
+    .swiper-pagination-bullet {
+      background: var(--gold);
+      opacity: 0.4;
+    }
+    .swiper-pagination-bullet-active { opacity: 1; }
+
+    /* ---------- FILTER BAR ---------- */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 24px;
+      margin: 30px 0;
+      border-bottom: 1px solid rgba(200,168,75,0.2);
+      padding-bottom: 20px;
+    }
+    .filter-btn {
+      background: none;
+      border: none;
+      color: var(--text-2);
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+      cursor: pointer;
+      padding: 6px 0;
+      position: relative;
+      transition: color 0.2s;
+    }
+    .filter-btn.active {
+      color: var(--gold);
+    }
+    .filter-btn::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: var(--gold);
+      transition: width 0.3s;
+    }
+    .filter-btn.active::after { width: 100%; }
+
+    /* ---------- WHY CARD / CTA ---------- */
+    .why-card {
+      background: linear-gradient(145deg, #0b1828 0%, #0a1e32 100%);
+      border: 1px solid rgba(200,168,75,0.25);
+      border-radius: 30px;
+      padding: 48px 40px;
+      backdrop-filter: blur(10px);
+      margin: 60px 0;
+    }
+
+    /* ---------- FOOTER ---------- */
+    .footer {
+      background: #040a12;
+      border-top: 1px solid rgba(200,168,75,0.2);
+      padding: 60px 0 20px;
+      margin-top: 60px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
+      gap: 40px;
+    }
+    .footer-brand p { margin-top: 16px; color: var(--text-2); }
+    .footer-col h4 {
+      color: var(--gold);
+      margin-bottom: 20px;
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      letter-spacing: 2px;
+    }
+    .footer-col a, .footer-col address {
+      display: block;
+      color: var(--text-2);
+      text-decoration: none;
+      margin-bottom: 12px;
+      font-style: normal;
+      transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--gold); }
+    .footer-contact-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .footer-bottom {
+      margin-top: 50px;
+      padding-top: 25px;
+      border-top: 1px solid rgba(200,168,75,0.1);
+      display: flex;
+      justify-content: space-between;
+      color: var(--text-2);
+      font-size: 0.85rem;
+    }
+    .footer-bottom-links { display: flex; gap: 24px; }
+    .footer-bottom-links a { color: var(--text-2); text-decoration: none; }
+
+    /* WhatsApp Float */
+    .wa-float {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #25D366;
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 20px rgba(37,211,102,0.3);
+      z-index: 800;
+      transition: transform 0.3s;
+      animation: pulseWa 2s infinite;
+    }
+    .wa-float:hover { transform: scale(1.1); animation: none; }
+    .wa-label { display: none; }
+    @keyframes pulseWa {
+      0% { box-shadow: 0 0 0 0 rgba(37,211,102,0.5); }
+      70% { box-shadow: 0 0 0 15px rgba(37,211,102,0); }
+      100% { box-shadow: 0 0 0 0 rgba(37,211,102,0); }
+    }
+
+    /* Reveal animations */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s, transform 0.8s;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .blog-grid { grid-template-columns: repeat(2, 1fr); }
+      .blog-card.featured { grid-column: span 2; }
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 30px; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-toggle { display: flex; }
+      .blog-grid { grid-template-columns: 1fr; }
+      .blog-card.featured { grid-column: span 1; display: block; }
+      .container { padding: 0 20px; }
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 16px; align-items: center; text-align: center; }
+    }
+
+    /* Cursor effect for tilt (will be enhanced by JS) */
+    .tilt-active { transition: transform 0.1s ease-out; }
+  </style>
 </head>
 <body>
-  <div class="loader" id="pageLoader" aria-hidden="true"><div class="loader-mark"><div class="loader-ring"></div><svg class="loader-svg" width="48" height="48" viewBox="0 0 48 48" fill="none"><path class="path-house" d="M6 42 L6 20 L24 8 L42 20 L42 42 Z M18 42 L18 28 L30 28 L30 42" stroke="#c8a84b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><rect class="path-door" x="21" y="30" width="6" height="12" rx="1" fill="#c8a84b" opacity="0"/></svg></div><div class="loader-brand">Civil At Hand</div><div class="loader-track"><div class="loader-fill"></div></div></div>
-  <a href="https://wa.me/918708524647?text=Hi%2C%20I%20need%20civil%20engineering%20help." target="_blank" rel="noopener" class="wa-float" aria-label="WhatsApp"><span class="wa-label">Chat with us</span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.95 11.95 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.12.55 4.18 1.6 6L0 24l6.22-1.63A11.94 11.94 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.22-3.48-8.52zM12 22a9.94 9.94 0 0 1-5.08-1.39l-.36-.22-3.71.97.99-3.62-.24-.38A9.95 9.95 0 0 1 2 12c0-5.52 4.48-10 10-10s10 4.48 10 10-4.48 10-10 10zm5.44-7.52c-.3-.15-1.77-.87-2.04-.97s-.47-.15-.67.15-.77.97-.94 1.17-.35.22-.64.07a8.14 8.14 0 0 1-2.39-1.47 8.96 8.96 0 0 1-1.65-2.06c-.17-.3 0-.45.13-.6.12-.13.3-.35.45-.52s.2-.3.3-.5.05-.37-.02-.52-.67-1.62-.92-2.22c-.24-.58-.49-.5-.67-.51H6.9c-.2 0-.52.07-.79.37S5 8.63 5 9.72c0 1.1.8 2.15.91 2.3.12.15 1.57 2.4 3.8 3.36.53.23.94.37 1.26.47.53.17 1.01.15 1.39.09.42-.06 1.3-.53 1.48-1.04.18-.51.18-.95.13-1.04-.06-.09-.22-.15-.52-.3z"/></svg></a>
-  <header class="site-header"><nav class="navbar" id="navbar"><div class="nav-inner" id="navInner">
-    <a href="index.html" class="nav-logo"><div class="logo-emblem"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c8a84b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22 L3 10 L12 3 L21 10 L21 22 Z"/><rect x="9" y="14" width="6" height="8"/></svg></div><div class="logo-words"><div class="logo-name">Civil <span>At Hand</span></div><div class="logo-sub">Design &amp; Consultancy</div></div></a>
-    <div class="nav-links"><a href="index.html">Home</a><a href="services.html">Services</a><a href="portfolio.html">Portfolio</a><a href="tools.html">Free Tools</a><a href="freelancer.html">Freelancer</a><a href="student-guidance.html">Students</a><a href="blog.html" class="active">Blog</a><a href="contact.html" class="nav-cta">Get a Quote</a></div>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
-  </div></nav></header>
-  <nav class="nav-mobile" id="navMobile"><button class="nav-mobile-close" id="navClose">✕</button><a href="index.html">Home</a><a href="services.html">Services</a><a href="portfolio.html">Portfolio</a><a href="tools.html">Free Tools</a><a href="freelancer.html">Freelancer</a><a href="student-guidance.html">Students</a><a href="blog.html">Blog</a><a href="contact.html" class="btn btn-gold">Get a Free Quote →</a></nav>
+  <!-- Loader -->
+  <div class="loader" id="pageLoader">
+    <div class="loader-mark">
+      <div class="loader-ring"></div>
+      <svg class="loader-svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+        <path class="path-house" d="M6 42 L6 20 L24 8 L42 20 L42 42 Z M18 42 L18 28 L30 28 L30 42" stroke="#c8a84b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect class="path-door" x="21" y="30" width="6" height="12" rx="1" fill="#c8a84b" opacity="0"/>
+      </svg>
+    </div>
+    <div class="loader-brand">Civil At Hand</div>
+    <div class="loader-track"><div class="loader-fill"></div></div>
+  </div>
+
+  <!-- Scroll Progress -->
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- WhatsApp Float -->
+  <a href="https://wa.me/918708524647?text=Hi%2C%20I%20need%20civil%20engineering%20help." target="_blank" rel="noopener" class="wa-float" aria-label="WhatsApp">
+    <span class="wa-label">Chat with us</span>
+    <svg viewBox="0 0 24 24" fill="currentColor" width="30" height="30"><path d="M20.52 3.48A11.95 11.95 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.12.55 4.18 1.6 6L0 24l6.22-1.63A11.94 11.94 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.22-3.48-8.52zM12 22a9.94 9.94 0 0 1-5.08-1.39l-.36-.22-3.71.97.99-3.62-.24-.38A9.95 9.95 0 0 1 2 12c0-5.52 4.48-10 10-10s10 4.48 10 10-4.48 10-10 10zm5.44-7.52c-.3-.15-1.77-.87-2.04-.97s-.47-.15-.67.15-.77.97-.94 1.17-.35.22-.64.07a8.14 8.14 0 0 1-2.39-1.47 8.96 8.96 0 0 1-1.65-2.06c-.17-.3 0-.45.13-.6.12-.13.3-.35.45-.52s.2-.3.3-.5.05-.37-.02-.52-.67-1.62-.92-2.22c-.24-.58-.49-.5-.67-.51H6.9c-.2 0-.52.07-.79.37S5 8.63 5 9.72c0 1.1.8 2.15.91 2.3.12.15 1.57 2.4 3.8 3.36.53.23.94.37 1.26.47.53.17 1.01.15 1.39.09.42-.06 1.3-.53 1.48-1.04.18-.51.18-.95.13-1.04-.06-.09-.22-.15-.52-.3z"/></svg>
+  </a>
+
+  <!-- Header -->
+  <header class="site-header" id="header">
+    <nav class="navbar">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-logo">
+          <div class="logo-emblem"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c8a84b" stroke-width="1.8"><path d="M3 22 L3 10 L12 3 L21 10 L21 22 Z"/><rect x="9" y="14" width="6" height="8"/></svg></div>
+          <div class="logo-words"><div class="logo-name">Civil <span>At Hand</span></div><div class="logo-sub">Design & Consultancy</div></div>
+        </a>
+        <div class="nav-links">
+          <a href="index.html">Home</a><a href="services.html">Services</a><a href="portfolio.html">Portfolio</a>
+          <a href="tools.html">Free Tools</a><a href="freelancer.html">Freelancer</a><a href="student-guidance.html">Students</a>
+          <a href="blog.html" class="active">Blog</a><a href="contact.html" class="nav-cta">Get a Quote</a>
+        </div>
+        <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Mobile Nav -->
+  <nav class="nav-mobile" id="navMobile">
+    <button class="nav-mobile-close" id="navClose">✕</button>
+    <a href="index.html">Home</a><a href="services.html">Services</a><a href="portfolio.html">Portfolio</a>
+    <a href="tools.html">Free Tools</a><a href="freelancer.html">Freelancer</a><a href="student-guidance.html">Students</a>
+    <a href="blog.html">Blog</a><a href="contact.html" class="btn btn-gold">Get a Free Quote →</a>
+  </nav>
+
+  <!-- Breadcrumb -->
   <nav class="breadcrumb"><div class="container"><ol class="bc-list"><li><a href="index.html">Home</a></li><li>Blog</li></ol></div></nav>
 
   <main>
+    <!-- Hero with Parallax -->
     <section class="page-hero">
+      <div class="hero-bg parallax-layer" id="heroBg">
+        <svg viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+          <rect width="1200" height="800" fill="url(#heroGrad)" />
+          <defs><radialGradient id="heroGrad" cx="50%" cy="30%"><stop offset="0%" stop-color="#c8a84b" stop-opacity="0.15"/><stop offset="100%" stop-color="#060d18" stop-opacity="0"/></radialGradient></defs>
+          <circle cx="200" cy="200" r="300" fill="none" stroke="rgba(200,168,75,0.05)" stroke-width="2"/>
+          <circle cx="1000" cy="500" r="400" fill="none" stroke="rgba(200,168,75,0.03)" stroke-width="3"/>
+        </svg>
+      </div>
       <div class="container page-hero-inner">
         <span class="tag reveal" style="--delay:0s"><span class="tag-dot"></span>Knowledge Hub</span>
         <h1 class="reveal" style="--delay:0.08s">Civil Engineering<br><em>Blog & Guides</em></h1>
@@ -31,11 +577,38 @@
       </div>
     </section>
 
+    <!-- Filter Bar (Interactive demo) -->
+    <div class="container">
+      <div class="filter-bar reveal" style="--delay:0.1s">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="cost">Cost Guides</button>
+        <button class="filter-btn" data-filter="boq">BOQ & Estimation</button>
+        <button class="filter-btn" data-filter="structural">Structural</button>
+        <button class="filter-btn" data-filter="vastu">Vastu & Planning</button>
+        <button class="filter-btn" data-filter="materials">Materials</button>
+      </div>
+    </div>
+
+    <!-- Featured Carousel (3D Coverflow) -->
+    <section class="carousel-section container reveal" style="--delay:0.2s">
+      <h2 style="margin-bottom: 24px;"><span style="color:var(--gold);">✦</span> Featured Stories</h2>
+      <div class="swiper" id="featuredCarousel">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide"><div class="featured-card"><h3>🏠 2025 Cost Trends: What's Changing?</h3><p>Cement prices, labor shifts, and new technology impacting your budget.</p><a href="#" class="blog-read">Explore →</a></div></div>
+          <div class="swiper-slide"><div class="featured-card"><h3>📐 Vastu & Modern Architecture</h3><p>Balancing tradition with open floor plans. Expert insights.</p><a href="#" class="blog-read">Read →</a></div></div>
+          <div class="swiper-slide"><div class="featured-card"><h3>🔩 TMT Steel: Fe500D Explained</h3><p>Why it's the gold standard for earthquake-resistant homes.</p><a href="#" class="blog-read">Learn →</a></div></div>
+          <div class="swiper-slide"><div class="featured-card"><h3>📊 BOQ Like a Pro</h3><p>Download our free template + 5 tips to avoid lakhs in overruns.</p><a href="#" class="blog-read">Get Template →</a></div></div>
+        </div>
+        <div class="swiper-pagination"></div>
+      </div>
+    </section>
+
+    <!-- Blog Grid with 3D Cards -->
     <section class="section">
       <div class="container">
-        <div class="blog-grid">
-          <!-- Featured -->
-          <article class="blog-card featured reveal" style="--delay:0s">
+        <div class="blog-grid" id="blogGrid">
+          <!-- Featured Card -->
+          <article class="blog-card featured tilt-card reveal" data-category="cost" style="--delay:0s">
             <div class="blog-thumb">
               <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
                 <rect width="400" height="260" fill="#0b1828"/>
@@ -47,7 +620,6 @@
                 <rect x="248" y="158" width="42" height="36" fill="rgba(200,168,75,0.1)" stroke="#c8a84b" stroke-width="1.2"/>
                 <rect x="179" y="180" width="42" height="40" fill="rgba(200,168,75,0.2)" stroke="#c8a84b" stroke-width="1.4"/>
                 <line x1="80" y1="232" x2="320" y2="232" stroke="#c8a84b" stroke-width="0.8" stroke-dasharray="5,4" opacity="0.4"/>
-                <!-- Price tag -->
                 <rect x="24" y="20" width="100" height="32" rx="6" fill="rgba(200,168,75,0.15)" stroke="#c8a84b" stroke-width="1"/>
                 <text x="74" y="40" text-anchor="middle" fill="#c8a84b" font-size="10" font-family="monospace" font-weight="bold">₹1,800/sqft</text>
               </svg>
@@ -55,143 +627,88 @@
             <div class="blog-body">
               <div class="blog-meta"><span class="blog-cat">Cost Guide</span><span class="blog-date">January 2025</span></div>
               <h2>How Much Does House Construction Cost in India in 2025?</h2>
-              <p>The complete guide to construction costs across Indian states — from Punjab to Kerala. Understand what drives costs up, what you can control, and how to budget accurately for your dream home.</p>
-              <p>We break down costs by finish quality, location, floor count, and material grade. Includes real project examples from our portfolio.</p>
-              <a href="contact.html" class="blog-read">Read Full Guide <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+              <p>The complete guide to construction costs across Indian states — from Punjab to Kerala.</p>
+              <a href="#" class="blog-read">Read Full Guide <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
             </div>
           </article>
 
-          <!-- Blog cards -->
-          <article class="blog-card reveal" style="--delay:0.08s">
+          <!-- Regular cards with tilt -->
+          <article class="blog-card tilt-card reveal" data-category="boq" style="--delay:0.08s">
             <div class="blog-thumb">
               <svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
                 <rect width="260" height="160" fill="#0d2035"/>
-                <defs><pattern id="bg2" width="14" height="14" patternUnits="userSpaceOnUse"><path d="M14 0L0 0 0 14" fill="none" stroke="rgba(200,168,75,0.1)" stroke-width="0.5"/></pattern></defs>
                 <rect width="260" height="160" fill="url(#bg2)"/>
+                <defs><pattern id="bg2" width="14" height="14" patternUnits="userSpaceOnUse"><path d="M14 0L0 0 0 14" fill="none" stroke="rgba(200,168,75,0.1)" stroke-width="0.5"/></pattern></defs>
                 <rect x="20" y="20" width="220" height="120" fill="rgba(200,168,75,0.03)" stroke="#c8a84b" stroke-width="1"/>
                 <rect x="20" y="20" width="220" height="24" fill="rgba(200,168,75,0.12)" stroke="#c8a84b" stroke-width="1"/>
-                <text x="130" y="37" text-anchor="middle" fill="#c8a84b" font-size="9" font-family="monospace">BILL OF QUANTITIES TIPS</text>
+                <text x="130" y="37" text-anchor="middle" fill="#c8a84b" font-size="9" font-family="monospace">BOQ TIPS</text>
                 <line x1="20" y1="56" x2="240" y2="56" stroke="#c8a84b" stroke-width="0.4" opacity="0.3"/>
                 <text x="35" y="72" fill="#c8a84b" font-size="7" font-family="monospace" opacity="0.7">Avoid round-number guesses</text>
                 <text x="35" y="88" fill="#c8a84b" font-size="7" font-family="monospace" opacity="0.7">Always add 5-10% wastage</text>
-                <text x="35" y="104" fill="#c8a84b" font-size="7" font-family="monospace" opacity="0.7">Get 3+ supplier quotes</text>
-                <text x="35" y="120" fill="#c8a84b" font-size="7" font-family="monospace" opacity="0.7">Separate civil & finishing</text>
               </svg>
             </div>
             <div class="blog-body">
               <div class="blog-meta"><span class="blog-cat">BOQ Guide</span><span class="blog-date">Dec 2024</span></div>
               <h3>5 BOQ Mistakes That Cost Indian Homebuilders Lakhs</h3>
-              <p>Common errors in material estimation that lead to budget overruns. Learn to avoid them with our expert checklist.</p>
-              <a href="contact.html" class="blog-read">Read More <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+              <p>Common errors in material estimation that lead to budget overruns.</p>
+              <a href="#" class="blog-read">Read More <svg width="12" height="12" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
             </div>
           </article>
 
-          <article class="blog-card reveal" style="--delay:0.16s">
+          <article class="blog-card tilt-card reveal" data-category="structural" style="--delay:0.16s">
             <div class="blog-thumb">
-              <svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-                <rect width="260" height="160" fill="#0a1e32"/>
-                <defs><pattern id="bg3" width="14" height="14" patternUnits="userSpaceOnUse"><path d="M14 0L0 0 0 14" fill="none" stroke="rgba(200,168,75,0.1)" stroke-width="0.5"/></pattern></defs>
-                <rect width="260" height="160" fill="url(#bg3)"/>
-                <rect x="25" y="20" width="30" height="120" fill="rgba(200,168,75,0.08)" stroke="#c8a84b" stroke-width="1.2"/>
-                <rect x="115" y="20" width="30" height="120" fill="rgba(200,168,75,0.08)" stroke="#c8a84b" stroke-width="1.2"/>
-                <rect x="205" y="20" width="30" height="120" fill="rgba(200,168,75,0.08)" stroke="#c8a84b" stroke-width="1.2"/>
-                <rect x="14" y="12" width="232" height="12" fill="rgba(200,168,75,0.18)" stroke="#c8a84b" stroke-width="1"/>
-                <rect x="14" y="78" width="232" height="12" fill="rgba(200,168,75,0.12)" stroke="#c8a84b" stroke-width="0.8"/>
-                <rect x="14" y="132" width="232" height="12" fill="rgba(200,168,75,0.18)" stroke="#c8a84b" stroke-width="1"/>
-                <text x="130" y="152" text-anchor="middle" fill="#c8a84b" font-size="7" font-family="monospace" opacity="0.6">RCC Frame — IS:456</text>
-              </svg>
+              <svg viewBox="0 0 260 160"><rect width="260" height="160" fill="#0a1e32"/><rect width="260" height="160" fill="url(#bg3)"/><defs><pattern id="bg3" width="14" height="14" patternUnits="userSpaceOnUse"><path d="M14 0L0 0 0 14" fill="none" stroke="rgba(200,168,75,0.1)" stroke-width="0.5"/></pattern></defs><rect x="25" y="20" width="30" height="120" fill="rgba(200,168,75,0.08)" stroke="#c8a84b" stroke-width="1.2"/><rect x="115" y="20" width="30" height="120" fill="rgba(200,168,75,0.08)" stroke="#c8a84b" stroke-width="1.2"/><rect x="205" y="20" width="30" height="120" fill="rgba(200,168,75,0.08)" stroke="#c8a84b" stroke-width="1.2"/><rect x="14" y="12" width="232" height="12" fill="rgba(200,168,75,0.18)" stroke="#c8a84b"/><text x="130" y="152" text-anchor="middle" fill="#c8a84b" font-size="7" font-family="monospace">RCC Frame — IS:456</text></svg>
             </div>
             <div class="blog-body">
               <div class="blog-meta"><span class="blog-cat">Structural</span><span class="blog-date">Nov 2024</span></div>
               <h3>Understanding RCC Structural Design: A Homeowner's Guide</h3>
-              <p>What is RCC framing? Why does it matter for your home? A non-technical guide to understanding structural engineering.</p>
-              <a href="contact.html" class="blog-read">Read More <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+              <p>What is RCC framing? Why does it matter for your home?</p>
+              <a href="#" class="blog-read">Read More <svg width="12" height="12"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
             </div>
           </article>
 
-          <article class="blog-card reveal" style="--delay:0.24s">
+          <article class="blog-card tilt-card reveal" data-category="vastu" style="--delay:0.24s">
             <div class="blog-thumb">
-              <svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-                <rect width="260" height="160" fill="#091828"/>
-                <defs><pattern id="bg4" width="14" height="14" patternUnits="userSpaceOnUse"><path d="M14 0L0 0 0 14" fill="none" stroke="rgba(200,168,75,0.1)" stroke-width="0.5"/></pattern></defs>
-                <rect width="260" height="160" fill="url(#bg4)"/>
-                <!-- Vastu compass -->
-                <circle cx="130" cy="80" r="60" fill="none" stroke="rgba(200,168,75,0.1)" stroke-width="1"/>
-                <circle cx="130" cy="80" r="40" fill="none" stroke="rgba(200,168,75,0.15)" stroke-width="1"/>
-                <circle cx="130" cy="80" r="6" fill="rgba(200,168,75,0.3)" stroke="#c8a84b" stroke-width="1.2"/>
-                <line x1="130" y1="20" x2="130" y2="140" stroke="#c8a84b" stroke-width="0.8" opacity="0.4"/>
-                <line x1="70" y1="80" x2="190" y2="80" stroke="#c8a84b" stroke-width="0.8" opacity="0.4"/>
-                <text x="130" y="16" text-anchor="middle" fill="#c8a84b" font-size="9" font-family="monospace">N</text>
-                <text x="130" y="154" text-anchor="middle" fill="#c8a84b" font-size="9" font-family="monospace">S</text>
-                <text x="65" y="84" text-anchor="middle" fill="#c8a84b" font-size="9" font-family="monospace">W</text>
-                <text x="196" y="84" text-anchor="middle" fill="#c8a84b" font-size="9" font-family="monospace">E</text>
-                <text x="130" y="84" text-anchor="middle" fill="#c8a84b" font-size="7" font-family="monospace" opacity="0.8">VASTU</text>
-              </svg>
+              <svg viewBox="0 0 260 160"><rect width="260" height="160" fill="#091828"/><circle cx="130" cy="80" r="60" fill="none" stroke="rgba(200,168,75,0.1)"/><circle cx="130" cy="80" r="40" fill="none" stroke="rgba(200,168,75,0.15)"/><circle cx="130" cy="80" r="6" fill="rgba(200,168,75,0.3)" stroke="#c8a84b"/><line x1="130" y1="20" x2="130" y2="140" stroke="#c8a84b" opacity="0.4"/><line x1="70" y1="80" x2="190" y2="80" stroke="#c8a84b" opacity="0.4"/><text x="130" y="16" text-anchor="middle" fill="#c8a84b" font-size="9">N</text><text x="130" y="154" text-anchor="middle" fill="#c8a84b">S</text><text x="65" y="84" text-anchor="middle" fill="#c8a84b">W</text><text x="196" y="84" text-anchor="middle" fill="#c8a84b">E</text><text x="130" y="84" text-anchor="middle" fill="#c8a84b" font-size="7">VASTU</text></svg>
             </div>
             <div class="blog-body">
               <div class="blog-meta"><span class="blog-cat">House Planning</span><span class="blog-date">Oct 2024</span></div>
               <h3>Vastu Shastra in Modern House Design: What Actually Matters</h3>
-              <p>A practical, science-balanced look at vastu principles for modern Indian homes — what to follow and what's flexible.</p>
-              <a href="contact.html" class="blog-read">Read More <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+              <p>A practical, science-balanced look at vastu principles.</p>
+              <a href="#" class="blog-read">Read More <svg width="12" height="12"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
             </div>
           </article>
 
-          <article class="blog-card reveal" style="--delay:0.32s">
+          <article class="blog-card tilt-card reveal" data-category="materials" style="--delay:0.32s">
             <div class="blog-thumb">
-              <svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-                <rect width="260" height="160" fill="#0b1828"/>
-                <defs><pattern id="bg5" width="14" height="14" patternUnits="userSpaceOnUse"><path d="M14 0L0 0 0 14" fill="none" stroke="rgba(200,168,75,0.1)" stroke-width="0.5"/></pattern></defs>
-                <rect width="260" height="160" fill="url(#bg5)"/>
-                <!-- TMT steel bars -->
-                <rect x="20" y="40" width="220" height="14" rx="7" fill="rgba(200,168,75,0.15)" stroke="#c8a84b" stroke-width="1.2"/>
-                <rect x="20" y="65" width="220" height="14" rx="7" fill="rgba(200,168,75,0.12)" stroke="#c8a84b" stroke-width="1"/>
-                <rect x="20" y="90" width="220" height="14" rx="7" fill="rgba(200,168,75,0.15)" stroke="#c8a84b" stroke-width="1.2"/>
-                <rect x="20" y="115" width="220" height="14" rx="7" fill="rgba(200,168,75,0.12)" stroke="#c8a84b" stroke-width="1"/>
-                <text x="130" y="22" text-anchor="middle" fill="#c8a84b" font-size="9" font-family="monospace" opacity="0.8">TMT STEEL — Fe500D</text>
-                <text x="130" y="148" text-anchor="middle" fill="#c8a84b" font-size="7" font-family="monospace" opacity="0.5">D²÷162 = kg/m</text>
-              </svg>
+              <svg viewBox="0 0 260 160"><rect width="260" height="160" fill="#0b1828"/><rect x="20" y="40" width="220" height="14" rx="7" fill="rgba(200,168,75,0.15)" stroke="#c8a84b"/><rect x="20" y="65" width="220" height="14" rx="7" fill="rgba(200,168,75,0.12)" stroke="#c8a84b"/><rect x="20" y="90" width="220" height="14" rx="7" fill="rgba(200,168,75,0.15)" stroke="#c8a84b"/><rect x="20" y="115" width="220" height="14" rx="7" fill="rgba(200,168,75,0.12)" stroke="#c8a84b"/><text x="130" y="22" text-anchor="middle" fill="#c8a84b" font-size="9">TMT STEEL — Fe500D</text></svg>
             </div>
             <div class="blog-body">
               <div class="blog-meta"><span class="blog-cat">Materials</span><span class="blog-date">Sep 2024</span></div>
-              <h3>TMT Steel Grade Guide: Fe415 vs Fe500 vs Fe500D for Your Home</h3>
-              <p>Which steel grade should you use for your house? A clear comparison with real-world implications for safety and cost.</p>
-              <a href="contact.html" class="blog-read">Read More <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+              <h3>TMT Steel Grade Guide: Fe415 vs Fe500 vs Fe500D</h3>
+              <p>Which steel grade should you use for your house?</p>
+              <a href="#" class="blog-read">Read More <svg width="12" height="12"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
             </div>
           </article>
 
-          <article class="blog-card reveal" style="--delay:0.4s">
+          <article class="blog-card tilt-card reveal" data-category="cost" style="--delay:0.4s">
             <div class="blog-thumb">
-              <svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-                <rect width="260" height="160" fill="#0a1e32"/>
-                <defs><pattern id="bg6" width="14" height="14" patternUnits="userSpaceOnUse"><path d="M14 0L0 0 0 14" fill="none" stroke="rgba(200,168,75,0.1)" stroke-width="0.5"/></pattern></defs>
-                <rect width="260" height="160" fill="url(#bg6)"/>
-                <circle cx="80" cy="80" r="45" fill="none" stroke="rgba(200,168,75,0.1)" stroke-width="1"/>
-                <!-- Pie chart -->
-                <path d="M80 80 L80 35 A45 45 0 0 1 123 57 Z" fill="rgba(200,168,75,0.3)" stroke="#c8a84b" stroke-width="1"/>
-                <path d="M80 80 L123 57 A45 45 0 0 1 118 125 Z" fill="rgba(200,168,75,0.18)" stroke="#c8a84b" stroke-width="1"/>
-                <path d="M80 80 L118 125 A45 45 0 0 1 35 80 Z" fill="rgba(200,168,75,0.1)" stroke="#c8a84b" stroke-width="1"/>
-                <path d="M80 80 L35 80 A45 45 0 0 1 80 35 Z" fill="rgba(200,168,75,0.08)" stroke="#c8a84b" stroke-width="1"/>
-                <text x="160" y="55" fill="#c8a84b" font-size="7" font-family="monospace" opacity="0.8">Civil 45%</text>
-                <text x="160" y="75" fill="#c8a84b" font-size="7" font-family="monospace" opacity="0.8">Finishes 28%</text>
-                <text x="160" y="95" fill="#c8a84b" font-size="7" font-family="monospace" opacity="0.8">Labour 20%</text>
-                <text x="160" y="115" fill="#c8a84b" font-size="7" font-family="monospace" opacity="0.8">Misc 7%</text>
-                <text x="130" y="148" text-anchor="middle" fill="#c8a84b" font-size="7" font-family="monospace" opacity="0.5">Budget Breakdown</text>
-              </svg>
+              <svg viewBox="0 0 260 160"><rect width="260" height="160" fill="#0a1e32"/><circle cx="80" cy="80" r="45" fill="none" stroke="rgba(200,168,75,0.1)"/><path d="M80 80 L80 35 A45 45 0 0 1 123 57 Z" fill="rgba(200,168,75,0.3)" stroke="#c8a84b"/><path d="M80 80 L123 57 A45 45 0 0 1 118 125 Z" fill="rgba(200,168,75,0.18)"/><path d="M80 80 L118 125 A45 45 0 0 1 35 80 Z" fill="rgba(200,168,75,0.1)"/><text x="160" y="55" fill="#c8a84b" font-size="7">Civil 45%</text><text x="160" y="75" fill="#c8a84b" font-size="7">Finishes 28%</text></svg>
             </div>
             <div class="blog-body">
               <div class="blog-meta"><span class="blog-cat">Cost Guide</span><span class="blog-date">Aug 2024</span></div>
-              <h3>How to Budget Your House Construction: A Step-by-Step Framework</h3>
-              <p>Stop guessing and start planning. Here's exactly how to break down and track your house construction budget in India.</p>
-              <a href="contact.html" class="blog-read">Read More <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+              <h3>How to Budget Your House Construction: Step-by-Step</h3>
+              <p>Stop guessing and start planning with this framework.</p>
+              <a href="#" class="blog-read">Read More <svg width="12" height="12"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
             </div>
           </article>
         </div>
 
-        <!-- Newsletter / CTA -->
-        <div class="why-card reveal" style="--delay:0.3s; margin-top:56px; text-align:center">
-          <h3 style="font-family:var(--font-d);font-size:1.8rem;margin-bottom:12px">Have a Specific Question?</h3>
-          <p style="color:var(--text-2);margin-bottom:28px;max-width:500px;margin-left:auto;margin-right:auto">Our engineers answer civil engineering questions for free on WhatsApp. Ask anything about your project, materials, or construction challenges.</p>
-          <a href="https://wa.me/918708524647?text=Hi%2C+I+have+a+civil+engineering+question." target="_blank" rel="noopener" class="btn btn-wa btn-lg">
+        <!-- Newsletter CTA -->
+        <div class="why-card reveal" style="--delay:0.3s; text-align:center">
+          <h3 style="font-family:var(--font-serif);font-size:2rem;margin-bottom:12px">Have a Specific Question?</h3>
+          <p style="color:var(--text-2);margin-bottom:28px;max-width:500px;margin-left:auto;margin-right:auto">Our engineers answer civil engineering questions for free on WhatsApp.</p>
+          <a href="https://wa.me/918708524647" target="_blank" rel="noopener" class="btn btn-wa btn-lg">
             <svg width="17" height="17" fill="currentColor" viewBox="0 0 24 24"><path d="M20.52 3.48A11.95 11.95 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.12.55 4.18 1.6 6L0 24l6.22-1.63A11.94 11.94 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.22-3.48-8.52z"/></svg>
             Ask on WhatsApp
           </a>
@@ -200,15 +717,170 @@
     </section>
   </main>
 
-  <footer class="footer" role="contentinfo"><div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand"><a href="index.html" class="nav-logo"><div class="logo-emblem"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c8a84b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22 L3 10 L12 3 L21 10 L21 22 Z"/><rect x="9" y="14" width="6" height="8"/></svg></div><div class="logo-words"><div class="logo-name">Civil <span>At Hand</span></div><div class="logo-sub">Design &amp; Consultancy</div></div></a><p>Professional civil engineering consultancy across India.</p></div>
-      <nav class="footer-col"><h4>Quick Links</h4><a href="index.html">Home</a><a href="services.html">Services</a><a href="portfolio.html">Portfolio</a><a href="tools.html">Free Calculators</a><a href="blog.html">Blog</a></nav>
-      <nav class="footer-col"><h4>Services</h4><a href="services.html#house-planning">House Planning</a><a href="services.html#structural-design">Structural Design</a><a href="services.html#boq-estimation">BOQ Estimation</a><a href="services.html#pdf-autocad">PDF to AutoCAD</a><a href="student-guidance.html">Student Guidance</a></nav>
-      <address class="footer-col"><h4>Contact Us</h4><div class="footer-contact-row"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.02 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg><a href="tel:+918708524647">+91 870-852-4647</a></div><div class="footer-contact-row"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:civilathand.work@gmail.com">civilathand.work@gmail.com</a></div></address>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand"><a href="index.html" class="nav-logo"><div class="logo-emblem"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c8a84b"><path d="M3 22 L3 10 L12 3 L21 10 L21 22 Z"/><rect x="9" y="14" width="6" height="8"/></svg></div><div class="logo-words"><div class="logo-name">Civil <span>At Hand</span></div><div class="logo-sub">Design & Consultancy</div></div></a><p>Professional civil engineering consultancy across India.</p></div>
+        <nav class="footer-col"><h4>Quick Links</h4><a href="index.html">Home</a><a href="services.html">Services</a><a href="portfolio.html">Portfolio</a><a href="tools.html">Free Calculators</a><a href="blog.html">Blog</a></nav>
+        <nav class="footer-col"><h4>Services</h4><a href="#">House Planning</a><a href="#">Structural Design</a><a href="#">BOQ Estimation</a><a href="#">PDF to AutoCAD</a><a href="#">Student Guidance</a></nav>
+        <address class="footer-col"><h4>Contact</h4><div class="footer-contact-row"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.02 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg><a href="tel:+918708524647">+91 870-852-4647</a></div><div class="footer-contact-row"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:civilathand.work@gmail.com">civilathand.work@gmail.com</a></div></address>
+      </div>
+      <div class="footer-bottom"><p>© 2025 Civil At Hand – Design & Consultancy. All rights reserved.</p><div class="footer-bottom-links"><a href="index.html">Home</a><a href="services.html">Services</a><a href="contact.html">Contact</a><a href="blog.html">Blog</a></div></div>
     </div>
-    <div class="footer-bottom"><p>© 2025 Civil At Hand – Design & Consultancy. All rights reserved.</p><div class="footer-bottom-links"><a href="index.html">Home</a><a href="services.html">Services</a><a href="contact.html">Contact</a><a href="blog.html">Blog</a></div></div>
-  </div></footer>
-  <script src="script.js"></script>
+  </footer>
+
+  <script>
+    (function(){
+      "use strict";
+
+      // ---------- LOADER ----------
+      window.addEventListener('load', function() {
+        const loader = document.getElementById('pageLoader');
+        if(loader) {
+          setTimeout(() => loader.classList.add('hidden'), 600);
+        }
+      });
+
+      // ---------- SCROLL PROGRESS ----------
+      const progressBar = document.getElementById('progressBar');
+      window.addEventListener('scroll', () => {
+        const winScroll = document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        progressBar.style.width = scrolled + '%';
+      });
+
+      // ---------- HEADER SCROLL EFFECT ----------
+      const header = document.getElementById('header');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 20) header.classList.add('scrolled');
+        else header.classList.remove('scrolled');
+      });
+
+      // ---------- MOBILE MENU ----------
+      const toggle = document.getElementById('navToggle');
+      const mobileNav = document.getElementById('navMobile');
+      const closeBtn = document.getElementById('navClose');
+      toggle.addEventListener('click', () => {
+        mobileNav.classList.add('active');
+        document.body.classList.add('no-scroll');
+      });
+      closeBtn.addEventListener('click', () => {
+        mobileNav.classList.remove('active');
+        document.body.classList.remove('no-scroll');
+      });
+
+      // ---------- GSAP: REVEAL & PARALLAX ----------
+      gsap.registerPlugin(ScrollTrigger);
+      
+      // Reveal elements
+      const reveals = document.querySelectorAll('.reveal');
+      reveals.forEach(el => {
+        gsap.fromTo(el, 
+          { opacity: 0, y: 40 },
+          { 
+            opacity: 1, y: 0, 
+            duration: 1, 
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: el,
+              start: 'top 85%',
+              toggleActions: 'play none none none'
+            }
+          }
+        );
+      });
+
+      // Parallax hero background
+      gsap.to('.parallax-layer', {
+        y: 150,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.page-hero',
+          start: 'top top',
+          end: 'bottom top',
+          scrub: true
+        }
+      });
+
+      // ---------- 3D CARD TILT (CSS perspective + JS) ----------
+      const tiltCards = document.querySelectorAll('.tilt-card');
+      
+      tiltCards.forEach(card => {
+        // Only enable on devices with hover
+        if (window.matchMedia('(hover: hover)').matches) {
+          card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateY = ((x - centerX) / centerX) * 5; // max ±5deg
+            const rotateX = ((centerY - y) / centerY) * 5;
+            
+            card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+          });
+          
+          card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg)';
+          });
+        }
+      });
+
+      // ---------- SWIPER CAROUSEL (3D Coverflow) ----------
+      const swiper = new Swiper('#featuredCarousel', {
+        effect: 'coverflow',
+        grabCursor: true,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        coverflowEffect: {
+          rotate: 20,
+          stretch: 0,
+          depth: 200,
+          modifier: 1,
+          slideShadows: false,
+        },
+        pagination: {
+          el: '.swiper-pagination',
+          clickable: true,
+        },
+        loop: true,
+        autoplay: { delay: 4000, disableOnInteraction: false },
+      });
+
+      // ---------- SIMPLE FILTER (demo) ----------
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const blogCards = document.querySelectorAll('.blog-card');
+      
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const filterValue = btn.getAttribute('data-filter');
+          
+          blogCards.forEach(card => {
+            const cat = card.getAttribute('data-category');
+            if (filterValue === 'all' || cat === filterValue) {
+              card.style.display = '';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+
+      // Re-trigger GSAP for any hidden cards (optional)
+      
+      // Smooth internal link scroll (for read more)
+      document.querySelectorAll('.blog-read').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          // Just demo - could scroll to top or open modal
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      });
+
+    })();
+  </script>
 </body>
 </html>

@@ -1,59 +1,69 @@
-# Civil At Hand — Premium Website v3.0
+# Civil At Hand — Premium Website v2.0
 
-## 🚀 What's New in v3.0
-- **Footer**: Only on Home page (index.html). All other pages have a slim mini-footer.
-- **Loader**: Reduced from 1700ms → 900ms for instant feel.
-- **Favicon**: Real file at `assets/images/favicon.svg` (no more inline data-URI).
-- **Design**: Improved hover states, better card animations, refined spacing.
-- **Performance**: Consolidated CSS, optimized animations, reduced render-blocking.
-- **Script**: Cleaner JS, proper progress bar animation via IntersectionObserver.
+## Project Structure
 
-## 📁 File Structure
 ```
 /
-├── index.html              ← Home page (has full footer)
-├── services.html           ← Services page
-├── portfolio.html          ← Portfolio + filter
-├── tools.html              ← Free calculators
-├── contact.html            ← Contact + form
-├── blog.html               ← Blog
-├── freelancer.html         ← Work with us
-├── student-guidance.html   ← Student section
-├── 404.html                ← Not found page
-├── style.css               ← Master stylesheet (edit :root for theming)
-├── script.js               ← All JS (calculators, nav, animations)
-├── assets/
-│   └── images/
-│       ├── favicon.svg     ← Replace with your actual favicon
-│       ├── favicon.ico     ← Replace with your actual .ico file
-│       ├── logo.svg        ← Replace with your actual logo
-│       ├── logo.png        ← Replace with your actual logo
-│       ├── hero.jpg        ← Replace with a real hero image
-│       └── background.jpg  ← Replace with a real background
-├── robots.txt
-└── sitemap.xml
+├── index.html          ← Homepage (hero, services, why us, process, portfolio, testimonials, FAQ, CTA)
+├── services.html       ← Full service details (5 services with illustrations)
+├── portfolio.html      ← Project gallery with filter buttons
+├── tools.html          ← 8 free engineering calculators
+├── contact.html        ← Contact form + contact methods
+├── blog.html           ← Blog/knowledge hub
+├── freelancer.html     ← Freelancer application page
+├── student-guidance.html ← Student resources with expandable guides
+├── 404.html            ← Custom 404 error page
+├── style.css           ← Master stylesheet (all pages use this)
+├── script.js           ← Master JavaScript (all pages use this)
+├── sitemap.xml         ← SEO sitemap
+├── robots.txt          ← Search engine directives
+└── README.md           ← This file
 ```
 
-## 🎨 How to Customize
+## Quick Edits
 
-### Change colours/theme
-Edit the `:root` block at the top of `style.css`.
+### Phone Number
+Search and replace `918708524647` across all HTML files with your actual number.
 
-### Replace placeholder images
-Simply drop your files into `assets/images/` using the same filenames.
+### Email
+Search and replace `civilathand.work@gmail.com`.
 
-### Change phone number
-Search & replace `8708524647` in all files.
+### Logo
+The SVG logo in each page's `<div class="logo-emblem">` can be replaced with an `<img>` tag pointing to your logo file:
+```html
+<img src="logo.png" alt="Civil At Hand" width="28" height="28">
+```
 
-### Integrate contact form
-In `script.js`, find the `CONTACT FORM` section and replace the `await new Promise(...)` 
-line with your Formspree / EmailJS / Netlify Forms API call.
+### Colors
+Edit `style.css` in the `:root` block:
+- `--gold` — primary accent color
+- `--ink` — background color
 
-## ✅ Verified
-- ✅ Footer: Home only
-- ✅ Favicon: Real file (assets/images/favicon.svg)
-- ✅ Loader: 900ms
-- ✅ No broken links
-- ✅ Fully responsive (mobile + desktop)
-- ✅ All calculators functional
-- ✅ WhatsApp float on every page
+### Favicon
+Replace the `href` in each page's `<link rel="icon">` with your favicon file path:
+```html
+<link rel="icon" href="favicon.ico">
+```
+
+## Deployment (GitHub Pages)
+
+1. Push all files to your GitHub repository
+2. Go to Settings → Pages → Source: main branch / root
+3. Your site will be live at `https://[username].github.io/[repo]/`
+
+## Features
+
+- ✅ Fully responsive (mobile, tablet, desktop)
+- ✅ Animated hero canvas (city skyline)
+- ✅ Page loader with animated building logo
+- ✅ Scroll reveal animations on all elements
+- ✅ 8 free engineering calculators (live, no submit needed)
+- ✅ Portfolio filter buttons
+- ✅ FAQ accordion
+- ✅ Expandable "Read More" sections (student guidance)
+- ✅ WhatsApp floating button with pulse animation
+- ✅ SEO optimized (meta tags, schema.org, sitemap)
+- ✅ Custom 404 page
+- ✅ Blueprint-style SVG illustrations
+- ✅ Cormorant Garamond display font + DM Sans body font
+

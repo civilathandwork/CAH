@@ -523,6 +523,21 @@
     <div class="loader-track"><div class="loader-fill"></div></div>
   </div>
 
+  <!-- Loader -->
+  <div class="loader" id="pageLoader">
+    <div class="loader-mark">
+      <div class="loader-ring"></div>
+      <svg class="loader-svg" width="48" height="48" viewBox="0 0 48 48" fill="none">
+        <path class="path-house" d="M6 42 L6 20 L24 8 L42 20 L42 42 Z M18 42 L18 28 L30 28 L30 42" stroke="#c8a84b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect class="path-door" x="21" y="30" width="6" height="12" rx="1" fill="#c8a84b" opacity="0"/>
+      </svg>
+    </div>
+    <div class="loader-brand">Civil At Hand</div>
+    <div class="loader-track"><div class="loader-fill"></div></div>
+  </div>
+
+  <!-- Scroll Progress -->
+  <div class="progress-bar" id="progressBar"></div>
 
   <!-- WhatsApp Float -->
   <a href="https://wa.me/918708524647?text=Hi%2C%20I%20need%20civil%20engineering%20help." target="_blank" rel="noopener" class="wa-float" aria-label="WhatsApp">
@@ -753,7 +768,23 @@
     (function(){
       "use strict";
 
-    
+      // ---------- LOADER ----------
+      window.addEventListener('load', function() {
+        const loader = document.getElementById('pageLoader');
+        if(loader) {
+          setTimeout(() => loader.classList.add('hidden'), 600);
+        }
+      });
+
+      // ---------- SCROLL PROGRESS ----------
+      const progressBar = document.getElementById('progressBar');
+      window.addEventListener('scroll', () => {
+        const winScroll = document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        progressBar.style.width = scrolled + '%';
+      });
+
       // ---------- HEADER SCROLL EFFECT ----------
       const header = document.getElementById('header');
       window.addEventListener('scroll', () => {

@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 50">
   <rect width="40" height="40" x="0" y="5" rx="8" fill="#060d18"/>
-  <path d="M7 38 L7 21 L20 13 L33 21 L33 38Z" fill="none" stroke="#c8a84b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-  <rect x="16" y="28" width="8" height="10" rx="1" fill="#c8a84b" opacity="0.85"/>
+  <path d="M7 38 L7 21 L20 13 L33 21 L33 38Z" fill="none" stroke="#c8a84b" stroke-width="2" stroke-linecap="round"/>
+  <rect x="16" y="28" width="8" height="10" rx="1" fill="#c8a84b"/>
   <text x="50" y="26" font-family="Georgia,serif" font-size="17" font-weight="600" fill="#eae4d8">Civil <tspan fill="#c8a84b">At Hand</tspan></text>
-  <text x="50" y="42" font-family="Arial,sans-serif" font-size="9" fill="#6e7f95" letter-spacing="2">DESIGN &amp; CONSULTANCY</text>
+  <text x="50" y="42" font-family="Arial" font-size="9" fill="#6e7f95" letter-spacing="2">DESIGN &amp; CONSULTANCY</text>
 </svg>

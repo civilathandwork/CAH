@@ -27,7 +27,7 @@ window.addEventListener('load', () => {
     loader.addEventListener('transitionend', () => loader.remove(), { once: true });
     startReveal();
     animateCounters();
-  }, 800); // v3: faster load feel
+  }, 700);
 });
 
 function startReveal() {

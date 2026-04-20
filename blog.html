@@ -8,7 +8,7 @@
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://www.civilathand.com/blog.html">
   <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg"/>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23c8a84b' d='M3 22 L3 10 L12 3 L21 10 L21 22 Z'/%3E%3Crect x='9' y='14' width='6' height='8' fill='%23c8a84b'/%3E%3C/svg%3E"/>
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -253,12 +253,17 @@
     }
     .parallax-layer { will-change: transform; }
 
-    /* ---------- BLOG GRID & 3D CARDS ---------- */
+    /* ---------- BLOG LAYOUT (Main + Sidebar) ---------- */
+    .blog-layout {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 40px;
+      margin: 40px 0;
+    }
     .blog-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       gap: 30px;
-      margin: 40px 0;
     }
     .blog-card {
       background: var(--bg-card);
@@ -271,8 +276,8 @@
       will-change: transform;
       box-shadow: 0 10px 20px -5px rgba(0,0,0,0.5);
     }
-    .blog-card.featured {
-      grid-column: span 3;
+    .blog-card.featured-main {
+      grid-column: span 2;
       display: grid;
       grid-template-columns: 1.2fr 1fr;
     }
@@ -307,7 +312,7 @@
       color: var(--gold);
     }
     .blog-cat { text-transform: uppercase; letter-spacing: 1px; }
-    .blog-card h3 { margin-bottom: 10px; }
+    .blog-card h3 { margin-bottom: 10px; font-size: 1.4rem; }
     .blog-card p {
       color: var(--text-2);
       margin-bottom: 20px;
@@ -328,7 +333,87 @@
     .blog-read svg { transition: transform 0.2s; }
     .blog-read:hover svg { transform: translateX(4px); }
 
-    /* ---------- FEATURED CAROUSEL (SWIPER) ---------- */
+    /* Sidebar */
+    .blog-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+    .sidebar-widget {
+      background: var(--bg-card);
+      border-radius: var(--card-radius);
+      border: 1px solid rgba(200,168,75,0.15);
+      padding: 24px 20px;
+    }
+    .widget-title {
+      font-family: var(--font-serif);
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+      color: var(--gold);
+      border-bottom: 1px solid rgba(200,168,75,0.2);
+      padding-bottom: 10px;
+    }
+    .search-box {
+      display: flex;
+      background: rgba(0,0,0,0.2);
+      border-radius: 40px;
+      border: 1px solid var(--gold-light);
+      overflow: hidden;
+    }
+    .search-box input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      padding: 12px 16px;
+      color: var(--text-1);
+      font-family: var(--font-sans);
+      outline: none;
+    }
+    .search-box button {
+      background: var(--gold);
+      border: none;
+      padding: 0 20px;
+      cursor: pointer;
+      color: var(--bg-deep);
+      font-weight: bold;
+    }
+    .category-list { list-style: none; }
+    .category-list li { margin-bottom: 12px; }
+    .category-list a {
+      color: var(--text-2);
+      text-decoration: none;
+      display: flex;
+      justify-content: space-between;
+      transition: color 0.2s;
+    }
+    .category-list a:hover { color: var(--gold); }
+    .recent-post-item {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .recent-thumb {
+      width: 60px; height: 60px; background: #0a1e32; border-radius: 8px;
+    }
+    .recent-info h4 { font-size: 1rem; margin-bottom: 4px; }
+    .recent-info .date { font-size: 0.7rem; color: var(--gold); }
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag-cloud .tag-item {
+      background: rgba(200,168,75,0.1);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      color: var(--text-2);
+      text-decoration: none;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+    }
+    .tag-cloud .tag-item:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* ---------- CAROUSEL ---------- */
     .carousel-section {
       margin: 60px 0;
       position: relative;
@@ -343,7 +428,6 @@
       border-radius: var(--card-radius);
       transition: transform 0.3s;
     }
-    .swiper-slide-active { z-index: 5; }
     .featured-card {
       background: var(--bg-card);
       border-radius: var(--card-radius);
@@ -393,14 +477,57 @@
     }
     .filter-btn.active::after { width: 100%; }
 
-    /* ---------- WHY CARD / CTA ---------- */
-    .why-card {
-      background: linear-gradient(145deg, #0b1828 0%, #0a1e32 100%);
-      border: 1px solid rgba(200,168,75,0.25);
-      border-radius: 30px;
-      padding: 48px 40px;
-      backdrop-filter: blur(10px);
-      margin: 60px 0;
+    /* Pagination */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 40px;
+    }
+    .page-link {
+      width: 40px; height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: transparent;
+      border: 1px solid var(--gold-light);
+      color: var(--text-1);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .page-link.active, .page-link:hover {
+      background: var(--gold);
+      color: var(--bg-deep);
+      border-color: var(--gold);
+    }
+
+    /* Load More (hidden initially) */
+    .hidden-posts { display: none; }
+    .load-more-container { text-align: center; margin: 30px 0; }
+    
+    /* Back to Top */
+    .back-to-top {
+      position: fixed;
+      bottom: 100px;
+      right: 30px;
+      background: var(--gold);
+      color: var(--bg-deep);
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.3s;
+      z-index: 700;
+      box-shadow: 0 4px 12px rgba(200,168,75,0.4);
+    }
+    .back-to-top.visible {
+      opacity: 1;
+      visibility: visible;
     }
 
     /* ---------- FOOTER ---------- */
@@ -432,12 +559,6 @@
       transition: color 0.2s;
     }
     .footer-col a:hover { color: var(--gold); }
-    .footer-contact-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
     .footer-bottom {
       margin-top: 50px;
       padding-top: 25px;
@@ -447,8 +568,6 @@
       color: var(--text-2);
       font-size: 0.85rem;
     }
-    .footer-bottom-links { display: flex; gap: 24px; }
-    .footer-bottom-links a { color: var(--text-2); text-decoration: none; }
 
     /* WhatsApp Float */
     .wa-float {
@@ -469,7 +588,6 @@
       animation: pulseWa 2s infinite;
     }
     .wa-float:hover { transform: scale(1.1); animation: none; }
-    .wa-label { display: none; }
     @keyframes pulseWa {
       0% { box-shadow: 0 0 0 0 rgba(37,211,102,0.5); }
       70% { box-shadow: 0 0 0 15px rgba(37,211,102,0); }
@@ -489,72 +607,74 @@
 
     /* Responsive */
     @media (max-width: 1024px) {
+      .blog-layout { grid-template-columns: 1fr; }
       .blog-grid { grid-template-columns: repeat(2, 1fr); }
-      .blog-card.featured { grid-column: span 2; }
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 30px; }
     }
     @media (max-width: 768px) {
       .nav-links { display: none; }
       .nav-toggle { display: flex; }
       .blog-grid { grid-template-columns: 1fr; }
-      .blog-card.featured { grid-column: span 1; display: block; }
+      .blog-card.featured-main { grid-column: span 1; display: block; }
       .container { padding: 0 20px; }
       .footer-grid { grid-template-columns: 1fr; }
       .footer-bottom { flex-direction: column; gap: 16px; align-items: center; text-align: center; }
     }
-
-    /* Cursor effect for tilt (will be enhanced by JS) */
-    .tilt-active { transition: transform 0.1s ease-out; }
   </style>
 </head>
 <body>
 
+  <!-- Loader -->
+  <div class="loader" id="pageLoader">
+    <div class="loader-mark">
+      <div class="loader-ring"></div>
+      <svg class="loader-svg" viewBox="0 0 80 80" fill="none" stroke="#c8a84b" stroke-width="2">
+        <path class="path-house" d="M20 52 L20 32 L40 16 L60 32 L60 52 L48 52 L48 40 L32 40 L32 52 Z" />
+        <rect class="path-door" x="34" y="42" width="12" height="10" fill="#c8a84b" opacity="0" />
+      </svg>
+    </div>
+    <div class="loader-brand">CIVIL AT HAND</div>
+    <div class="loader-track"><div class="loader-fill"></div></div>
+  </div>
+
   <!-- Scroll Progress -->
   <div class="progress-bar" id="progressBar"></div>
 
+  <!-- Back to Top -->
+  <div class="back-to-top" id="backToTop">↑</div>
+
   <!-- WhatsApp Float -->
   <a href="https://wa.me/918708524647?text=Hi%2C%20I%20need%20civil%20engineering%20help." target="_blank" rel="noopener" class="wa-float" aria-label="WhatsApp">
-    <span class="wa-label">Chat with us</span>
-    <svg viewBox="0 0 24 24" fill="currentColor" width="30" height="30"><path d="M20.52 3.48A11.95 11.95 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.12.55 4.18 1.6 6L0 24l6.22-1.63A11.94 11.94 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.22-3.48-8.52zM12 22a9.94 9.94 0 0 1-5.08-1.39l-.36-.22-3.71.97.99-3.62-.24-.38A9.95 9.95 0 0 1 2 12c0-5.52 4.48-10 10-10s10 4.48 10 10-4.48 10-10 10zm5.44-7.52c-.3-.15-1.77-.87-2.04-.97s-.47-.15-.67.15-.77.97-.94 1.17-.35.22-.64.07a8.14 8.14 0 0 1-2.39-1.47 8.96 8.96 0 0 1-1.65-2.06c-.17-.3 0-.45.13-.6.12-.13.3-.35.45-.52s.2-.3.3-.5.05-.37-.02-.52-.67-1.62-.92-2.22c-.24-.58-.49-.5-.67-.51H6.9c-.2 0-.52.07-.79.37S5 8.63 5 9.72c0 1.1.8 2.15.91 2.3.12.15 1.57 2.4 3.8 3.36.53.23.94.37 1.26.47.53.17 1.01.15 1.39.09.42-.06 1.3-.53 1.48-1.04.18-.51.18-.95.13-1.04-.06-.09-.22-.15-.52-.3z"/></svg>
+    <svg viewBox="0 0 24 24" fill="currentColor" width="30" height="30"><path d="M20.52 3.48A11.95 11.95 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.12.55 4.18 1.6 6L0 24l6.22-1.63A11.94 11.94 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.22-3.48-8.52z"/></svg>
   </a>
 
   <!-- Header -->
-  <header class="site-header">
-  <nav class="nav-pill" id="navPill" aria-label="Main navigation">
-    <a href="index.html" class="nav-logo" aria-label="Civil At Hand Home">
-      <div class="nav-emblem"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c8a84b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22 L3 10 L12 3 L21 10 L21 22 Z"/><rect x="9" y="14" width="6" height="8"/></svg></div>
-      <div><div class="logo-name">Civil <b>At Hand</b></div><div class="logo-sub">Design &amp; Consultancy</div></div>
-    </a>
-    <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="services.html">Services</a>
-      <a href="portfolio.html">Portfolio</a>
-      <a href="tools.html">Free Tools</a>
-      <a href="freelancer.html">Freelancer</a>
-      <a href="student-guidance.html">Students</a>
-      <a href="blog.html" class="active">Blog</a>
-      <a href="contact.html" class="nav-cta-btn">Get a Quote</a>
+  <header class="site-header" id="header">
+    <div class="navbar">
+      <div class="nav-inner">
+        <a href="index.html" class="nav-logo">
+          <div class="logo-emblem"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c8a84b" stroke-width="1.8"><path d="M3 22 L3 10 L12 3 L21 10 L21 22 Z"/><rect x="9" y="14" width="6" height="8"/></svg></div>
+          <div class="logo-words"><div class="logo-name">Civil <span>At Hand</span></div><div class="logo-sub">Design & Consultancy</div></div>
+        </a>
+        <div class="nav-links">
+          <a href="index.html">Home</a>
+          <a href="services.html">Services</a>
+          <a href="portfolio.html">Portfolio</a>
+          <a href="tools.html">Tools</a>
+          <a href="blog.html" class="active">Blog</a>
+          <a href="contact.html" class="nav-cta">Get a Quote</a>
+        </div>
+        <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+      </div>
     </div>
-    <button class="nav-burger" id="navBurger" aria-label="Open menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
-</header>
+  </header>
 
-<nav class="nav-drawer" id="navDrawer" aria-label="Mobile navigation">
-  <button class="drawer-close" id="drawerClose" aria-label="Close menu">&#x2715;</button>
-  <a href="index.html">Home</a>
-  <a href="services.html">Services</a>
-  <a href="portfolio.html">Portfolio</a>
-  <a href="tools.html">Free Tools</a>
-  <a href="freelancer.html">Freelancer</a>
-  <a href="student-guidance.html">Students</a>
-  <a href="blog.html">Blog</a>
-  <div class="drawer-cta">
-    <a href="contact.html" class="btn btn-gold">Get a Free Quote &rarr;</a>
-    <a href="https://wa.me/918708524647" target="_blank" rel="noopener" class="btn btn-wa"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.95 11.95 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.12.55 4.18 1.6 6L0 24l6.22-1.63A11.94 11.94 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.22-3.48-8.52z"/></svg>WhatsApp</a>
+  <!-- Mobile Navigation -->
+  <div class="nav-mobile" id="navMobile">
+    <button class="nav-mobile-close" id="navClose">&times;</button>
+    <a href="index.html">Home</a><a href="services.html">Services</a><a href="portfolio.html">Portfolio</a>
+    <a href="tools.html">Tools</a><a href="blog.html">Blog</a><a href="contact.html">Contact</a>
   </div>
-</nav>
 
   <!-- Breadcrumb -->
   <nav class="breadcrumb"><div class="container"><ol class="bc-list"><li><a href="index.html">Home</a></li><li>Blog</li></ol></div></nav>
@@ -571,15 +691,15 @@
         </svg>
       </div>
       <div class="container page-hero-inner">
-        <span class="tag reveal" style="--delay:0s"><span class="tag-dot"></span>Knowledge Hub</span>
-        <h1 class="reveal" style="--delay:0.08s">Civil Engineering<br><em>Blog & Guides</em></h1>
-        <p class="lead reveal" style="--delay:0.16s">Practical knowledge for homebuilders, engineers, and construction professionals across India. Free guides from 8+ years of engineering experience.</p>
+        <span class="tag reveal"><span class="tag-dot"></span>Knowledge Hub</span>
+        <h1 class="reveal">Civil Engineering<br><em>Blog & Guides</em></h1>
+        <p class="lead reveal">Practical knowledge for homebuilders, engineers, and construction professionals across India. Free guides from 8+ years of engineering experience.</p>
       </div>
     </section>
 
-    <!-- Filter Bar (Interactive demo) -->
+    <!-- Filter Bar -->
     <div class="container">
-      <div class="filter-bar reveal" style="--delay:0.1s">
+      <div class="filter-bar reveal">
         <button class="filter-btn active" data-filter="all">All</button>
         <button class="filter-btn" data-filter="cost">Cost Guides</button>
         <button class="filter-btn" data-filter="boq">BOQ & Estimation</button>
@@ -589,8 +709,8 @@
       </div>
     </div>
 
-    <!-- Featured Carousel (3D Coverflow) -->
-    <section class="carousel-section container reveal" style="--delay:0.2s">
+    <!-- Featured Carousel -->
+    <section class="carousel-section container reveal">
       <h2 style="margin-bottom: 24px;"><span style="color:var(--gold);">✦</span> Featured Stories</h2>
       <div class="swiper" id="featuredCarousel">
         <div class="swiper-wrapper">
@@ -603,286 +723,244 @@
       </div>
     </section>
 
-    <!-- Blog Grid with 3D Cards -->
-    <section class="section">
-      <div class="container">
+    <!-- Main Blog Layout -->
+    <div class="container blog-layout">
+      <!-- Main Content -->
+      <div>
+        <!-- Search (mobile visible) -->
+        <div class="search-box reveal" style="margin-bottom:20px; display:none;" id="mobileSearchClone"></div>
+        
         <div class="blog-grid" id="blogGrid">
-          <!-- Featured Card -->
-          <article class="blog-card featured tilt-card reveal" data-category="cost" style="--delay:0s">
+          <!-- Featured Main Card -->
+          <article class="blog-card featured-main tilt-card reveal" data-category="cost">
             <div class="blog-thumb">
-              <svg viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-                <rect width="400" height="260" fill="#0b1828"/>
-                <defs><pattern id="bg1" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M20 0L0 0 0 20" fill="none" stroke="rgba(200,168,75,0.1)" stroke-width="0.5"/></pattern></defs>
-                <rect width="400" height="260" fill="url(#bg1)"/>
-                <polygon points="200,40 80,130 80,220 320,220 320,130" fill="rgba(200,168,75,0.07)" stroke="#c8a84b" stroke-width="2"/>
-                <polygon points="200,40 60,136 340,136" fill="rgba(200,168,75,0.12)" stroke="#c8a84b" stroke-width="1.8"/>
-                <rect x="110" y="158" width="42" height="36" fill="rgba(200,168,75,0.1)" stroke="#c8a84b" stroke-width="1.2"/>
-                <rect x="248" y="158" width="42" height="36" fill="rgba(200,168,75,0.1)" stroke="#c8a84b" stroke-width="1.2"/>
-                <rect x="179" y="180" width="42" height="40" fill="rgba(200,168,75,0.2)" stroke="#c8a84b" stroke-width="1.4"/>
-                <line x1="80" y1="232" x2="320" y2="232" stroke="#c8a84b" stroke-width="0.8" stroke-dasharray="5,4" opacity="0.4"/>
-                <rect x="24" y="20" width="100" height="32" rx="6" fill="rgba(200,168,75,0.15)" stroke="#c8a84b" stroke-width="1"/>
-                <text x="74" y="40" text-anchor="middle" fill="#c8a84b" font-size="10" font-family="monospace" font-weight="bold">₹1,800/sqft</text>
-              </svg>
+              <svg viewBox="0 0 400 260"><rect width="400" height="260" fill="#0b1828"/><polygon points="200,40 80,130 80,220 320,220 320,130" fill="rgba(200,168,75,0.07)" stroke="#c8a84b" stroke-width="2"/><text x="200" y="200" fill="#c8a84b" font-size="18" text-anchor="middle" font-family="monospace">₹1,800/sqft</text></svg>
             </div>
             <div class="blog-body">
-              <div class="blog-meta"><span class="blog-cat">Cost Guide</span><span class="blog-date">January 2025</span></div>
+              <div class="blog-meta"><span class="blog-cat">Cost Guide</span><span>Jan 2025</span></div>
               <h2>How Much Does House Construction Cost in India in 2025?</h2>
-              <p>The complete guide to construction costs across Indian states — from Punjab to Kerala.</p>
+              <p>The complete guide to construction costs across Indian states — from Punjab to Kerala. Includes material & labor rates.</p>
               <a href="#" class="blog-read">Read Full Guide <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
             </div>
           </article>
 
-          <!-- Regular cards with tilt -->
-          <article class="blog-card tilt-card reveal" data-category="boq" style="--delay:0.08s">
-            <div class="blog-thumb">
-              <svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-                <rect width="260" height="160" fill="#0d2035"/>
-                <rect width="260" height="160" fill="url(#bg2)"/>
-                <defs><pattern id="bg2" width="14" height="14" patternUnits="userSpaceOnUse"><path d="M14 0L0 0 0 14" fill="none" stroke="rgba(200,168,75,0.1)" stroke-width="0.5"/></pattern></defs>
-                <rect x="20" y="20" width="220" height="120" fill="rgba(200,168,75,0.03)" stroke="#c8a84b" stroke-width="1"/>
-                <rect x="20" y="20" width="220" height="24" fill="rgba(200,168,75,0.12)" stroke="#c8a84b" stroke-width="1"/>
-                <text x="130" y="37" text-anchor="middle" fill="#c8a84b" font-size="9" font-family="monospace">BOQ TIPS</text>
-                <line x1="20" y1="56" x2="240" y2="56" stroke="#c8a84b" stroke-width="0.4" opacity="0.3"/>
-                <text x="35" y="72" fill="#c8a84b" font-size="7" font-family="monospace" opacity="0.7">Avoid round-number guesses</text>
-                <text x="35" y="88" fill="#c8a84b" font-size="7" font-family="monospace" opacity="0.7">Always add 5-10% wastage</text>
-              </svg>
-            </div>
-            <div class="blog-body">
-              <div class="blog-meta"><span class="blog-cat">BOQ Guide</span><span class="blog-date">Dec 2024</span></div>
-              <h3>5 BOQ Mistakes That Cost Indian Homebuilders Lakhs</h3>
-              <p>Common errors in material estimation that lead to budget overruns.</p>
-              <a href="#" class="blog-read">Read More <svg width="12" height="12" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-            </div>
+          <!-- Additional Cards (will be filtered) -->
+          <article class="blog-card tilt-card reveal" data-category="boq">
+            <div class="blog-thumb"><svg viewBox="0 0 260 160"><rect width="260" height="160" fill="#0d2035"/><rect x="20" y="20" width="220" height="120" fill="rgba(200,168,75,0.03)" stroke="#c8a84b"/><text x="130" y="90" fill="#c8a84b" font-size="14" text-anchor="middle">BOQ TIPS</text></svg></div>
+            <div class="blog-body"><div class="blog-meta"><span class="blog-cat">BOQ Guide</span><span>Dec 2024</span></div><h3>5 BOQ Mistakes That Cost Lakhs</h3><p>Common errors in material estimation that lead to budget overruns.</p><a href="#" class="blog-read">Read More →</a></div>
           </article>
-
-          <article class="blog-card tilt-card reveal" data-category="structural" style="--delay:0.16s">
-            <div class="blog-thumb">
-              <svg viewBox="0 0 260 160"><rect width="260" height="160" fill="#0a1e32"/><rect width="260" height="160" fill="url(#bg3)"/><defs><pattern id="bg3" width="14" height="14" patternUnits="userSpaceOnUse"><path d="M14 0L0 0 0 14" fill="none" stroke="rgba(200,168,75,0.1)" stroke-width="0.5"/></pattern></defs><rect x="25" y="20" width="30" height="120" fill="rgba(200,168,75,0.08)" stroke="#c8a84b" stroke-width="1.2"/><rect x="115" y="20" width="30" height="120" fill="rgba(200,168,75,0.08)" stroke="#c8a84b" stroke-width="1.2"/><rect x="205" y="20" width="30" height="120" fill="rgba(200,168,75,0.08)" stroke="#c8a84b" stroke-width="1.2"/><rect x="14" y="12" width="232" height="12" fill="rgba(200,168,75,0.18)" stroke="#c8a84b"/><text x="130" y="152" text-anchor="middle" fill="#c8a84b" font-size="7" font-family="monospace">RCC Frame — IS:456</text></svg>
-            </div>
-            <div class="blog-body">
-              <div class="blog-meta"><span class="blog-cat">Structural</span><span class="blog-date">Nov 2024</span></div>
-              <h3>Understanding RCC Structural Design: A Homeowner's Guide</h3>
-              <p>What is RCC framing? Why does it matter for your home?</p>
-              <a href="#" class="blog-read">Read More <svg width="12" height="12"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-            </div>
+          <article class="blog-card tilt-card reveal" data-category="structural">
+            <div class="blog-thumb"><svg viewBox="0 0 260 160"><rect width="260" height="160" fill="#0a1e32"/><rect x="25" y="20" width="30" height="120" fill="rgba(200,168,75,0.08)" stroke="#c8a84b"/><text x="130" y="90" fill="#c8a84b" font-size="14" text-anchor="middle">RCC Frame</text></svg></div>
+            <div class="blog-body"><div class="blog-meta"><span class="blog-cat">Structural</span><span>Nov 2024</span></div><h3>Understanding RCC Structural Design</h3><p>What is RCC framing? Why does it matter for your home?</p><a href="#" class="blog-read">Read More →</a></div>
           </article>
-
-          <article class="blog-card tilt-card reveal" data-category="vastu" style="--delay:0.24s">
-            <div class="blog-thumb">
-              <svg viewBox="0 0 260 160"><rect width="260" height="160" fill="#091828"/><circle cx="130" cy="80" r="60" fill="none" stroke="rgba(200,168,75,0.1)"/><circle cx="130" cy="80" r="40" fill="none" stroke="rgba(200,168,75,0.15)"/><circle cx="130" cy="80" r="6" fill="rgba(200,168,75,0.3)" stroke="#c8a84b"/><line x1="130" y1="20" x2="130" y2="140" stroke="#c8a84b" opacity="0.4"/><line x1="70" y1="80" x2="190" y2="80" stroke="#c8a84b" opacity="0.4"/><text x="130" y="16" text-anchor="middle" fill="#c8a84b" font-size="9">N</text><text x="130" y="154" text-anchor="middle" fill="#c8a84b">S</text><text x="65" y="84" text-anchor="middle" fill="#c8a84b">W</text><text x="196" y="84" text-anchor="middle" fill="#c8a84b">E</text><text x="130" y="84" text-anchor="middle" fill="#c8a84b" font-size="7">VASTU</text></svg>
-            </div>
-            <div class="blog-body">
-              <div class="blog-meta"><span class="blog-cat">House Planning</span><span class="blog-date">Oct 2024</span></div>
-              <h3>Vastu Shastra in Modern House Design: What Actually Matters</h3>
-              <p>A practical, science-balanced look at vastu principles.</p>
-              <a href="#" class="blog-read">Read More <svg width="12" height="12"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-            </div>
+          <article class="blog-card tilt-card reveal" data-category="vastu">
+            <div class="blog-thumb"><svg viewBox="0 0 260 160"><circle cx="130" cy="80" r="50" fill="none" stroke="rgba(200,168,75,0.2)"/><text x="130" y="84" fill="#c8a84b" font-size="12" text-anchor="middle">VASTU</text></svg></div>
+            <div class="blog-body"><div class="blog-meta"><span class="blog-cat">Planning</span><span>Oct 2024</span></div><h3>Vastu in Modern House Design</h3><p>A practical, science-balanced look at vastu principles.</p><a href="#" class="blog-read">Read More →</a></div>
           </article>
-
-          <article class="blog-card tilt-card reveal" data-category="materials" style="--delay:0.32s">
-            <div class="blog-thumb">
-              <svg viewBox="0 0 260 160"><rect width="260" height="160" fill="#0b1828"/><rect x="20" y="40" width="220" height="14" rx="7" fill="rgba(200,168,75,0.15)" stroke="#c8a84b"/><rect x="20" y="65" width="220" height="14" rx="7" fill="rgba(200,168,75,0.12)" stroke="#c8a84b"/><rect x="20" y="90" width="220" height="14" rx="7" fill="rgba(200,168,75,0.15)" stroke="#c8a84b"/><rect x="20" y="115" width="220" height="14" rx="7" fill="rgba(200,168,75,0.12)" stroke="#c8a84b"/><text x="130" y="22" text-anchor="middle" fill="#c8a84b" font-size="9">TMT STEEL — Fe500D</text></svg>
-            </div>
-            <div class="blog-body">
-              <div class="blog-meta"><span class="blog-cat">Materials</span><span class="blog-date">Sep 2024</span></div>
-              <h3>TMT Steel Grade Guide: Fe415 vs Fe500 vs Fe500D</h3>
-              <p>Which steel grade should you use for your house?</p>
-              <a href="#" class="blog-read">Read More <svg width="12" height="12"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-            </div>
+          <article class="blog-card tilt-card reveal" data-category="materials">
+            <div class="blog-thumb"><svg viewBox="0 0 260 160"><rect width="260" height="160" fill="#0b1828"/><rect x="20" y="40" width="220" height="14" rx="7" fill="rgba(200,168,75,0.15)"/><text x="130" y="90" fill="#c8a84b" font-size="12">TMT STEEL</text></svg></div>
+            <div class="blog-body"><div class="blog-meta"><span class="blog-cat">Materials</span><span>Sep 2024</span></div><h3>TMT Steel Grade Guide</h3><p>Fe415 vs Fe500 vs Fe500D — which one for your house?</p><a href="#" class="blog-read">Read More →</a></div>
           </article>
-
-          <article class="blog-card tilt-card reveal" data-category="cost" style="--delay:0.4s">
-            <div class="blog-thumb">
-              <svg viewBox="0 0 260 160"><rect width="260" height="160" fill="#0a1e32"/><circle cx="80" cy="80" r="45" fill="none" stroke="rgba(200,168,75,0.1)"/><path d="M80 80 L80 35 A45 45 0 0 1 123 57 Z" fill="rgba(200,168,75,0.3)" stroke="#c8a84b"/><path d="M80 80 L123 57 A45 45 0 0 1 118 125 Z" fill="rgba(200,168,75,0.18)"/><path d="M80 80 L118 125 A45 45 0 0 1 35 80 Z" fill="rgba(200,168,75,0.1)"/><text x="160" y="55" fill="#c8a84b" font-size="7">Civil 45%</text><text x="160" y="75" fill="#c8a84b" font-size="7">Finishes 28%</text></svg>
-            </div>
-            <div class="blog-body">
-              <div class="blog-meta"><span class="blog-cat">Cost Guide</span><span class="blog-date">Aug 2024</span></div>
-              <h3>How to Budget Your House Construction: Step-by-Step</h3>
-              <p>Stop guessing and start planning with this framework.</p>
-              <a href="#" class="blog-read">Read More <svg width="12" height="12"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-            </div>
+          <article class="blog-card tilt-card reveal" data-category="cost">
+            <div class="blog-thumb"><svg viewBox="0 0 260 160"><circle cx="80" cy="80" r="45" fill="none" stroke="rgba(200,168,75,0.1)"/><path d="M80 80 L80 35 A45 45 0 0 1 123 57 Z" fill="rgba(200,168,75,0.3)"/><text x="160" y="55" fill="#c8a84b" font-size="9">Civil 45%</text></svg></div>
+            <div class="blog-body"><div class="blog-meta"><span class="blog-cat">Cost Guide</span><span>Aug 2024</span></div><h3>Budget Your House Construction</h3><p>Step-by-step framework to plan your finances.</p><a href="#" class="blog-read">Read More →</a></div>
+          </article>
+          <article class="blog-card tilt-card reveal" data-category="boq">
+            <div class="blog-thumb"><svg viewBox="0 0 260 160"><rect width="260" height="160" fill="#0d2035"/><text x="130" y="90" fill="#c8a84b" font-size="14">Excel BOQ</text></svg></div>
+            <div class="blog-body"><div class="blog-meta"><span class="blog-cat">BOQ</span><span>Jul 2024</span></div><h3>Free BOQ Template Download</h3><p>Customizable Excel sheet for Indian house construction.</p><a href="#" class="blog-read">Download →</a></div>
+          </article>
+          <article class="blog-card tilt-card reveal" data-category="structural">
+            <div class="blog-thumb"><svg viewBox="0 0 260 160"><rect width="260" height="160" fill="#0a1e32"/><text x="130" y="90" fill="#c8a84b">Footing Design</text></svg></div>
+            <div class="blog-body"><div class="blog-meta"><span class="blog-cat">Structural</span><span>Jun 2024</span></div><h3>Isolated Footing: Depth & Size</h3><p>Simple guide for residential buildings.</p><a href="#" class="blog-read">Read More →</a></div>
+          </article>
+          <article class="blog-card tilt-card reveal" data-category="materials">
+            <div class="blog-thumb"><svg viewBox="0 0 260 160"><rect width="260" height="160" fill="#0b1828"/><text x="130" y="90" fill="#c8a84b">Cement Types</text></svg></div>
+            <div class="blog-body"><div class="blog-meta"><span class="blog-cat">Materials</span><span>May 2024</span></div><h3>PPC vs OPC Cement</h3><p>Which is better for house construction?</p><a href="#" class="blog-read">Read More →</a></div>
           </article>
         </div>
 
-        <!-- Newsletter CTA -->
-        <div class="why-card reveal" style="--delay:0.3s; text-align:center">
-          <h3 style="font-family:var(--font-serif);font-size:2rem;margin-bottom:12px">Have a Specific Question?</h3>
-          <p style="color:var(--text-2);margin-bottom:28px;max-width:500px;margin-left:auto;margin-right:auto">Our engineers answer civil engineering questions for free on WhatsApp.</p>
-          <a href="https://wa.me/918708524647" target="_blank" rel="noopener" class="btn btn-wa btn-lg">
-            <svg width="17" height="17" fill="currentColor" viewBox="0 0 24 24"><path d="M20.52 3.48A11.95 11.95 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.12.55 4.18 1.6 6L0 24l6.22-1.63A11.94 11.94 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.22-3.48-8.52z"/></svg>
-            Ask on WhatsApp
-          </a>
+        <!-- Hidden posts for load more -->
+        <div class="hidden-posts" id="hiddenPosts">
+          <div class="blog-grid" style="margin-top:30px;">
+            <article class="blog-card tilt-card" data-category="vastu"><div class="blog-thumb"><svg viewBox="0 0 260 160"><text x="130" y="90" fill="#c8a84b">Kitchen Vastu</text></svg></div><div class="blog-body"><h3>Kitchen Direction & Vastu</h3><p>Best placement for fire element.</p></div></article>
+            <article class="blog-card tilt-card" data-category="cost"><div class="blog-thumb"><svg viewBox="0 0 260 160"><text x="130" y="90" fill="#c8a84b">Plumbing Cost</text></svg></div><div class="blog-body"><h3>Plumbing & Sanitary Budget</h3><p>Detailed breakdown 2025.</p></div></article>
+          </div>
+        </div>
+
+        <!-- Load More Button -->
+        <div class="load-more-container"><button class="btn" id="loadMoreBtn">Load More Articles</button></div>
+
+        <!-- Pagination (static demo) -->
+        <div class="pagination">
+          <a href="#" class="page-link active">1</a>
+          <a href="#" class="page-link">2</a>
+          <a href="#" class="page-link">3</a>
+          <a href="#" class="page-link">→</a>
         </div>
       </div>
-    </section>
+
+      <!-- Sidebar -->
+      <aside class="blog-sidebar">
+        <div class="sidebar-widget reveal">
+          <h4 class="widget-title">🔍 Search</h4>
+          <div class="search-box">
+            <input type="text" placeholder="Search articles..." id="searchInput">
+            <button id="searchBtn">→</button>
+          </div>
+        </div>
+        <div class="sidebar-widget reveal">
+          <h4 class="widget-title">📂 Categories</h4>
+          <ul class="category-list">
+            <li><a href="#" data-filter="cost">Cost Guides <span>12</span></a></li>
+            <li><a href="#" data-filter="boq">BOQ & Estimation <span>8</span></a></li>
+            <li><a href="#" data-filter="structural">Structural <span>10</span></a></li>
+            <li><a href="#" data-filter="vastu">Vastu & Planning <span>6</span></a></li>
+            <li><a href="#" data-filter="materials">Materials <span>9</span></a></li>
+          </ul>
+        </div>
+        <div class="sidebar-widget reveal">
+          <h4 class="widget-title">📝 Recent Posts</h4>
+          <div class="recent-post-item"><div class="recent-thumb"></div><div class="recent-info"><h4>2025 Cost Trends</h4><span class="date">Jan 15, 2025</span></div></div>
+          <div class="recent-post-item"><div class="recent-thumb"></div><div class="recent-info"><h4>BOQ Mistakes</h4><span class="date">Dec 10, 2024</span></div></div>
+          <div class="recent-post-item"><div class="recent-thumb"></div><div class="recent-info"><h4>RCC Guide</h4><span class="date">Nov 5, 2024</span></div></div>
+        </div>
+        <div class="sidebar-widget reveal">
+          <h4 class="widget-title">🏷️ Popular Tags</h4>
+          <div class="tag-cloud">
+            <a href="#" class="tag-item">Construction Cost</a><a href="#" class="tag-item">BOQ</a><a href="#" class="tag-item">RCC</a>
+            <a href="#" class="tag-item">Vastu</a><a href="#" class="tag-item">Steel</a><a href="#" class="tag-item">Cement</a>
+            <a href="#" class="tag-item">Floor Plan</a><a href="#" class="tag-item">Foundation</a>
+          </div>
+        </div>
+        <div class="sidebar-widget reveal" style="background:linear-gradient(145deg, #0b1828, #0a1e32);">
+          <h4 class="widget-title">📞 Free Consultation</h4>
+          <p style="margin-bottom:16px;">Ask our civil engineers on WhatsApp — get answers in minutes.</p>
+          <a href="https://wa.me/918708524647" class="btn btn-wa" style="width:100%;justify-content:center;">Chat Now</a>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Newsletter CTA -->
+    <div class="container"><div class="why-card reveal" style="text-align:center"><h3>Never Miss an Update</h3><p style="color:var(--text-2);">Subscribe for free guides, cost updates & expert tips.</p><div style="display:flex;gap:10px;max-width:500px;margin:20px auto;"><input type="email" placeholder="Your email" style="flex:1;padding:14px;border-radius:40px;border:none;background:rgba(255,255,255,0.05);color:white;"><button class="btn btn-gold">Subscribe</button></div></div></div>
   </main>
 
-  <footer class="mini-footer">
-  <div class="container">
-    <div class="mini-footer-in">
-      <p>&copy; 2025 Civil At Hand &ndash; Design &amp; Consultancy. All rights reserved.</p>
-      <div class="mini-links">
-        <a href="index.html">Home</a>
-        <a href="services.html">Services</a>
-        <a href="contact.html">Contact</a>
-        <a href="https://wa.me/918708524647" target="_blank" rel="noopener">WhatsApp</a>
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand"><div class="logo-name">Civil <span>At Hand</span></div><p>Professional civil engineering consultancy & resources for Indian homebuilders.</p></div>
+        <div class="footer-col"><h4>Explore</h4><a href="blog.html">Blog</a><a href="tools.html">Free Tools</a><a href="portfolio.html">Projects</a></div>
+        <div class="footer-col"><h4>Support</h4><a href="contact.html">Contact</a><a href="#">FAQs</a><a href="#">Privacy</a></div>
+        <div class="footer-col"><h4>Contact</h4><address>📧 hello@civilathand.com<br>📞 +91 87085 24647</address></div>
       </div>
+      <div class="footer-bottom"><p>© 2025 Civil At Hand. All rights reserved.</p><div><a href="#">Terms</a> | <a href="#">Sitemap</a></div></div>
     </div>
-  </div>
-</footer>
-
+  </footer>
 
   <script>
     (function(){
       "use strict";
 
-      // ---------- LOADER ----------
-      window.addEventListener('load', function() {
-        const loader = document.getElementById('pageLoader');
-        if(loader) {
-          setTimeout(() => loader.classList.add('hidden'), 600);
-        }
-      });
+      // Loader
+      window.addEventListener('load', () => setTimeout(() => document.getElementById('pageLoader')?.classList.add('hidden'), 500));
 
-      // ---------- SCROLL PROGRESS ----------
+      // Progress bar
       const progressBar = document.getElementById('progressBar');
       window.addEventListener('scroll', () => {
         const winScroll = document.documentElement.scrollTop;
         const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-        const scrolled = (winScroll / height) * 100;
-        progressBar.style.width = scrolled + '%';
+        progressBar.style.width = (winScroll / height) * 100 + '%';
       });
 
-      // ---------- HEADER SCROLL EFFECT ----------
+      // Header scroll
       const header = document.getElementById('header');
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 20) header.classList.add('scrolled');
-        else header.classList.remove('scrolled');
-      });
+      window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 20));
 
-      // ---------- MOBILE MENU ----------
-      const toggle = document.getElementById('navToggle');
-      const mobileNav = document.getElementById('navMobile');
-      const closeBtn = document.getElementById('navClose');
-      toggle.addEventListener('click', () => {
-        mobileNav.classList.add('open');
-        document.body.style.overflow='hidden';
-      });
-      closeBtn.addEventListener('click', () => {
-        mobileNav.classList.remove('open');
-        document.body.style.overflow='';
-      });
+      // Mobile menu
+      const toggle = document.getElementById('navToggle'), mobileNav = document.getElementById('navMobile'), closeBtn = document.getElementById('navClose');
+      toggle.addEventListener('click', () => { mobileNav.classList.add('active'); document.body.style.overflow='hidden'; });
+      closeBtn.addEventListener('click', () => { mobileNav.classList.remove('active'); document.body.style.overflow=''; });
 
-      // ---------- GSAP: REVEAL & PARALLAX ----------
+      // GSAP
       gsap.registerPlugin(ScrollTrigger);
-      
-      // Reveal elements
-      const reveals = document.querySelectorAll('.reveal');
-      reveals.forEach(el => {
-        gsap.fromTo(el, 
-          { opacity: 0, y: 40 },
-          { 
-            opacity: 1, y: 0, 
-            duration: 1, 
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: el,
-              start: 'top 85%',
-              toggleActions: 'play none none none'
-            }
-          }
-        );
+      document.querySelectorAll('.reveal').forEach(el => {
+        gsap.fromTo(el, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.9, ease: 'power2.out', scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' } });
       });
+      gsap.to('.parallax-layer', { y: 150, ease: 'none', scrollTrigger: { trigger: '.page-hero', start: 'top top', end: 'bottom top', scrub: true } });
 
-      // Parallax hero background
-      gsap.to('.parallax-layer', {
-        y: 150,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.page-hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: true
-        }
-      });
-
-      // ---------- 3D CARD TILT (CSS perspective + JS) ----------
+      // 3D Tilt
       const tiltCards = document.querySelectorAll('.tilt-card');
-      
-      tiltCards.forEach(card => {
-        // Only enable on devices with hover
-        if (window.matchMedia('(hover: hover)').matches) {
+      if (window.matchMedia('(hover: hover)').matches) {
+        tiltCards.forEach(card => {
           card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateY = ((x - centerX) / centerX) * 5; // max ±5deg
-            const rotateX = ((centerY - y) / centerY) * 5;
-            
-            card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            const x = e.clientX - rect.left, y = e.clientY - rect.top;
+            const rotY = ((x / rect.width) - 0.5) * 8;
+            const rotX = (0.5 - (y / rect.height)) * 8;
+            card.style.transform = `perspective(1200px) rotateX(${rotX}deg) rotateY(${rotY}deg)`;
           });
-          
-          card.addEventListener('mouseleave', () => {
-            card.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg)';
+          card.addEventListener('mouseleave', () => card.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg)');
+        });
+      }
+
+      // Swiper
+      new Swiper('#featuredCarousel', { effect: 'coverflow', grabCursor: true, centeredSlides: true, slidesPerView: 'auto', coverflowEffect: { rotate: 20, depth: 200 }, pagination: { el: '.swiper-pagination', clickable: true }, loop: true, autoplay: { delay: 4000 } });
+
+      // Filter
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const blogCards = document.querySelectorAll('#blogGrid .blog-card');
+      function filterCards(filter) {
+        blogCards.forEach(card => {
+          const cat = card.dataset.category;
+          card.style.display = (filter === 'all' || cat === filter) ? '' : 'none';
+        });
+      }
+      filterBtns.forEach(btn => btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active')); btn.classList.add('active');
+        filterCards(btn.dataset.filter);
+      }));
+
+      // Sidebar category filter
+      document.querySelectorAll('.category-list a').forEach(link => {
+        link.addEventListener('click', e => { e.preventDefault(); const f = link.dataset.filter; filterCards(f); filterBtns.forEach(b => { b.classList.toggle('active', b.dataset.filter === f); }); });
+      });
+
+      // Search
+      document.getElementById('searchBtn').addEventListener('click', () => {
+        const term = document.getElementById('searchInput').value.toLowerCase();
+        blogCards.forEach(card => {
+          const title = card.querySelector('h3')?.innerText.toLowerCase() || '';
+          card.style.display = title.includes(term) ? '' : 'none';
+        });
+      });
+
+      // Load More
+      let loadMoreClicked = false;
+      document.getElementById('loadMoreBtn').addEventListener('click', () => {
+        if(!loadMoreClicked) {
+          document.getElementById('hiddenPosts').style.display = 'block';
+          loadMoreClicked = true;
+          document.getElementById('loadMoreBtn').style.display = 'none';
+          // re-trigger tilt on new cards
+          document.querySelectorAll('.hidden-posts .tilt-card').forEach(c => {
+            if (window.matchMedia('(hover: hover)').matches) {
+              c.addEventListener('mousemove', (e) => {
+                const rect = c.getBoundingClientRect();
+                const x = e.clientX - rect.left, y = e.clientY - rect.top;
+                c.style.transform = `perspective(1200px) rotateX(${(0.5 - y/rect.height)*8}deg) rotateY(${(x/rect.width -0.5)*8}deg)`;
+              });
+              c.addEventListener('mouseleave', () => c.style.transform = 'perspective(1200px) rotateX(0deg) rotateY(0deg)');
+            }
           });
         }
       });
 
-      // ---------- SWIPER CAROUSEL (3D Coverflow) ----------
-      const swiper = new Swiper('#featuredCarousel', {
-        effect: 'coverflow',
-        grabCursor: true,
-        centeredSlides: true,
-        slidesPerView: 'auto',
-        coverflowEffect: {
-          rotate: 20,
-          stretch: 0,
-          depth: 200,
-          modifier: 1,
-          slideShadows: false,
-        },
-        pagination: {
-          el: '.swiper-pagination',
-          clickable: true,
-        },
-        loop: true,
-        autoplay: { delay: 4000, disableOnInteraction: false },
-      });
+      // Back to Top
+      const backBtn = document.getElementById('backToTop');
+      window.addEventListener('scroll', () => backBtn.classList.toggle('visible', window.scrollY > 500));
+      backBtn.addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
 
-      // ---------- SIMPLE FILTER (demo) ----------
-      const filterBtns = document.querySelectorAll('.filter-btn');
-      const blogCards = document.querySelectorAll('.blog-card');
-      
-      filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          filterBtns.forEach(b => b.classList.remove('active'));
-          btn.classList.add('active');
-          const filterValue = btn.getAttribute('data-filter');
-          
-          blogCards.forEach(card => {
-            const cat = card.getAttribute('data-category');
-            if (filterValue === 'all' || cat === filterValue) {
-              card.style.display = '';
-            } else {
-              card.style.display = 'none';
-            }
-          });
-        });
-      });
-
-      // Re-trigger GSAP for any hidden cards (optional)
-      
-      // Smooth internal link scroll (for read more)
-      document.querySelectorAll('.blog-read').forEach(link => {
-        link.addEventListener('click', (e) => {
-          e.preventDefault();
-          // Just demo - could scroll to top or open modal
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-      });
-
+      // Internal link smooth
+      document.querySelectorAll('.blog-read, .pagination a').forEach(l => l.addEventListener('click', e => { e.preventDefault(); window.scrollTo({top:0,behavior:'smooth'}); }));
     })();
   </script>
 </body>

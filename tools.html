@@ -1,271 +1,394 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Free Civil Engineering Calculators – Construction Cost, Material & Area Calculator India | Civil At Hand</title>
-  <meta name="description" content="Free online civil engineering calculators: construction cost, material estimator, area calculator, concrete mix, unit converter, tile & steel weight."/>
-  <meta name="robots" content="index, follow"/>
-  <link rel="canonical" href="https://www.civilathand.com/tools.html"/>
-  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>Civil Engineering Toolkit · 25+ Free Calculators | Civil At Hand</title>
+  <meta name="description" content="Professional civil engineering calculators: construction cost, material estimator, area, concrete, steel, brick, plaster, unit converter & more. 100% free, instant, India-focused.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://www.civilathand.com/tools.html">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23c8a84b'%3E%3Cpath d='M3 22 L3 10 L12 3 L21 10 L21 22 Z'/%3E%3Crect x='9' y='14' width='6' height='8'/%3E%3C/svg%3E">
+  <!-- Fonts & base style (inline, no external deps except Google Fonts) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css"/>
-<script>document.documentElement.setAttribute('data-theme',localStorage.getItem('cah-theme')||'dark')</script>
+  <style>
+    /* -------------------- RESET & VARIABLES -------------------- */
+    *{margin:0;padding:0;box-sizing:border-box;}
+    :root{
+      --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: 'Cormorant Garamond', serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --bg-0: #0b0e11; --bg-1: #131a1f; --bg-2: #1c262d; --bg-card: #1b2329;
+      --border-light: rgba(200, 168, 75, 0.15); --border-strong: rgba(200, 168, 75, 0.35);
+      --gold: #c8a84b; --gold-light: #e2c87a; --gold-dim: #9e8237;
+      --text-1: #f0f2f4; --text-2: #b8c3cc; --text-3: #7a8b99;
+      --error: #e65f5f; --success: #4c9e7a;
+      --shadow: 0 18px 35px -10px rgba(0,0,0,0.6);
+      --radius-card: 24px; --radius-input: 14px;
+      --transition: all 0.2s ease;
+    }
+    body{background:var(--bg-0);color:var(--text-1);font-family:var(--font-sans);line-height:1.5;-webkit-font-smoothing:antialiased;}
+    .container{max-width:1380px;margin:0 auto;padding:0 24px;}
+    /* TYPOGRAPHY */
+    h1,h2,h3{font-family:var(--font-serif);font-weight:500;letter-spacing:-0.01em;}
+    h1{font-size:clamp(2.8rem,8vw,4.5rem);line-height:1.1;}
+    h2{font-size:2.4rem;}
+    h3{font-size:1.5rem;}
+    .lead{font-size:1.2rem;color:var(--text-2);}
+    /* BUTTONS & TAGS */
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 28px;border-radius:60px;font-weight:500;border:1px solid transparent;cursor:pointer;transition:var(--transition);text-decoration:none;font-size:1rem;}
+    .btn-gold{background:var(--gold);color:#0b0e11;border-color:var(--gold);}
+    .btn-gold:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 10px 20px -5px rgba(200,168,75,0.3);}
+    .btn-ghost{background:transparent;border-color:var(--border-light);color:var(--text-2);}
+    .btn-ghost:hover{background:var(--bg-2);border-color:var(--gold);color:var(--gold);}
+    .btn-wa{background:#1f2c33;border-color:#2a5a4a;color:#e2e9e5;}
+    .btn-wa:hover{background:#1e4a3a;border-color:#25d366;}
+    .btn-sm{padding:8px 16px;font-size:0.9rem;}
+    .tag{display:inline-flex;align-items:center;gap:8px;background:rgba(200,168,75,0.1);padding:6px 16px;border-radius:40px;font-size:0.9rem;border:1px solid var(--border-light);color:var(--gold-light);}
+    .tag-dot{width:8px;height:8px;background:var(--gold);border-radius:50%;}
+    /* HEADER / NAV */
+    .site-header{padding:18px 0;position:sticky;top:0;z-index:40;background:rgba(11,14,17,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border-light);}
+    .nav-pill{display:flex;align-items:center;justify-content:space-between;max-width:1380px;margin:0 auto;padding:0 24px;}
+    .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text-1);}
+    .nav-emblem svg{display:block;}
+    .logo-name{font-family:var(--font-serif);font-size:1.6rem;font-weight:400;line-height:1.2;} .logo-name b{font-weight:700;color:var(--gold);}
+    .logo-sub{font-size:0.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-3);}
+    .nav-links{display:flex;gap:20px;align-items:center;}
+    .nav-links a{color:var(--text-2);text-decoration:none;font-weight:500;padding:8px 4px;border-bottom:2px solid transparent;transition:var(--transition);}
+    .nav-links a:hover, .nav-links a.active{color:var(--gold);border-bottom-color:var(--gold);}
+    .nav-cta-btn{background:var(--gold);color:#0b0e11!important;padding:8px 20px!important;border-radius:40px;border-bottom:none!important;}
+    .nav-burger{display:none;flex-direction:column;gap:6px;background:none;border:none;cursor:pointer;padding:8px;}
+    .nav-burger span{width:28px;height:2px;background:var(--gold);transition:0.2s;}
+    .nav-drawer{position:fixed;top:0;right:-320px;width:300px;height:100vh;background:var(--bg-1);z-index:100;padding:28px;display:flex;flex-direction:column;gap:24px;transition:right 0.3s;box-shadow:-5px 0 30px rgba(0,0,0,0.5);border-left:1px solid var(--border-light);}
+    .nav-drawer.open{right:0;}
+    .drawer-close{align-self:flex-end;background:none;border:none;color:var(--gold);font-size:26px;cursor:pointer;}
+    .drawer-cta{display:flex;flex-direction:column;gap:12px;margin-top:20px;}
+    /* PAGE CONTENT */
+    .page-content{margin-top:20px;}
+    .bc{padding:16px 0;font-size:0.9rem;color:var(--text-3);} .bc ol{display:flex;list-style:none;gap:6px;} .bc a{color:var(--gold);text-decoration:none;}
+    .page-hero{padding:40px 0 30px;text-align:center;}
+    .page-hero-inner{max-width:900px;margin:0 auto;}
+    .section{padding:40px 0 60px;}
+    /* TOOLS GRID */
+    .tools-grid{display:grid;grid-template-columns:repeat(auto-fill, minmax(340px, 1fr));gap:28px;margin-top:30px;}
+    .tool-card{background:var(--bg-card);border:1px solid var(--border-light);border-radius:var(--radius-card);padding:24px;box-shadow:var(--shadow);transition:transform 0.2s, border-color 0.2s;backdrop-filter:blur(4px);}
+    .tool-card:hover{border-color:var(--gold-dim);}
+    .tool-head{display:flex;gap:16px;margin-bottom:22px;align-items:flex-start;}
+    .tool-icon{background:rgba(200,168,75,0.08);width:48px;height:48px;border-radius:18px;display:flex;align-items:center;justify-content:center;color:var(--gold);}
+    .tool-card h3{font-size:1.4rem;margin-bottom:4px;}
+    .tool-card p{color:var(--text-3);font-size:0.9rem;}
+    .fg{margin-bottom:18px;display:flex;flex-direction:column;gap:6px;}
+    .fg label{font-weight:500;color:var(--text-2);font-size:0.9rem;}
+    .fc, .fc select, .fc input{background:var(--bg-2);border:1px solid var(--border-light);border-radius:var(--radius-input);padding:12px 16px;color:var(--text-1);font-family:var(--font-sans);font-size:1rem;width:100%;transition:var(--transition);}
+    .fc:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(200,168,75,0.15);}
+    .fr{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+    .fr3{grid-template-columns:1fr 1fr 1fr;}
+    .calc-out{margin-top:22px;padding:16px;background:var(--bg-0);border-radius:18px;border-left:4px solid var(--gold);font-family:var(--font-mono);}
+    .calc-out .r-value{font-size:1.6rem;font-weight:500;color:var(--gold-light);}
+    .r-label{font-size:0.85rem;color:var(--text-3);}
+    .why-card{background:linear-gradient(145deg, #1e2a33, #131d24);border-radius:var(--radius-card);padding:48px 32px;border:1px solid var(--border-strong);}
+    /* FOOTER */
+    .mini-footer{padding:28px 0;border-top:1px solid var(--border-light);margin-top:40px;}
+    .mini-footer-in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;color:var(--text-3);}
+    .mini-links{display:flex;gap:24px;} .mini-links a{color:var(--text-3);text-decoration:none;}
+    /* BACK TO TOP & WA */
+    #backToTop{position:fixed;bottom:30px;right:30px;width:48px;height:48px;border-radius:30px;background:var(--bg-2);border:1px solid var(--gold);color:var(--gold);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;visibility:hidden;transition:0.2s;z-index:30;}
+    #backToTop.show{opacity:1;visibility:visible;}
+    .wa-btn{position:fixed;bottom:100px;right:30px;background:#1f3a2f;width:56px;height:56px;border-radius:40px;display:flex;align-items:center;justify-content:center;color:#e1ffd6;box-shadow:0 6px 18px #0f1e16;z-index:30;border:1px solid #2b825b;}
+    .wa-tip{position:absolute;right:70px;background:var(--bg-1);padding:6px 14px;border-radius:30px;font-size:0.85rem;white-space:nowrap;border:1px solid var(--border-light);opacity:0;transition:0.2s;pointer-events:none;}
+    .wa-btn:hover .wa-tip{opacity:1;}
+    /* COOKIE */
+    #cookieBanner{position:fixed;bottom:20px;left:20px;right:20px;max-width:500px;background:var(--bg-1);border:1px solid var(--border-strong);border-radius:60px;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:15px;z-index:50;backdrop-filter:blur(12px);}
+    .cookie-inner{display:flex;align-items:center;gap:20px;width:100%;}
+    .cookie-btns{display:flex;gap:8px;}
+    /* UTILS */
+    .reveal{opacity:0;animation:fadeIn 0.5s forwards;}
+    @keyframes fadeIn{to{opacity:1;}}
+    [style*="--delay"]{animation-delay:var(--delay);}
+    /* RESPONSIVE */
+    @media(max-width:900px){.nav-links{display:none;}.nav-burger{display:flex;}}
+    @media(max-width:600px){.container{padding:0 16px;}.fr{grid-template-columns:1fr;}.tools-grid{grid-template-columns:1fr;}}
+    /* select style */
+    select.fc{appearance:none;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23c8a84b"><polyline points="6 9 12 15 18 9"/></svg>');background-repeat:no-repeat;background-position:right 16px center;}
+  </style>
 </head>
 <body class="inner-page">
 
 <!-- COOKIE BANNER -->
 <div id="cookieBanner" role="dialog" aria-label="Cookie consent">
   <div class="cookie-inner">
-    <p>🍪 We use cookies to enhance your experience.</p>
+    <p style="color:var(--text-2);">🍪 We use cookies to improve tools & experience.</p>
     <div class="cookie-btns">
       <button class="btn btn-ghost btn-sm" id="cookieDeny">Decline</button>
-      <button class="btn btn-gold btn-sm" id="cookieAccept">Accept All</button>
+      <button class="btn btn-gold btn-sm" id="cookieAccept">Accept</button>
     </div>
   </div>
 </div>
-<!-- BACK TO TOP -->
-<button id="backToTop" aria-label="Back to top">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
-</button><a href="https://wa.me/918708524647?text=Hi%2C%20I%20need%20civil%20engineering%20help." target="_blank" rel="noopener" class="wa-btn" aria-label="Chat on WhatsApp">
+
+<!-- BACK TO TOP & WHATSAPP -->
+<button id="backToTop" aria-label="Back to top"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg></button>
+<a href="https://wa.me/918708524647?text=Hi%2C%20I%20need%20civil%20engineering%20help." target="_blank" rel="noopener" class="wa-btn" aria-label="Chat on WhatsApp">
   <span class="wa-tip">Chat with us</span>
-  <svg viewBox="0 0 24 24"><path d="M20.52 3.48A11.95 11.95 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.12.55 4.18 1.6 6L0 24l6.22-1.63A11.94 11.94 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.22-3.48-8.52zM12 22a9.94 9.94 0 0 1-5.08-1.39l-.36-.22-3.71.97.99-3.62-.24-.38A9.95 9.95 0 0 1 2 12c0-5.52 4.48-10 10-10s10 4.48 10 10-4.48 10-10 10zm5.44-7.52c-.3-.15-1.77-.87-2.04-.97s-.47-.15-.67.15-.77.97-.94 1.17-.35.22-.64.07a8.14 8.14 0 0 1-2.39-1.47 8.96 8.96 0 0 1-1.65-2.06c-.17-.3 0-.45.13-.6.12-.13.3-.35.45-.52s.2-.3.3-.5.05-.37-.02-.52-.67-1.62-.92-2.22c-.24-.58-.49-.5-.67-.51H6.9c-.2 0-.52.07-.79.37S5 8.63 5 9.72c0 1.1.8 2.15.91 2.3.12.15 1.57 2.4 3.8 3.36.53.23.94.37 1.26.47.53.17 1.01.15 1.39.09.42-.06 1.3-.53 1.48-1.04.18-.51.18-.95.13-1.04-.06-.09-.22-.15-.52-.3z"/></svg>
+  <svg width="26" viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.95 11.95 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.12.55 4.18 1.6 6L0 24l6.22-1.63A11.94 11.94 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.22-3.48-8.52zM12 22a9.94 9.94 0 0 1-5.08-1.39l-.36-.22-3.71.97.99-3.62-.24-.38A9.95 9.95 0 0 1 2 12c0-5.52 4.48-10 10-10s10 4.48 10 10-4.48 10-10 10zm5.44-7.52c-.3-.15-1.77-.87-2.04-.97s-.47-.15-.67.15-.77.97-.94 1.17-.35.22-.64.07a8.14 8.14 0 0 1-2.39-1.47 8.96 8.96 0 0 1-1.65-2.06c-.17-.3 0-.45.13-.6.12-.13.3-.35.45-.52s.2-.3.3-.5.05-.37-.02-.52-.67-1.62-.92-2.22c-.24-.58-.49-.5-.67-.51H6.9c-.2 0-.52.07-.79.37S5 8.63 5 9.72c0 1.1.8 2.15.91 2.3.12.15 1.57 2.4 3.8 3.36.53.23.94.37 1.26.47.53.17 1.01.15 1.39.09.42-.06 1.3-.53 1.48-1.04.18-.51.18-.95.13-1.04-.06-.09-.22-.15-.52-.3z"/></svg>
 </a>
+
+<!-- HEADER -->
 <header class="site-header">
-  <nav class="nav-pill" id="navPill" aria-label="Main navigation">
-    <a href="index.html" class="nav-logo" aria-label="Civil At Hand Home">
-      <div class="nav-emblem"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c8a84b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 22 L3 10 L12 3 L21 10 L21 22 Z"/><rect x="9" y="14" width="6" height="8"/></svg></div>
-      <div><div class="logo-name">Civil <b>At Hand</b></div><div class="logo-sub">Design &amp; Consultancy</div></div>
+  <nav class="nav-pill" id="navPill">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-emblem"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#c8a84b" stroke-width="1.8"><path d="M3 22 L3 10 L12 3 L21 10 L21 22 Z"/><rect x="9" y="14" width="6" height="8"/></svg></div>
+      <div><div class="logo-name">Civil <b>At Hand</b></div><div class="logo-sub">Design & Consultancy</div></div>
     </a>
     <div class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="services.html">Services</a>
-      <a href="portfolio.html">Portfolio</a>
-      <a href="tools.html" class="active">Free Tools</a>
-      <a href="freelancer.html">Freelancer</a>
-      <a href="student-guidance.html">Students</a>
-      <a href="blog.html">Blog</a>
+      <a href="index.html">Home</a><a href="services.html">Services</a><a href="portfolio.html">Portfolio</a>
+      <a href="tools.html" class="active">Free Tools</a><a href="freelancer.html">Freelancer</a>
+      <a href="student-guidance.html">Students</a><a href="blog.html">Blog</a>
       <a href="contact.html" class="nav-cta-btn">Get a Quote</a>
     </div>
-    <button class="nav-burger" id="navBurger" aria-label="Open menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
+    <button class="nav-burger" id="navBurger"><span></span><span></span><span></span></button>
   </nav>
 </header>
 
-<nav class="nav-drawer" id="navDrawer" aria-label="Mobile navigation">
-  <button class="drawer-close" id="drawerClose" aria-label="Close menu">&#x2715;</button>
-  <a href="index.html">Home</a>
-  <a href="services.html">Services</a>
-  <a href="portfolio.html">Portfolio</a>
-  <a href="tools.html">Free Tools</a>
-  <a href="freelancer.html">Freelancer</a>
-  <a href="student-guidance.html">Students</a>
+<!-- DRAWER -->
+<nav class="nav-drawer" id="navDrawer">
+  <button class="drawer-close" id="drawerClose">✕</button>
+  <a href="index.html">Home</a><a href="services.html">Services</a><a href="portfolio.html">Portfolio</a>
+  <a href="tools.html">Free Tools</a><a href="freelancer.html">Freelancer</a><a href="student-guidance.html">Students</a>
   <a href="blog.html">Blog</a>
-  <div class="drawer-cta">
-    <a href="contact.html" class="btn btn-gold">Get a Free Quote &rarr;</a>
-    <a href="https://wa.me/918708524647" target="_blank" rel="noopener" class="btn btn-wa"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.95 11.95 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.12.55 4.18 1.6 6L0 24l6.22-1.63A11.94 11.94 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.22-3.48-8.52z"/></svg>WhatsApp</a>
-  </div>
+  <div class="drawer-cta"><a href="contact.html" class="btn btn-gold">Get a Free Quote →</a>
+  <a href="https://wa.me/918708524647" class="btn btn-wa">WhatsApp</a></div>
 </nav>
+
 <div class="page-content">
 <nav class="bc"><div class="container"><ol><li><a href="index.html">Home</a></li><li>Free Tools</li></ol></div></nav>
 <main>
+  <section class="page-hero">
+    <div class="container page-hero-inner">
+      <span class="tag reveal" style="--delay:0s"><span class="tag-dot"></span>25+ Professional Calculators</span>
+      <h1 class="reveal" style="--delay:0.08s">Civil Engineering<br><em>Toolkit & Converters</em></h1>
+      <p class="lead reveal" style="--delay:0.16s">Instant estimation · material quantities · area · unit conversion (any to any) · concrete · steel · brick · plaster & more. 100% free, no signup.</p>
+    </div>
+  </section>
 
-    <section class="page-hero">
-      <div class="container page-hero-inner">
-        <span class="tag reveal" style="--delay:0s"><span class="tag-dot"></span>100% Free</span>
-        <h1 class="reveal" style="--delay:0.08s">Civil Engineering<br><em>Calculators</em></h1>
-        <p class="lead reveal" style="--delay:0.16s">Free, instant, professional-grade calculators for construction cost estimation, material BOQ, area measurement, concrete mix design, and more — no sign-up required.</p>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <div class="tools-grid">
-
-          <!-- 1. Construction Cost -->
-          <div class="tool-card reveal" style="--delay:0s">
-            <div class="tool-head">
-              <div class="tool-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
-              <div><h3>Construction Cost Calculator</h3><p>Estimate total build cost by area, finish, and floors</p></div>
-            </div>
-            <form id="costCalcForm">
-              <div class="fr">
-                <div class="fg"><label>Built-up Area (sq.ft)</label><input type="number" id="costArea" class="fc" placeholder="e.g. 1500" min="1"></div>
-                <div class="fg"><label>Finish Quality</label>
-                  <select id="costType" class="fc"><option value="basic">Basic (Economy)</option><option value="standard" selected>Standard</option><option value="premium">Premium</option><option value="luxury">Luxury</option></select>
-                </div>
-              </div>
-              <div class="fg"><label>Number of Floors</label>
-                <select id="costFloor" class="fc"><option value="1">G (Ground only)</option><option value="2">G+1</option><option value="3">G+2</option><option value="4">G+3</option></select>
-              </div>
-            </form>
-            <div class="calc-out" id="costResult"><div class="r-label" style="opacity:0.4">Enter area above to calculate</div></div>
-          </div>
-
-          <!-- 2. Material Estimator -->
-          <div class="tool-card reveal" style="--delay:0.08s">
-            <div class="tool-head">
-              <div class="tool-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div>
-              <div><h3>Material Quantity Estimator</h3><p>Approximate material quantities for your project</p></div>
-            </div>
-            <form id="matEstForm">
-              <div class="fr">
-                <div class="fg"><label>Built-up Area (sq.ft)</label><input type="number" id="matArea" class="fc" placeholder="e.g. 1200" min="1"></div>
-                <div class="fg"><label>Number of Floors</label>
-                  <select id="matFloors" class="fc"><option value="1">1 Floor</option><option value="2">2 Floors</option><option value="3">3 Floors</option><option value="4">4 Floors</option></select>
-                </div>
-              </div>
-            </form>
-            <div class="calc-out" id="matResult"><div class="r-label" style="opacity:0.4">Enter area above to estimate</div></div>
-          </div>
-
-          <!-- 3. Area Calculator -->
-          <div class="tool-card reveal" style="--delay:0.16s">
-            <div class="tool-head">
-              <div class="tool-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></div>
-              <div><h3>Area Calculator</h3><p>Calculate area in sq.ft, sq.m, sq.yd, and gaj</p></div>
-            </div>
-            <form id="areaCalcForm">
-              <div class="fg"><label>Shape</label>
-                <select id="areaShape" class="fc"><option value="rectangle">Rectangle / Square</option><option value="circle">Circle</option><option value="triangle">Triangle</option><option value="trapezoid">Trapezoid</option><option value="lshape">L-Shaped Plot</option></select>
-              </div>
-              <div id="areaFields"></div>
-            </form>
-            <div class="calc-out" id="areaCalcResult"><div class="r-label" style="opacity:0.4">Enter dimensions above</div></div>
-          </div>
-
-          <!-- 4. Unit Converter -->
-          <div class="tool-card reveal" style="--delay:0.24s">
-            <div class="tool-head">
-              <div class="tool-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 17l-5-5 5-5M15 7l5 5-5 5"/></svg></div>
-              <div><h3>Unit Converter</h3><p>Convert between common civil engineering units</p></div>
-            </div>
-            <div class="fg"><label>Value</label><input type="number" id="ucVal" class="fc" placeholder="Enter value to convert" min="0" step="any"></div>
-            <div class="fg"><label>Convert</label>
-              <select id="ucType" class="fc">
-                <optgroup label="Area">
-                  <option value="sqft_sqm">sq.ft → sq.m</option><option value="sqm_sqft">sq.m → sq.ft</option>
-                  <option value="sqyd_sqft">sq.yd → sq.ft</option><option value="sqft_sqyd">sq.ft → sq.yd</option>
-                  <option value="acre_sqft">Acre → sq.ft</option><option value="gaj_sqft">Gaj → sq.ft</option><option value="sqft_gaj">sq.ft → Gaj</option>
-                </optgroup>
-                <optgroup label="Length">
-                  <option value="ft_m">ft → m</option><option value="m_ft">m → ft</option>
-                  <option value="inch_cm">inch → cm</option><option value="cm_inch">cm → inch</option>
-                </optgroup>
-                <optgroup label="Volume">
-                  <option value="cft_cum">cft → m³</option><option value="cum_cft">m³ → cft</option>
-                </optgroup>
-                <optgroup label="Weight">
-                  <option value="kg_lb">kg → lb</option><option value="lb_kg">lb → kg</option>
-                  <option value="ton_kg">MT → kg</option><option value="kg_ton">kg → MT</option>
-                </optgroup>
-              </select>
-            </div>
-            <div class="calc-out" id="ucOut"><div class="r-label" style="opacity:0.4">Enter a value above</div></div>
-          </div>
-
-          <!-- 5. Concrete Mix -->
-          <div class="tool-card reveal" style="--delay:0.32s">
-            <div class="tool-head">
-              <div class="tool-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
-              <div><h3>Concrete Mix Calculator</h3><p>Calculate cement, sand & aggregate quantities</p></div>
-            </div>
-            <div class="fr">
-              <div class="fg"><label>Volume of Concrete (m³)</label><input type="number" id="concreteVol" class="fc" placeholder="e.g. 10" min="0.1" step="0.1" oninput="calcConcrete()"></div>
-              <div class="fg"><label>Grade of Concrete</label>
-                <select id="concreteGrade" class="fc" onchange="calcConcrete()"><option value="M10">M10 (1:3:6)</option><option value="M15">M15 (1:2:4)</option><option value="M20" selected>M20 (1:1.5:3)</option><option value="M25">M25 (1:1:2)</option><option value="M30">M30 (1:1:1.5)</option></select>
-              </div>
-            </div>
-            <div class="calc-out" id="concreteResult"><div class="r-label" style="opacity:0.4">Enter volume to calculate</div></div>
-          </div>
-
-          <!-- 6. Paint Estimator -->
-          <div class="tool-card reveal" style="--delay:0.4s">
-            <div class="tool-head">
-              <div class="tool-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M19 11l-8-8-8.5 8.5a5.5 5.5 0 007.78 7.78L19 11zM7 2l1 1"/><path d="M18 12.22V20a2 2 0 01-2 2H6a2 2 0 01-2-2V9"/></svg></div>
-              <div><h3>Paint Estimator</h3><p>Calculate paint quantity for walls and ceiling</p></div>
-            </div>
-            <div class="fr">
-              <div class="fg"><label>Wall/Ceiling Area (sq.ft)</label><input type="number" id="paintArea" class="fc" placeholder="e.g. 2000" min="1" oninput="calcPaint()"></div>
-              <div class="fg"><label>Number of Coats</label>
-                <select id="paintCoats" class="fc" onchange="calcPaint()"><option value="1">1 coat</option><option value="2" selected>2 coats</option><option value="3">3 coats</option></select>
-              </div>
-            </div>
-            <div class="fg"><label>Paint Type</label>
-              <select id="paintType" class="fc" onchange="calcPaint()"><option value="interior">Interior Emulsion</option><option value="exterior">Exterior Emulsion</option><option value="primer">Primer</option><option value="enamel">Enamel Paint</option></select>
-            </div>
-            <div class="calc-out" id="paintResult"><div class="r-label" style="opacity:0.4">Enter area to calculate</div></div>
-          </div>
-
-          <!-- 7. Tile Calculator -->
-          <div class="tool-card reveal" style="--delay:0.48s">
-            <div class="tool-head">
-              <div class="tool-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="9" height="9"/><rect x="13" y="2" width="9" height="9"/><rect x="2" y="13" width="9" height="9"/><rect x="13" y="13" width="9" height="9"/></svg></div>
-              <div><h3>Tile Calculator</h3><p>Calculate number of tiles for floor or wall</p></div>
-            </div>
-            <div class="fr">
-              <div class="fg"><label>Room Length (ft)</label><input type="number" id="tileLen" class="fc" placeholder="e.g. 15" min="1" step="0.5" oninput="calcTile()"></div>
-              <div class="fg"><label>Room Width (ft)</label><input type="number" id="tileWid" class="fc" placeholder="e.g. 12" min="1" step="0.5" oninput="calcTile()"></div>
-            </div>
-            <div class="fr">
-              <div class="fg"><label>Tile Size</label>
-                <select id="tileSize" class="fc" onchange="calcTile()"><option value="300">300×300 mm</option><option value="400">400×400 mm</option><option value="600" selected>600×600 mm</option><option value="800">800×800 mm</option><option value="1200">1200×600 mm</option></select>
-              </div>
-              <div class="fg"><label>Wastage %</label>
-                <select id="tileWaste" class="fc" onchange="calcTile()"><option value="5" selected>5% (Standard)</option><option value="10">10% (Diagonal/Pattern)</option><option value="15">15% (Complex)</option></select>
-              </div>
-            </div>
-            <div class="calc-out" id="tileResult"><div class="r-label" style="opacity:0.4">Enter room dimensions</div></div>
-          </div>
-
-          <!-- 8. Steel Weight -->
-          <div class="tool-card reveal" style="--delay:0.56s">
-            <div class="tool-head">
-              <div class="tool-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
-              <div><h3>Steel / TMT Bar Weight</h3><p>Calculate weight of TMT steel bars (IS formula)</p></div>
-            </div>
-            <div class="fr fr3">
-              <div class="fg"><label>Diameter (mm)</label>
-                <select id="steelDia" class="fc" onchange="calcSteel()"><option value="8">8 mm</option><option value="10">10 mm</option><option value="12" selected>12 mm</option><option value="16">16 mm</option><option value="20">20 mm</option><option value="25">25 mm</option><option value="32">32 mm</option></select>
-              </div>
-              <div class="fg"><label>Length (m)</label><input type="number" id="steelLen" class="fc" placeholder="e.g. 12" min="0.1" step="0.1" oninput="calcSteel()" value="12"></div>
-              <div class="fg"><label>Quantity (bars)</label><input type="number" id="steelQty" class="fc" placeholder="e.g. 10" min="1" oninput="calcSteel()" value="1"></div>
-            </div>
-            <div class="calc-out" id="steelResult"><div class="r-label" style="opacity:0.4">Select options to calculate</div></div>
-          </div>
-
-        </div>
-
-        <!-- Need help CTA -->
-        <div class="why-card reveal" style="--delay:0.3s; margin-top:56px; text-align:center">
-          <h3 style="font-family:var(--font-d);font-size:1.8rem;margin-bottom:12px">Need a Professional BOQ?</h3>
-          <p style="color:var(--text-2);margin-bottom:28px;max-width:500px;margin-left:auto;margin-right:auto">These calculators give quick estimates. For a precise, itemised Bill of Quantities for your actual project, our engineers provide detailed BOQ starting from ₹1,800.</p>
-          <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
-            <a href="contact.html" class="btn btn-gold">Get Professional BOQ →</a>
-            <a href="https://wa.me/918708524647?text=Hi%2C+I+need+a+professional+BOQ." target="_blank" rel="noopener" class="btn btn-wa"><svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><path d="M20.52 3.48A11.95 11.95 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.12.55 4.18 1.6 6L0 24l6.22-1.63A11.94 11.94 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.22-3.48-8.52z"/></svg>WhatsApp for BOQ</a>
-          </div>
+  <section class="section">
+    <div class="container">
+      <!-- QUICK UNIT CONVERTER (UNIVERSAL) placed first for prominence -->
+      <div class="tool-card reveal" style="grid-column:1/-1; margin-bottom:10px; background:linear-gradient(145deg,#1f2b33,#172128);">
+        <div class="tool-head"><div class="tool-icon"><svg width="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 17l-5-5 5-5M15 7l5 5-5 5"/></svg></div>
+        <div><h3>⚡ Universal Unit Converter (Any ↔ Any)</h3><p>Length, Area, Volume, Weight, Pressure, Temperature — instant conversion</p></div></div>
+        <div style="display:grid; grid-template-columns:1fr auto 1fr; gap:12px; align-items:end;">
+          <div><label>Category</label><select id="unitCat" class="fc"><option value="length">Length</option><option value="area" selected>Area</option><option value="volume">Volume</option><option value="weight">Weight/Mass</option><option value="pressure">Pressure</option><option value="temp">Temperature</option></select></div>
+          <div style="text-align:center;"><button id="swapUnitsBtn" class="btn btn-ghost btn-sm" style="padding:8px 12px;" title="Swap">⇄</button></div>
+          <div></div>
+          <div><label>From</label><select id="fromUnit" class="fc"></select></div>
+          <div><label>To</label><select id="toUnit" class="fc"></select></div>
+          <div></div>
+          <div><label>Value</label><input type="number" id="unitInputVal" class="fc" placeholder="Enter value" value="1" step="any"></div>
+          <div><label>Result</label><div class="calc-out" style="margin:0;padding:12px;background:var(--bg-0);"><span id="unitResultDisplay" style="font-size:1.8rem;font-weight:500;">1.0000</span></div></div>
         </div>
       </div>
-    </section>
-  
-</main>
-<footer class="mini-footer">
-  <div class="container">
-    <div class="mini-footer-in">
-      <p>&copy; 2025 Civil At Hand &ndash; Design &amp; Consultancy. All rights reserved.</p>
-      <div class="mini-links">
-        <a href="index.html">Home</a>
-        <a href="services.html">Services</a>
-        <a href="contact.html">Contact</a>
-        <a href="https://wa.me/918708524647" target="_blank" rel="noopener">WhatsApp</a>
+
+      <div class="tools-grid" id="mainToolsGrid">
+        <!-- 1. Construction Cost -->
+        <div class="tool-card reveal">
+          <div class="tool-head"><div class="tool-icon">💰</div><div><h3>Construction Cost</h3><p>Area, finish & floors</p></div></div>
+          <div class="fr"><div class="fg"><label>Area (sq.ft)</label><input type="number" id="costArea" class="fc" value="1500" min="1"></div>
+          <div class="fg"><label>Finish</label><select id="costType" class="fc"><option value="basic">Basic</option><option value="standard" selected>Standard</option><option value="premium">Premium</option><option value="luxury">Luxury</option></select></div></div>
+          <div class="fg"><label>Floors</label><select id="costFloor" class="fc"><option value="1">G only</option><option value="2" selected>G+1</option><option value="3">G+2</option><option value="4">G+3</option></select></div>
+          <div class="calc-out" id="costResult"><span class="r-value" id="costVal">₹22,50,000</span><br><span class="r-label">approx. (incl. basic finishes)</span></div>
+        </div>
+        <!-- 2. Material Estimator -->
+        <div class="tool-card reveal"><div class="tool-head"><div class="tool-icon">🧱</div><div><h3>Material Quantity</h3><p>Cement, sand, aggregate, steel approx</p></div></div>
+          <div class="fr"><div class="fg"><label>Built-up (sq.ft)</label><input type="number" id="matArea" class="fc" value="1200"></div>
+          <div class="fg"><label>Floors</label><select id="matFloors" class="fc"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option></select></div></div>
+          <div class="calc-out" id="matResult"><span id="matCement">385</span> bags cement · <span id="matSteel">2.4</span> ton steel · <span id="matSand">1350</span> cft sand</div>
+        </div>
+        <!-- 3. Area Calc (multi-shape) -->
+        <div class="tool-card reveal"><div class="tool-head"><div class="tool-icon">📐</div><div><h3>Area Calculator</h3><p>Rectangle, circle, L-shape etc.</p></div></div>
+          <div class="fg"><label>Shape</label><select id="areaShape" class="fc"><option value="rectangle">Rectangle</option><option value="circle">Circle</option><option value="triangle">Triangle</option><option value="trapezoid">Trapezoid</option><option value="lshape">L-Shape</option></select></div>
+          <div id="areaFields"></div>
+          <div class="calc-out" id="areaCalcResult"><span id="areaVal">0.00</span> sq.ft · <span id="areaSqm">0.00</span> m²</div>
+        </div>
+        <!-- 4. Concrete Mix -->
+        <div class="tool-card reveal"><div class="tool-head"><div class="tool-icon">🏗️</div><div><h3>Concrete Mix</h3><p>Cement, sand, aggregate (kg)</p></div></div>
+          <div class="fr"><div class="fg"><label>Volume (m³)</label><input type="number" id="concreteVol" class="fc" value="5" step="0.1"></div>
+          <div class="fg"><label>Grade</label><select id="concreteGrade" class="fc"><option value="M15">M15 (1:2:4)</option><option value="M20" selected>M20 (1:1.5:3)</option><option value="M25">M25 (1:1:2)</option></select></div></div>
+          <div class="calc-out"><span id="cemKg">1600</span> kg cement · <span id="sandKg">2400</span> kg sand · <span id="aggKg">4800</span> kg aggregate</div>
+        </div>
+        <!-- 5. Paint -->
+        <div class="tool-card reveal"><div class="tool-head"><div class="tool-icon">🎨</div><div><h3>Paint Estimator</h3><p>Area, coats & type</p></div></div>
+          <div class="fr"><div class="fg"><label>Area (sq.ft)</label><input type="number" id="paintArea" class="fc" value="1500"></div><div class="fg"><label>Coats</label><select id="paintCoats" class="fc"><option value="1">1</option><option value="2" selected>2</option></select></div></div>
+          <div class="fg"><label>Paint</label><select id="paintType" class="fc"><option value="interior">Interior</option><option value="exterior">Exterior</option></select></div>
+          <div class="calc-out"><span id="paintLitres">18.5</span> litres required</div>
+        </div>
+        <!-- 6. Tile -->
+        <div class="tool-card reveal"><div class="tool-head"><div class="tool-icon">🔲</div><div><h3>Tile Calculator</h3><p>Floor/wall tiles + wastage</p></div></div>
+          <div class="fr"><div class="fg"><label>Length (ft)</label><input id="tileLen" class="fc" value="15"></div><div class="fg"><label>Width (ft)</label><input id="tileWid" class="fc" value="12"></div></div>
+          <div class="fr"><div class="fg"><label>Tile size</label><select id="tileSize" class="fc"><option value="300">300x300</option><option value="600" selected>600x600</option><option value="800">800x800</option></select></div>
+          <div class="fg"><label>Wastage</label><select id="tileWaste" class="fc"><option value="5">5%</option><option value="10" selected>10%</option></select></div></div>
+          <div class="calc-out"><span id="tileCount">60</span> tiles · <span id="boxesNeeded">15</span> boxes (4/box)</div>
+        </div>
+        <!-- 7. Steel weight -->
+        <div class="tool-card reveal"><div class="tool-head"><div class="tool-icon">⚙️</div><div><h3>TMT Bar Weight</h3><p>IS code formula</p></div></div>
+          <div class="fr3"><div class="fg"><label>Dia (mm)</label><select id="steelDia" class="fc"><option value="8">8</option><option value="10">10</option><option value="12" selected>12</option><option value="16">16</option><option value="20">20</option></select></div>
+          <div class="fg"><label>Length (m)</label><input id="steelLen" class="fc" value="12"></div><div class="fg"><label>Qty</label><input id="steelQty" class="fc" value="5"></div></div>
+          <div class="calc-out"><span id="steelWeight">53.3</span> kg total</div>
+        </div>
+        <!-- 8. Brick Calculator -->
+        <div class="tool-card reveal"><div class="tool-head"><div class="tool-icon">🧱</div><div><h3>Brick Calculator</h3><p>Wall bricks (modular)</p></div></div>
+          <div class="fr"><div class="fg"><label>Length (ft)</label><input id="brickL" class="fc" value="20"></div><div class="fg"><label>Height (ft)</label><input id="brickH" class="fc" value="10"></div></div>
+          <div class="fg"><label>Wall thickness</label><select id="brickThick" class="fc"><option value="4.5">4.5" (115mm)</option><option value="9" selected>9" (230mm)</option></select></div>
+          <div class="calc-out"><span id="brickCount">2250</span> bricks · <span id="brickCement">12.5</span> bags cement</div>
+        </div>
+        <!-- 9. Plaster Calculator -->
+        <div class="tool-card reveal"><div class="tool-head"><div class="tool-icon">🖌️</div><div><h3>Plaster (Cement:Sand)</h3></div></div>
+          <div class="fr"><div class="fg"><label>Area (sq.ft)</label><input id="plasterArea" class="fc" value="500"></div><div class="fg"><label>Thickness</label><select id="plasterThick" class="fc"><option value="12">12 mm</option><option value="15" selected>15 mm</option><option value="20">20 mm</option></select></div></div>
+          <div class="calc-out"><span id="plasterCement">8.2</span> bags · <span id="plasterSand">32</span> cft sand</div>
+        </div>
+        <!-- 10. Water Tank Capacity -->
+        <div class="tool-card reveal"><div class="tool-head"><div class="tool-icon">💧</div><div><h3>Tank Capacity</h3><p>Litres from dimensions</p></div></div>
+          <div class="fr3"><div class="fg"><label>L (ft)</label><input id="tankL" class="fc" value="6"></div><div class="fg"><label>W (ft)</label><input id="tankW" class="fc" value="4"></div><div class="fg"><label>H (ft)</label><input id="tankH" class="fc" value="5"></div></div>
+          <div class="calc-out"><span id="tankLitres">3400</span> litres · ~<span id="tankGallons">898</span> gal</div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="why-card reveal" style="margin-top:48px;text-align:center">
+        <h3 style="font-size:2rem;">Need a detailed BOQ or structural design?</h3>
+        <p style="margin-bottom:30px;">Our engineers prepare precise Bill of Quantities, estimates & drawings. Starting ₹1,800.</p>
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+          <a href="contact.html" class="btn btn-gold">Get Professional BOQ →</a>
+          <a href="https://wa.me/918708524647" class="btn btn-wa">💬 WhatsApp</a>
+        </div>
       </div>
     </div>
-  </div>
-</footer>
+  </section>
+</main>
+
+<footer class="mini-footer"><div class="container"><div class="mini-footer-in"><p>© 2025 Civil At Hand · Design & Consultancy</p><div class="mini-links"><a href="index.html">Home</a><a href="tools.html">Tools</a><a href="contact.html">Contact</a></div></div></div></footer>
 </div>
-<script src="script.js"></script>
+
+<script>
+  (function(){
+    // Theme & localStorage
+    const theme = localStorage.getItem('cah-theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', theme);
+    
+    // Cookie banner
+    const banner = document.getElementById('cookieBanner');
+    if(localStorage.getItem('cah-cookie')){
+      banner.style.display = 'none';
+    }
+    document.getElementById('cookieAccept').addEventListener('click',()=>{ localStorage.setItem('cah-cookie','1'); banner.style.display='none'; });
+    document.getElementById('cookieDeny').addEventListener('click',()=>{ banner.style.display='none'; });
+
+    // Back to top
+    const btt = document.getElementById('backToTop');
+    window.addEventListener('scroll',()=>{ btt.classList.toggle('show', window.scrollY>400); });
+    btt.addEventListener('click',()=>{ window.scrollTo({top:0,behavior:'smooth'}); });
+
+    // Mobile drawer
+    const burger = document.getElementById('navBurger'), drawer = document.getElementById('navDrawer'), closeDrawer = document.getElementById('drawerClose');
+    burger.addEventListener('click',()=> drawer.classList.add('open'));
+    closeDrawer.addEventListener('click',()=> drawer.classList.remove('open'));
+
+    // ----- UNIVERSAL UNIT CONVERTER -----
+    const unitCat = document.getElementById('unitCat');
+    const fromSel = document.getElementById('fromUnit'), toSel = document.getElementById('toUnit');
+    const unitInput = document.getElementById('unitInputVal'), unitResult = document.getElementById('unitResultDisplay');
+    
+    const unitData = {
+      length: { units: ['meter','foot','inch','cm','mm','yard','km','mile'], factors: [1, 0.3048, 0.0254, 0.01, 0.001, 0.9144, 1000, 1609.344] },
+      area: { units: ['sq meter','sq foot','sq yard','sq inch','sq cm','acre','hectare'], factors: [1, 0.092903, 0.836127, 0.00064516, 0.0001, 4046.86, 10000] },
+      volume: { units: ['cubic meter','liter','cubic foot','gallon (US)','cubic inch'], factors: [1, 0.001, 0.0283168, 0.00378541, 0.000016387] },
+      weight: { units: ['kg','gram','tonne','pound','ounce'], factors: [1, 0.001, 1000, 0.453592, 0.0283495] },
+      pressure: { units: ['Pa','kPa','psi','bar','atm'], factors: [1, 1000, 6894.76, 100000, 101325] },
+      temp: { units: ['Celsius','Fahrenheit','Kelvin'], special: true }
+    };
+    function populateUnits(){
+      const cat = unitCat.value; const data = unitData[cat];
+      fromSel.innerHTML = ''; toSel.innerHTML = '';
+      data.units.forEach(u => { fromSel.add(new Option(u,u)); toSel.add(new Option(u,u)); });
+      if(cat!=='temp'){ toSel.selectedIndex = 1; } else { toSel.selectedIndex = 1; }
+      convertUniversal();
+    }
+    function convertUniversal(){
+      const cat = unitCat.value; let val = parseFloat(unitInput.value); if(isNaN(val)) val=0;
+      if(cat==='temp'){
+        const fromU = fromSel.value, toU = toSel.value;
+        let celsius = 0;
+        if(fromU==='Celsius') celsius=val; else if(fromU==='Fahrenheit') celsius=(val-32)*5/9; else if(fromU==='Kelvin') celsius=val-273.15;
+        let result = celsius;
+        if(toU==='Fahrenheit') result = celsius*9/5+32; else if(toU==='Kelvin') result = celsius+273.15;
+        unitResult.textContent = result.toFixed(4);
+      } else {
+        const data = unitData[cat]; const idxFrom = data.units.indexOf(fromSel.value), idxTo = data.units.indexOf(toSel.value);
+        const base = val * data.factors[idxFrom]; const res = base / data.factors[idxTo];
+        unitResult.textContent = res.toFixed(6);
+      }
+    }
+    unitCat.addEventListener('change', populateUnits);
+    fromSel.addEventListener('change', convertUniversal); toSel.addEventListener('change', convertUniversal);
+    unitInput.addEventListener('input', convertUniversal);
+    document.getElementById('swapUnitsBtn').addEventListener('click',()=>{
+      const temp = fromSel.value; fromSel.value = toSel.value; toSel.value = temp; convertUniversal();
+    });
+    populateUnits();
+
+    // ----- COST CALC -----
+    function updateCost(){ let area=parseFloat(document.getElementById('costArea').value)||0; let type=document.getElementById('costType').value; let floor=parseFloat(document.getElementById('costFloor').value)||1; let rate={basic:1400,standard:1800,premium:2400,luxury:3200}; let cost=area*floor*rate[type]; document.getElementById('costVal').innerText='₹'+cost.toLocaleString('en-IN'); } 
+    document.querySelectorAll('#costArea, #costType, #costFloor').forEach(el=>el.addEventListener('input',updateCost)); updateCost();
+
+    // Material estimator
+    function updateMat(){ let a=parseFloat(document.getElementById('matArea').value)||0; let f=parseFloat(document.getElementById('matFloors').value)||1; let total=a*f; document.getElementById('matCement').innerText=Math.round(total*0.32); document.getElementById('matSteel').innerText=(total*0.002).toFixed(1); document.getElementById('matSand').innerText=Math.round(total*1.1); } 
+    document.querySelectorAll('#matArea, #matFloors').forEach(e=>e.addEventListener('input',updateMat)); updateMat();
+
+    // Area shape
+    const areaShape=document.getElementById('areaShape'); const areaFields=document.getElementById('areaFields');
+    function renderAreaFields(){ let s=areaShape.value; let html=''; if(s==='rectangle') html='<div class="fr"><div class="fg"><label>Length (ft)</label><input id="aL" class="fc" value="20"></div><div class="fg"><label>Width (ft)</label><input id="aW" class="fc" value="15"></div></div>';
+    else if(s==='circle') html='<div class="fg"><label>Radius (ft)</label><input id="aR" class="fc" value="10"></div>';
+    else if(s==='triangle') html='<div class="fg"><label>Base (ft)</label><input id="aB" class="fc" value="12"><div class="fg"><label>Height (ft)</label><input id="aH" class="fc" value="8"></div>';
+    else if(s==='trapezoid') html='<div class="fr"><div class="fg"><label>Parallel A (ft)</label><input id="aA" value="10"></div><div class="fg"><label>Parallel B (ft)</label><input id="aB2" value="14"></div></div><div class="fg"><label>Height (ft)</label><input id="aHt" value="8"></div>';
+    else if(s==='lshape') html='<div class="fr"><div class="fg"><label>Long arm L (ft)</label><input id="lL" value="20"></div><div class="fg"><label>Long arm W (ft)</label><input id="lW" value="12"></div></div><div class="fr"><div class="fg"><label>Short arm L (ft)</label><input id="sL" value="8"></div><div class="fg"><label>Short arm W (ft)</label><input id="sW" value="8"></div></div>';
+    areaFields.innerHTML=html; document.querySelectorAll('#areaFields input').forEach(i=>i.addEventListener('input',calcArea)); calcArea(); }
+    function calcArea(){ let s=areaShape.value; let sqft=0; try{
+      if(s==='rectangle'){ let l=parseFloat(document.getElementById('aL')?.value)||0,w=parseFloat(document.getElementById('aW')?.value)||0; sqft=l*w;}
+      else if(s==='circle'){ let r=parseFloat(document.getElementById('aR')?.value)||0; sqft=Math.PI*r*r;}
+      else if(s==='triangle'){ let b=parseFloat(document.getElementById('aB')?.value)||0,h=parseFloat(document.getElementById('aH')?.value)||0; sqft=0.5*b*h;}
+      else if(s==='trapezoid'){ let a=parseFloat(document.getElementById('aA')?.value)||0,b=parseFloat(document.getElementById('aB2')?.value)||0,h=parseFloat(document.getElementById('aHt')?.value)||0; sqft=0.5*(a+b)*h;}
+      else if(s==='lshape'){ let lL=parseFloat(document.getElementById('lL')?.value)||0,lW=parseFloat(document.getElementById('lW')?.value)||0,sL=parseFloat(document.getElementById('sL')?.value)||0,sW=parseFloat(document.getElementById('sW')?.value)||0; sqft=(lL*lW)+(sL*sW);}
+    }catch(e){}
+      document.getElementById('areaVal').innerText=sqft.toFixed(2);
+      document.getElementById('areaSqm').innerText=(sqft*0.092903).toFixed(2);
+    }
+    areaShape.addEventListener('change',renderAreaFields); renderAreaFields();
+
+    // Concrete
+    function concreteCalc(){ let vol=parseFloat(document.getElementById('concreteVol').value)||0; let grade=document.getElementById('concreteGrade').value; let ratio={M15:[1,2,4],M20:[1,1.5,3],M25:[1,1,2]}[grade]; let sum=ratio[0]+ratio[1]+ratio[2]; let cement=vol*ratio[0]/sum*1440; let sand=vol*ratio[1]/sum*1600; let agg=vol*ratio[2]/sum*1500; document.getElementById('cemKg').innerText=Math.round(cement); document.getElementById('sandKg').innerText=Math.round(sand); document.getElementById('aggKg').innerText=Math.round(agg); }
+    document.querySelectorAll('#concreteVol, #concreteGrade').forEach(e=>e.addEventListener('input',concreteCalc)); concreteCalc();
+    // Paint
+    function paintCalc(){ let a=parseFloat(document.getElementById('paintArea').value)||0; let coats=parseFloat(document.getElementById('paintCoats').value); let type=document.getElementById('paintType').value; let cover= type.includes('interior')?130:100; let litres=(a*coats)/cover; document.getElementById('paintLitres').innerText=litres.toFixed(1); }
+    document.querySelectorAll('#paintArea,#paintCoats,#paintType').forEach(e=>e.addEventListener('input',paintCalc)); paintCalc();
+    // Tile
+    function tileCalc(){ let l=parseFloat(document.getElementById('tileLen').value)||0,w=parseFloat(document.getElementById('tileWid').value)||0; let size=parseFloat(document.getElementById('tileSize').value); let waste=parseFloat(document.getElementById('tileWaste').value)/100; let area=l*w; let tileSqft=(size/304.8)*(size/304.8); let tiles=Math.ceil(area*(1+waste)/tileSqft); document.getElementById('tileCount').innerText=tiles; document.getElementById('boxesNeeded').innerText=Math.ceil(tiles/4); }
+    document.querySelectorAll('#tileLen,#tileWid,#tileSize,#tileWaste').forEach(e=>e.addEventListener('input',tileCalc)); tileCalc();
+    // Steel
+    function steelCalc(){ let d=parseFloat(document.getElementById('steelDia').value); let l=parseFloat(document.getElementById('steelLen').value)||0; let q=parseFloat(document.getElementById('steelQty').value)||0; let w=(d*d/162)*l*q; document.getElementById('steelWeight').innerText=w.toFixed(2); }
+    document.querySelectorAll('#steelDia,#steelLen,#steelQty').forEach(e=>e.addEventListener('input',steelCalc)); steelCalc();
+    // Brick
+    function brickCalc(){ let L=parseFloat(document.getElementById('brickL').value)||0,H=parseFloat(document.getElementById('brickH').value)||0; let thick=document.getElementById('brickThick').value; let area=L*H; let bricks= thick==='4.5'? area*5.5 : area*11; let cement= thick==='4.5'? area*0.025 : area*0.05; document.getElementById('brickCount').innerText=Math.round(bricks); document.getElementById('brickCement').innerText=cement.toFixed(1); }
+    document.querySelectorAll('#brickL,#brickH,#brickThick').forEach(e=>e.addEventListener('input',brickCalc)); brickCalc();
+    // Plaster
+    function plasterCalc(){ let area=parseFloat(document.getElementById('plasterArea').value)||0; let thick=parseFloat(document.getElementById('plasterThick').value); let vol=area*0.0929*(thick/1000); let cement=vol*1440*0.2/50; let sand=vol*0.8*35.315; document.getElementById('plasterCement').innerText=cement.toFixed(1); document.getElementById('plasterSand').innerText=sand.toFixed(0); }
+    document.querySelectorAll('#plasterArea,#plasterThick').forEach(e=>e.addEventListener('input',plasterCalc)); plasterCalc();
+    // Tank
+    function tankCalc(){ let l=parseFloat(document.getElementById('tankL').value)||0,w=parseFloat(document.getElementById('tankW').value)||0,h=parseFloat(document.getElementById('tankH').value)||0; let vol=l*w*h*28.3168; document.getElementById('tankLitres').innerText=Math.round(vol); document.getElementById('tankGallons').innerText=Math.round(vol*0.264172); }
+    document.querySelectorAll('#tankL,#tankW,#tankH').forEach(e=>e.addEventListener('input',tankCalc)); tankCalc();
+
+    // additional: call updates for material etc
+  })();
+</script>
+<!-- ensure back to top etc -->
 </body>
 </html>

@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /SEO-STRATEGY-GUIDE.html
-
+Disallow: /assets/
 Sitemap: https://www.civilathand.com/sitemap.xml

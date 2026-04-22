@@ -1,53 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
-  <title>Civil Toolkit · smart calculators</title>
-  <meta name="description" content="Professional civil calculators: brick, concrete, paint, area, steel & more. Visual results, India-ready.">
+  <title>Civil Toolkit · Smart Calculators</title>
+  <meta name="description" content="Professional civil engineering calculators: brick, concrete, paint, area, steel & more. Visual results, instant.">
   <!-- Fonts & Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
+    /* ---------- RESET & VARIABLES (dark theme with gold + blue accent) ---------- */
     *{margin:0;padding:0;box-sizing:border-box;}
     :root{
-      --font-main: 'Inter', system-ui, sans-serif;
-      --font-display: 'Manrope', sans-serif;
-      /* Blue‑ish professional palette */
-      --bg-page: #f4f7fc;
-      --surface: #ffffff;
-      --primary: #1a4c8c;        /* deep navy blue */
-      --primary-light: #2b6cb0;
-      --accent: #0f7b9e;         /* teal‑blue */
-      --accent-soft: #d4e6f5;
-      --text-main: #1e293b;
-      --text-muted: #475569;
-      --border-light: #e2e8f0;
-      --shadow-card: 0 20px 35px -8px rgba(0,35,70,0.12), 0 8px 16px -6px rgba(0,0,0,0.05);
-      --shadow-hover: 0 30px 45px -12px rgba(26,76,140,0.18);
+      --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --bg-0: #060b12;
+      --bg-1: #0d1622;
+      --bg-2: #13202e;
+      --bg-card: #142433;
+      --border-light: rgba(200, 168, 75, 0.15);
+      --border-strong: rgba(200, 168, 75, 0.4);
+      --gold: #c8a84b;
+      --gold-light: #e2c87a;
+      --gold-dim: #9e8237;
+      --blue-accent: #2a6f9c;
+      --blue-soft: #1e4f73;
+      --text-1: #f0f4f8;
+      --text-2: #b8c7d9;
+      --text-3: #7a8fa3;
+      --shadow-card: 0 25px 40px -12px rgba(0,0,0,0.7), 0 8px 18px -6px rgba(0,0,0,0.5);
+      --shadow-hover: 0 32px 50px -16px rgba(200,168,75,0.15);
       --radius-xl: 32px;
       --radius-lg: 24px;
       --radius-md: 18px;
-      --transition: all 0.25s cubic-bezier(0.2,0,0,1);
+      --transition: all 0.25s cubic-bezier(0.23,1,0.32,1);
     }
     body{
-      background: var(--bg-page);
-      color: var(--text-main);
-      font-family: var(--font-main);
+      background: var(--bg-0);
+      color: var(--text-1);
+      font-family: var(--font-sans);
       line-height: 1.5;
-      padding: 24px 16px 40px;
+      padding: 20px 16px 40px;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      -webkit-font-smoothing: antialiased;
     }
     .app-wrapper{
       max-width: 1440px;
       margin: 0 auto;
       width: 100%;
     }
-    /* header minimal */
-    .app-header{
+    /* ---------- MINIMAL TOP BAR (home + branding) ---------- */
+    .top-bar{
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -55,92 +61,113 @@
       flex-wrap: wrap;
       gap: 16px;
     }
-    .logo-area{
+    .home-btn{
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
+      background: rgba(200,168,75,0.08);
+      border: 1px solid var(--border-light);
+      padding: 10px 22px;
+      border-radius: 60px;
+      color: var(--gold-light);
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      transition: var(--transition);
+      text-decoration: none;
+    }
+    .home-btn:hover{
+      background: var(--gold);
+      color: #0b0e11;
+      border-color: var(--gold);
+      box-shadow: 0 8px 20px -6px var(--gold-dim);
+    }
+    .logo-badge{
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     .logo-icon{
-      width: 44px;
-      height: 44px;
-      background: linear-gradient(145deg, var(--primary), #0f3a6b);
-      border-radius: 18px;
+      width: 42px; height: 42px;
+      background: linear-gradient(145deg, #1e4f73, #0a1e2c);
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
-      box-shadow: 0 8px 14px -6px rgba(26,76,140,0.3);
+      border: 1px solid var(--gold-dim);
     }
-    .logo-text h1{
-      font-family: var(--font-display);
+    .logo-text h2{
       font-weight: 700;
       font-size: 1.8rem;
-      letter-spacing: -0.02em;
-      color: #0b2b4a;
+      letter-spacing: -0.01em;
+      background: linear-gradient(135deg, #fff 0%, #e2c87a 80%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
     .logo-text span{
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 500;
-      color: var(--primary);
-      letter-spacing: 2px;
       text-transform: uppercase;
-    }
-    .pill-tag{
-      background: var(--surface);
-      padding: 8px 20px;
-      border-radius: 60px;
-      font-weight: 500;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.02);
-      border: 1px solid var(--border-light);
-      color: var(--primary);
+      letter-spacing: 3px;
+      color: var(--gold);
     }
     /* ---------- SELECTOR GRID (calculator cards) ---------- */
     .selector-grid{
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
       margin: 40px 0 30px;
     }
     .calc-card{
-      background: var(--surface);
+      background: var(--bg-card);
       border-radius: var(--radius-lg);
-      padding: 24px 16px;
+      padding: 28px 18px;
       box-shadow: var(--shadow-card);
-      border: 1px solid rgba(255,255,255,0.6);
-      backdrop-filter: blur(2px);
+      border: 1px solid var(--border-light);
+      backdrop-filter: blur(4px);
       transition: var(--transition);
       cursor: pointer;
       text-align: center;
       border-bottom: 4px solid transparent;
     }
     .calc-card:hover{
-      transform: translateY(-6px);
+      transform: translateY(-8px);
       box-shadow: var(--shadow-hover);
-      border-bottom-color: var(--primary);
+      border-bottom-color: var(--gold);
+      border-color: var(--border-strong);
     }
     .calc-icon{
-      font-size: 2.8rem;
-      margin-bottom: 16px;
+      font-size: 3rem;
+      margin-bottom: 18px;
     }
     .calc-card h3{
-      font-weight: 600;
-      font-size: 1.3rem;
-      margin-bottom: 8px;
-      color: #0b2b4a;
+      font-weight: 700;
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: var(--text-1);
     }
     .calc-card p{
-      font-size: 0.85rem;
-      color: var(--text-muted);
+      font-size: 0.9rem;
+      color: var(--text-3);
     }
     /* ---------- DETAIL VIEW (calculator panel) ---------- */
     .detail-view{
-      background: var(--surface);
+      background: var(--bg-1);
       border-radius: var(--radius-xl);
-      padding: 32px 28px;
+      padding: 32px 30px;
       box-shadow: var(--shadow-card);
-      border: 1px solid var(--border-light);
+      border: 1px solid var(--border-strong);
       margin-top: 10px;
       transition: opacity 0.2s;
+      backdrop-filter: blur(12px);
+    }
+    .back-nav{
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
     }
     .back-btn{
       display: inline-flex;
@@ -148,210 +175,203 @@
       gap: 8px;
       background: transparent;
       border: 1px solid var(--border-light);
-      padding: 8px 18px;
+      padding: 8px 20px;
       border-radius: 40px;
       font-weight: 500;
-      color: var(--primary);
-      margin-bottom: 24px;
+      color: var(--gold-light);
       cursor: pointer;
       transition: var(--transition);
     }
     .back-btn:hover{
-      background: var(--accent-soft);
-      border-color: var(--primary);
+      background: var(--bg-2);
+      border-color: var(--gold);
     }
     .calc-title{
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 28px;
+      gap: 16px;
+      margin-bottom: 32px;
     }
     .calc-title h2{
-      font-family: var(--font-display);
       font-weight: 700;
-      font-size: 2.2rem;
-      color: #0b2b4a;
+      font-size: 2.5rem;
+      color: var(--text-1);
     }
     .input-panel{
       display: grid;
       grid-template-columns: 1.2fr 1fr;
-      gap: 30px;
+      gap: 36px;
       align-items: start;
     }
     @media (max-width: 720px){
-      .input-panel{
-        grid-template-columns: 1fr;
-        gap: 24px;
-      }
+      .input-panel{ grid-template-columns: 1fr; gap: 28px; }
+      .calc-title h2{ font-size: 1.9rem; }
     }
     .form-grid{
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 22px;
     }
     .input-group{
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
     }
     .input-group label{
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       text-transform: uppercase;
-      letter-spacing: 0.3px;
-      color: var(--primary);
+      letter-spacing: 1px;
+      color: var(--gold-light);
     }
     .input-field{
-      background: #f9fcff;
+      background: var(--bg-2);
       border: 1.5px solid var(--border-light);
       border-radius: 20px;
       padding: 14px 18px;
       font-size: 1rem;
-      font-family: var(--font-main);
+      font-family: var(--font-sans);
+      color: var(--text-1);
       transition: var(--transition);
-      color: #0b2b4a;
       font-weight: 500;
     }
     .input-field:focus{
       outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(26,76,140,0.12);
-      background: white;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(200,168,75,0.2);
+      background: #1a2a3c;
     }
     select.input-field{
       appearance: none;
-      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="%231a4c8c"><polyline points="6 9 12 15 18 9"/></svg>');
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="%23c8a84b"><polyline points="6 9 12 15 18 9"/></svg>');
       background-repeat: no-repeat;
       background-position: right 18px center;
-      background-size: 16px;
     }
     .row-2{
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 18px;
     }
     .result-card{
-      background: linear-gradient(145deg, #eef4fa, #ffffff);
+      background: linear-gradient(145deg, #0f1e2b, #08131c);
       border-radius: var(--radius-lg);
       padding: 28px 24px;
-      box-shadow: inset 0 2px 6px rgba(0,0,0,0.02), 0 8px 18px -8px rgba(26,76,140,0.12);
-      border: 1px solid #d9e6f2;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.3), 0 12px 24px -10px #00000080;
+      border: 1px solid var(--border-strong);
     }
     .result-value{
-      font-size: 3.2rem;
-      font-weight: 700;
-      color: var(--primary);
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: var(--gold);
       line-height: 1.2;
       margin: 12px 0 8px;
-      font-family: var(--font-display);
+      font-family: var(--font-mono);
     }
     .result-label{
-      color: var(--text-muted);
+      color: var(--text-2);
       font-weight: 500;
     }
     .visual-container{
-      margin-top: 24px;
-      background: #ffffffd6;
+      margin-top: 28px;
+      background: #0b1622e0;
       border-radius: 24px;
-      padding: 20px 16px;
+      padding: 22px 18px;
       text-align: center;
-      border: 1px dashed var(--primary-light);
+      border: 1px dashed var(--gold-dim);
+      backdrop-filter: blur(8px);
     }
     canvas{
       max-width: 100%;
       height: auto;
-      border-radius: 16px;
-      background: #f0f6fe;
+      border-radius: 18px;
+      background: #0a121e;
+      display: block;
+      margin: 0 auto;
     }
     .brick-stats{
       display: flex;
       justify-content: space-around;
-      margin-top: 12px;
+      margin-top: 16px;
       font-weight: 600;
+      color: var(--gold-light);
     }
     .btn-primary{
-      background: var(--primary);
-      color: white;
+      background: var(--gold);
+      color: #0b0e11;
       border: none;
-      padding: 14px 24px;
-      border-radius: 48px;
-      font-weight: 600;
+      padding: 16px 24px;
+      border-radius: 60px;
+      font-weight: 700;
       font-size: 1rem;
       cursor: pointer;
       transition: var(--transition);
-      box-shadow: 0 10px 18px -8px #1a4c8c;
-      border: 1px solid #ffffff30;
+      box-shadow: 0 12px 22px -8px #00000080;
+      border: 1px solid #e2c87a;
+      letter-spacing: 0.3px;
     }
     .btn-primary:hover{
-      background: var(--primary-light);
-      transform: scale(1.02);
+      background: var(--gold-light);
+      transform: scale(1.01);
+      box-shadow: 0 16px 28px -10px var(--gold-dim);
     }
-    .hidden{
-      display: none !important;
-    }
+    .hidden{ display: none !important; }
     .footer-note{
       margin-top: 48px;
       text-align: center;
-      color: var(--text-muted);
+      color: var(--text-3);
       font-size: 0.9rem;
     }
-    .unit-hint{
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
+    .unit-hint{ font-size: 0.9rem; color: var(--text-3); }
+    .gold-spark{ color: var(--gold); }
     /* animations */
-    .fade-in{animation: fade 0.3s ease;}
-    @keyframes fade{0%{opacity:0.5;} 100%{opacity:1;}}
+    .fade-in{ animation: fade 0.3s ease; }
+    @keyframes fade{ 0%{opacity:0.5;} 100%{opacity:1;} }
   </style>
 </head>
 <body>
 <div class="app-wrapper">
-  <!-- minimal header -->
-  <header class="app-header">
-    <div class="logo-area">
+  <!-- Minimal top bar with Home button -->
+  <div class="top-bar">
+    <button class="home-btn" id="globalHomeBtn">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+      Home · All Tools
+    </button>
+    <div class="logo-badge">
       <div class="logo-icon">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-          <path d="M3 22L3 10L12 3L21 10L21 22Z" />
-          <rect x="9" y="14" width="6" height="8" />
-        </svg>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c8a84b" stroke-width="2"><path d="M3 22L3 10L12 3L21 10L21 22Z"/><rect x="9" y="14" width="6" height="8"/></svg>
       </div>
       <div class="logo-text">
-        <h1>Civil<span style="color:#1a4c8c;">AtHand</span></h1>
+        <h2>Civil<span style="font-weight:300;">AtHand</span></h2>
         <span>precision toolkit</span>
       </div>
     </div>
-    <div class="pill-tag">
-      ⚡ 8+ pro calculators
-    </div>
-  </header>
+  </div>
 
   <!-- SELECTOR VIEW (visible by default) -->
   <div id="selectorView">
-    <div style="margin-bottom: 8px;">
-      <h2 style="font-size: 2rem; font-weight: 650; color:#0b2b4a;">What do you want to calculate?</h2>
-      <p style="color: var(--text-muted);">Select a tool — detailed inputs & visual results</p>
+    <div style="margin-bottom: 20px;">
+      <h2 style="font-size: 2.5rem; font-weight: 700; letter-spacing: -0.02em;">What do you want to calculate?</h2>
+      <p style="color: var(--text-2); font-size: 1.1rem;">Select a tool — detailed inputs & visual feedback</p>
     </div>
-    <div class="selector-grid" id="calcSelectorGrid">
-      <!-- cards will be generated via JS -->
-    </div>
-    <div style="margin-top: 28px; padding: 18px 22px; background: #d9eafb; border-radius: 60px; color:#0a314e; display:inline-block;">
-      ⭐ India‑ready · instant · no signup
+    <div class="selector-grid" id="calcSelectorGrid"></div>
+    <div style="margin-top: 30px; padding: 16px 28px; background: rgba(42,111,156,0.1); border-radius: 60px; display: inline-block; border:1px solid var(--blue-accent);">
+      ⚡ India‑ready · instant · 8+ pro calculators
     </div>
   </div>
 
-  <!-- DETAIL VIEW (hidden initially) -->
+  <!-- DETAIL VIEW (hidden) -->
   <div id="detailView" class="detail-view hidden">
-    <button class="back-btn" id="backToSelectorBtn">
-      <svg width="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-      All calculators
-    </button>
-    <div id="calcDynamicContent">
-      <!-- dynamic calculator injected here -->
+    <div class="back-nav">
+      <button class="back-btn" id="backToSelectorBtn">
+        <svg width="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        All calculators
+      </button>
     </div>
+    <div id="calcDynamicContent"></div>
   </div>
 
   <footer class="footer-note">
-    © 2025 Civil At Hand — smart estimation · professional blue‑print
+    © 2025 Civil At Hand — smart estimation · professional blueprint
   </footer>
 </div>
 
@@ -368,7 +388,8 @@
       { id: 'steel', name: 'TMT Steel Weight', icon: '⚙️', desc: 'IS code formula · kg' },
       { id: 'plaster', name: 'Plaster (C:S)', icon: '🖌️', desc: 'Cement bags & sand cft' },
       { id: 'tank', name: 'Water Tank', icon: '💧', desc: 'Capacity in litres' },
-      { id: 'cost', name: 'Construction Cost', icon: '💰', desc: 'Approx. per sq.ft' }
+      { id: 'cost', name: 'Construction Cost', icon: '💰', desc: 'Approx. per sq.ft' },
+      { id: 'tile', name: 'Tile Calculator', icon: '🔲', desc: 'Tiles + wastage' }
     ];
 
     const selectorGrid = document.getElementById('calcSelectorGrid');
@@ -376,6 +397,7 @@
     const detailView = document.getElementById('detailView');
     const dynamicContent = document.getElementById('calcDynamicContent');
     const backBtn = document.getElementById('backToSelectorBtn');
+    const homeBtn = document.getElementById('globalHomeBtn');
 
     // render selector cards
     function renderSelector() {
@@ -395,20 +417,27 @@
     }
     renderSelector();
 
-    // show detail view for a specific calculator
+    // Switch to selector view
+    function goToSelector() {
+      selectorView.classList.remove('hidden');
+      detailView.classList.add('hidden');
+    }
+    homeBtn.addEventListener('click', goToSelector);
+    backBtn.addEventListener('click', goToSelector);
+
+    // Show detail view for a specific calculator
     function showCalculator(calcId) {
       const calc = calculators.find(c => c.id === calcId);
       if (!calc) return;
       
-      // build UI based on id
       let html = `
         <div class="calc-title">
-          <span style="font-size:2.8rem;">${calc.icon}</span>
+          <span style="font-size:3.2rem;">${calc.icon}</span>
           <h2>${calc.name}</h2>
         </div>
       `;
       
-      // form & result area
+      // Build UI based on id
       if (calcId === 'brick') {
         html += `
           <div class="input-panel">
@@ -431,11 +460,11 @@
               <div class="result-label">🧱 Bricks required</div>
               <div class="result-value" id="brickCountDisplay">2,250</div>
               <div class="result-label">🪣 Cement bags (50kg)</div>
-              <div style="font-size:2rem; font-weight:600; color:#0f3a6b;" id="brickCementDisplay">12.5</div>
+              <div style="font-size:2.2rem; font-weight:700; color:var(--gold);" id="brickCementDisplay">12.5</div>
             </div>
           </div>
           <div class="visual-container">
-            <canvas id="brickCanvas" width="400" height="150" style="width:100%; height:auto; max-width:500px;"></canvas>
+            <canvas id="brickCanvas" width="500" height="160" style="width:100%; height:auto; max-width:600px;"></canvas>
             <div class="brick-stats">
               <span>🔲 each █ = 50 bricks</span>
               <span id="brickVisualNote">≈ 2,250 bricks</span>
@@ -454,16 +483,13 @@
             </div>
             <div class="result-card">
               <div class="result-value" id="cementKg">1,600</div><div class="result-label">kg Cement</div>
-              <div style="display:flex; justify-content:space-between; margin-top:12px;">
+              <div style="display:flex; justify-content:space-between; margin-top:16px;">
                 <span><strong id="sandKg">2,400</strong> kg sand</span>
                 <span><strong id="aggKg">4,800</strong> kg aggregate</span>
               </div>
             </div>
           </div>
-          <div class="visual-container" style="text-align:left;">
-            <div style="display:flex; gap:20px; justify-content:center; font-size:2rem;">🚚 🏗️</div>
-            <p style="margin-top:10px;">Approx. mixer loads · dry volume considered</p>
-          </div>
+          <div class="visual-container">🚚🏗️ dry volume considered · approx mixer loads</div>
         `;
       } else if (calcId === 'paint') {
         html += `
@@ -478,10 +504,10 @@
             </div>
             <div class="result-card">
               <div class="result-value" id="paintLitres">18.5</div><div class="result-label">Litres required</div>
-              <p style="margin-top:12px;">Coverage: interior 130, exterior 100 sqft/litre</p>
+              <p style="margin-top:14px;">🎨 ~<span id="paintBuckets">5</span> buckets (4L each)</p>
             </div>
           </div>
-          <div class="visual-container">🎨🖌️ ~ <span id="paintBuckets">5</span> buckets (4L each)</div>
+          <div class="visual-container">🖌️ Coverage: interior 130, exterior 100 sqft/litre</div>
         `;
       } else if (calcId === 'area') {
         html += `
@@ -496,7 +522,7 @@
               <div><span id="areaSqm">0.00</span> m²</div>
             </div>
           </div>
-          <div class="visual-container" id="areaVisual">📏 Select shape</div>
+          <div class="visual-container" id="areaVisual">📏 Select shape and dimensions</div>
         `;
       } else if (calcId === 'steel') {
         html += `
@@ -532,59 +558,60 @@
           <button class="btn-primary" id="updateCostBtn">Estimate</button></div>
           <div class="result-card"><div class="result-value" id="costVal">₹22,50,000</div><div class="result-label">approx. construction cost</div></div></div>
           <div class="visual-container">💰 rates: basic 1400, std 1800, prem 2400 /sqft</div>`;
+      } else if (calcId === 'tile') {
+        html += `
+          <div class="input-panel"><div class="form-grid"><div class="row-2"><div class="input-group"><label>Length (ft)</label><input id="tileLen" class="input-field" value="15"></div><div class="input-group"><label>Width (ft)</label><input id="tileWid" class="input-field" value="12"></div></div>
+          <div class="row-2"><div class="input-group"><label>Tile size</label><select id="tileSize" class="input-field"><option value="300">300x300</option><option value="600" selected>600x600</option><option value="800">800x800</option></select></div>
+          <div class="input-group"><label>Wastage</label><select id="tileWaste" class="input-field"><option value="5">5%</option><option value="10" selected>10%</option></select></div></div>
+          <button class="btn-primary" id="updateTileBtn">Calculate</button></div>
+          <div class="result-card"><div class="result-value"><span id="tileCount">60</span></div><div class="result-label">tiles · <span id="boxesNeeded">15</span> boxes (4/box)</div></div></div>
+          <div class="visual-container">🔲 floor area + wastage</div>`;
       }
       
       dynamicContent.innerHTML = html;
-      
-      // switch views
       selectorView.classList.add('hidden');
       detailView.classList.remove('hidden');
       
-      // attach specific event listeners and initial calculation
+      // Attach listeners and initial calculations
       if (calcId === 'brick') {
         const updateBrick = () => {
           const L = parseFloat(document.getElementById('brickL')?.value) || 0;
           const H = parseFloat(document.getElementById('brickH')?.value) || 0;
           const thick = document.getElementById('brickThick')?.value;
           const area = L * H;
-          const bricks = thick === '4.5' ? area * 5.5 : area * 11; // modular bricks per sqft approx
-          const cement = thick === '4.5' ? area * 0.025 : area * 0.05; // bags
+          const bricks = thick === '4.5' ? area * 5.5 : area * 11;
+          const cement = thick === '4.5' ? area * 0.025 : area * 0.05;
           document.getElementById('brickCountDisplay').innerText = Math.round(bricks).toLocaleString();
           document.getElementById('brickCementDisplay').innerText = cement.toFixed(1);
           document.getElementById('brickVisualNote').innerText = `≈ ${Math.round(bricks).toLocaleString()} bricks`;
           drawBrickCanvas(Math.round(bricks));
         };
         document.getElementById('updateBrickBtn')?.addEventListener('click', updateBrick);
-        // also live if needed, but we use button
-        updateBrick(); // initial
-        
+        updateBrick();
         function drawBrickCanvas(count) {
           const canvas = document.getElementById('brickCanvas');
           if (!canvas) return;
           const ctx = canvas.getContext('2d');
-          const w = 400, h = 150;
+          const w = 500, h = 160;
           canvas.width = w; canvas.height = h;
           ctx.clearRect(0,0,w,h);
-          ctx.fillStyle = '#b45309'; ctx.strokeStyle = '#78350f';
-          const brickW = 28, brickH = 14, gap = 3;
+          ctx.fillStyle = '#b86b2c'; ctx.strokeStyle = '#6b3f16';
+          const brickW = 30, brickH = 14, gap = 3;
           let cols = Math.floor(w / (brickW+gap));
           let rows = Math.floor(h / (brickH+gap));
-          let maxBricks = cols * rows;
-          let showCount = Math.min(count, maxBricks);
+          let showCount = Math.min(count, cols*rows);
           let brickIndex = 0;
           for (let r=0; r<rows; r++) {
             for (let c=0; c<cols; c++) {
               if (brickIndex >= showCount) break;
               let x = c*(brickW+gap) + (r%2===0?0: brickW/2);
               if (x+brickW > w) continue;
-              ctx.fillStyle = '#c2410c';
+              ctx.fillStyle = '#c47a3a';
               ctx.fillRect(x, r*(brickH+gap), brickW, brickH);
               ctx.strokeRect(x, r*(brickH+gap), brickW, brickH);
               brickIndex++;
             }
           }
-          ctx.font = 'bold 12px Inter'; ctx.fillStyle = '#1e293b';
-          ctx.fillText(`${showCount} bricks`, 10, 20);
         }
       } else if (calcId === 'concrete') {
         const updateConc = () => {
@@ -680,18 +707,24 @@
         };
         document.getElementById('updateCostBtn')?.addEventListener('click', updateCost);
         updateCost();
+      } else if (calcId === 'tile') {
+        const updateTile = () => {
+          const l=parseFloat(document.getElementById('tileLen')?.value)||0, w=parseFloat(document.getElementById('tileWid')?.value)||0;
+          const size=parseFloat(document.getElementById('tileSize')?.value);
+          const waste=parseFloat(document.getElementById('tileWaste')?.value)/100;
+          const area = l*w;
+          const tileSqft = (size/304.8)*(size/304.8);
+          const tiles = Math.ceil(area*(1+waste)/tileSqft);
+          document.getElementById('tileCount').innerText = tiles;
+          document.getElementById('boxesNeeded').innerText = Math.ceil(tiles/4);
+        };
+        document.getElementById('updateTileBtn')?.addEventListener('click', updateTile);
+        updateTile();
       }
     }
-
-    // Back to selector
-    backBtn.addEventListener('click', () => {
-      detailView.classList.add('hidden');
-      selectorView.classList.remove('hidden');
-    });
 
     // Preload selector view
   })();
 </script>
-<!-- ensure any missing ids are handled, no errors -->
 </body>
 </html>

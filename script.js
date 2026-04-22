@@ -466,14 +466,51 @@ if (contactForm) {
     const orig=btn.innerHTML;
     btn.innerHTML=`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:_spin .8s linear infinite"><path d="M21 12a9 9 0 11-6.22-8.56"/></svg> Sending…`;
     btn.disabled=true;
-    await new Promise(r=>setTimeout(r,1500)); /* Replace with real API call */
-    contactForm.reset();
-    contactForm.querySelectorAll('.fc').forEach(f=>{ f.style.borderColor=''; f.classList.remove('invalid'); });
-    contactForm.querySelectorAll('.field-hint').forEach(h=>h.remove());
+    // Build mailto with all form data
+    const name    = (contactForm.querySelector('[name=name]')?.value    || '').trim();
+    const phone   = (contactForm.querySelector('[name=phone]')?.value   || '').trim();
+    const email   = (contactForm.querySelector('[name=email]')?.value   || '').trim();
+    const service = (contactForm.querySelector('[name=service]')?.value || '').trim();
+    const plot    = (contactForm.querySelector('[name=plot]')?.value    || '').trim();
+    const budget  = (contactForm.querySelector('[name=budget]')?.value  || '').trim();
+    const message = (contactForm.querySelector('[name=message]')?.value || '').trim();
+
+    const subject = encodeURIComponent(`New Project Enquiry from ${name} – Civil At Hand`);
+    const body = encodeURIComponent(
+      `New project enquiry received from the Civil At Hand website.\n\n` +
+      `━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+      `CLIENT DETAILS\n` +
+      `━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+      `Name    : ${name}\n` +
+      `Phone   : ${phone}\n` +
+      `Email   : ${email || 'Not provided'}\n\n` +
+      `━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+      `PROJECT DETAILS\n` +
+      `━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+      `Service : ${service || 'Not specified'}\n` +
+      `Plot    : ${plot || 'Not specified'}\n` +
+      `Budget  : ${budget || 'Not specified'}\n\n` +
+      `Message :\n${message}\n\n` +
+      `━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+      `Sent via: www.civilathand.com/contact.html`
+    );
+
+    const mailtoLink = `mailto:civilathand.work@gmail.com?subject=${subject}&body=${body}`;
+
+    // Show success state briefly before opening mail client
     btn.innerHTML=orig; btn.disabled=false;
     const ok2=$('formOk');
     if (ok2) { ok2.classList.add('show'); setTimeout(()=>ok2.classList.remove('show'),7000); }
-    else showToast('✓ Message sent! We\'ll reply within 24 hours.');
+    showToast('✓ Opening your email app to send the message…');
+
+    // Small delay so user sees success, then open mail
+    await new Promise(r=>setTimeout(r,800));
+    window.location.href = mailtoLink;
+
+    // Reset form after redirect attempt
+    contactForm.reset();
+    contactForm.querySelectorAll('.fc').forEach(f=>{ f.style.borderColor=''; f.classList.remove('invalid'); });
+    contactForm.querySelectorAll('.field-hint').forEach(h=>h.remove());
   });
 }
 

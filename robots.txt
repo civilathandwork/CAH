@@ -1,4 +1,11 @@
 User-agent: *
 Allow: /
-Disallow: /assets/
+Disallow: /assets/images/
 Sitemap: https://www.civilathand.com/sitemap.xml
+
+# Block bad bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /

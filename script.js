@@ -223,6 +223,16 @@ const yr = $('yr');
 if (yr) yr.textContent = new Date().getFullYear();
 
 /* ══════════════════════════════════════════════════════════════
+   BFCACHE BLACK SCREEN FIX (Back button)
+   ══════════════════════════════════════════════════════════════ */
+window.addEventListener('pageshow', function(event) {
+  if (event.persisted) {
+    // Force a clean reload to prevent black/blank screen on back navigation
+    window.location.reload();
+  }
+}, { capture: true });
+
+/* ══════════════════════════════════════════════════════════════
    9 · SCROLL REVEAL — IntersectionObserver
    ══════════════════════════════════════════════════════════════ */
 const revObs = new IntersectionObserver(entries => {

@@ -1,36 +1,290 @@
-<h2>Create Account</h2>
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Create Account – Civil At Hand</title>
+<meta name="description" content="Create your Civil At Hand account to manage civil engineering projects, access premium tools, and get expert support."/>
+<meta name="robots" content="noindex"/>
+<link rel="canonical" href="https://www.civilathand.com/signup.html"/>
+<meta name="theme-color" content="#050f24"/>
+<link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css"/>
+<script>document.documentElement.setAttribute('data-theme',localStorage.getItem('cah-theme')||'dark')</script>
+<style>
+.auth-page{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden}
+.auth-brand{background:linear-gradient(145deg,var(--b950) 0%,var(--b900) 40%,var(--b850) 100%);position:relative;display:flex;flex-direction:column;justify-content:space-between;padding:clamp(40px,5vw,72px);overflow:hidden}
+.auth-brand::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 20% 30%,rgba(200,168,75,.15) 0%,transparent 60%),radial-gradient(ellipse 60% 80% at 80% 80%,rgba(44,102,196,.12) 0%,transparent 55%);pointer-events:none}
+.auth-brand-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(200,168,75,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(200,168,75,.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none}
+.auth-brand-top{position:relative;z-index:2}
+.auth-brand-logo{display:inline-flex;align-items:center;gap:14px;text-decoration:none;margin-bottom:64px}
+.auth-brand-logo .brand-icon{width:50px;height:50px;border-radius:14px}
+.auth-brand-headline{font-family:var(--f-brand);font-size:clamp(2rem,3.5vw,3rem);font-weight:800;line-height:1.12;letter-spacing:-.03em;color:var(--tx1);margin-bottom:18px}
+.auth-brand-headline .grad{background:linear-gradient(135deg,var(--g2),var(--g),var(--g1));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.auth-brand-sub{font-size:.95rem;color:var(--tx2);line-height:1.78;max-width:38ch;margin-bottom:44px}
+.auth-steps{display:flex;flex-direction:column;gap:0}
+.auth-step{display:flex;align-items:flex-start;gap:16px;padding-bottom:28px;position:relative}
+.auth-step:not(:last-child)::before{content:'';position:absolute;left:19px;top:44px;width:2px;height:calc(100% - 18px);background:linear-gradient(to bottom,rgba(200,168,75,.35),transparent)}
+.auth-step-num{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--g2),var(--g));display:flex;align-items:center;justify-content:center;font-family:var(--f-brand);font-size:.82rem;font-weight:800;color:#0a1628;flex-shrink:0}
+.auth-step-body strong{display:block;font-family:var(--f-brand);font-size:.9rem;font-weight:700;color:var(--tx1);margin-bottom:4px}
+.auth-step-body span{font-size:.8rem;color:var(--tx3);line-height:1.5}
+.auth-brand-bottom{position:relative;z-index:2;border-top:1px solid rgba(200,168,75,.15);padding-top:24px}
+.auth-brand-cta{display:flex;align-items:center;gap:12px;background:rgba(200,168,75,.08);border:1px solid rgba(200,168,75,.2);border-radius:var(--r3);padding:16px 18px}
+.auth-brand-cta-ico{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--g2),var(--g));display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#0a1628}
+.auth-brand-cta-text strong{display:block;font-family:var(--f-brand);font-size:.84rem;font-weight:700;color:var(--tx1)}
+.auth-brand-cta-text span{font-size:.76rem;color:var(--tx3)}
+.auth-form-panel{background:var(--bg);display:flex;align-items:center;justify-content:center;padding:clamp(40px,5vw,72px) clamp(28px,5vw,80px);position:relative}
+[data-theme="dark"] .auth-form-panel{background:linear-gradient(160deg,var(--b900) 0%,var(--b950) 100%)}
+.auth-form-panel::before{content:'';position:absolute;bottom:0;left:0;width:400px;height:400px;background:radial-gradient(circle,rgba(200,168,75,.04) 0%,transparent 70%);pointer-events:none}
+.auth-form-wrap{width:100%;max-width:460px}
+.auth-form-title{font-family:var(--f-brand);font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;letter-spacing:-.03em;color:var(--tx1);margin-bottom:8px}
+.auth-form-sub{font-size:.9rem;color:var(--tx2);margin-bottom:36px;line-height:1.6}
+.auth-form-sub a{color:var(--b200);font-weight:600;text-decoration:none;border-bottom:1px solid rgba(74,133,212,.35);transition:border-color .2s}
+.auth-form-sub a:hover{border-color:var(--b200)}
+.auth-row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.auth-field{margin-bottom:18px}
+.auth-field label{display:block;font-family:var(--f-brand);font-size:.82rem;font-weight:600;color:var(--tx2);margin-bottom:8px;letter-spacing:.01em}
+.auth-input-wrap{position:relative;display:flex;align-items:center}
+.auth-input-icon{position:absolute;left:16px;color:var(--tx3);pointer-events:none;transition:color .2s;display:flex;align-items:center}
+.auth-field input{width:100%;height:52px;padding:0 48px;background:var(--s2);border:1.5px solid var(--bd);border-radius:var(--r3);font-family:var(--f-body);font-size:.9rem;color:var(--tx1);outline:none;transition:border-color .2s,box-shadow .2s,background .2s;-webkit-appearance:none}
+.auth-field input::placeholder{color:var(--tx3)}
+.auth-field input:focus{border-color:var(--b400);background:var(--s1);box-shadow:0 0 0 4px rgba(44,102,196,.12)}
+.auth-input-wrap:focus-within .auth-input-icon{color:var(--b300)}
+.auth-field.err input{border-color:var(--err);box-shadow:0 0 0 4px rgba(239,68,68,.1)}
+.auth-field.ok input{border-color:var(--ok)}
+.auth-field-error{font-size:.78rem;color:var(--err);margin-top:5px;display:none;align-items:center;gap:5px}
+.auth-field.err .auth-field-error{display:flex}
+.auth-pw-toggle{position:absolute;right:14px;background:none;border:none;color:var(--tx3);cursor:pointer;display:flex;align-items:center;padding:4px;border-radius:4px;transition:color .2s}
+.auth-pw-toggle:hover{color:var(--b200)}
+/* Strength bar */
+.pw-strength{margin-top:8px}
+.pw-strength-bar{display:flex;gap:4px;margin-bottom:5px}
+.pw-strength-seg{flex:1;height:3px;border-radius:2px;background:var(--bd);transition:background .3s}
+.pw-strength-seg.s1{background:#ef4444}
+.pw-strength-seg.s2{background:#f59e0b}
+.pw-strength-seg.s3{background:#3b82f6}
+.pw-strength-seg.s4{background:#22c55e}
+.pw-strength-label{font-size:.73rem;color:var(--tx3)}
+/* Terms */
+.auth-terms{display:flex;align-items:flex-start;gap:10px;margin:20px 0 24px;cursor:pointer}
+.auth-terms input[type="checkbox"]{width:18px;height:18px;border-radius:5px;accent-color:var(--b400);cursor:pointer;flex-shrink:0;margin-top:1px}
+.auth-terms-text{font-size:.83rem;color:var(--tx2);line-height:1.5}
+.auth-terms-text a{color:var(--b200);text-decoration:none;border-bottom:1px solid rgba(74,133,212,.35)}
+.auth-submit{width:100%;height:54px;background:linear-gradient(135deg,var(--g2),var(--g),var(--g1));color:#0a1628;border:none;border-radius:var(--r3);font-family:var(--f-brand);font-size:.95rem;font-weight:800;letter-spacing:-.01em;cursor:pointer;transition:all .28s var(--ease);box-shadow:0 4px 24px rgba(200,168,75,.38);display:flex;align-items:center;justify-content:center;gap:10px;position:relative;overflow:hidden}
+.auth-submit::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.2),transparent 60%);opacity:0;transition:opacity .2s}
+.auth-submit:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(200,168,75,.52)}
+.auth-submit:hover::before{opacity:1}
+.auth-submit:active{transform:scale(.98)}
+.auth-submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.auth-submit .spin{display:none;width:18px;height:18px;border:2px solid rgba(10,22,40,.3);border-top-color:#0a1628;border-radius:50%;animation:spin 1s linear infinite}
+.auth-submit.loading .btn-text{display:none}
+.auth-submit.loading .spin{display:block}
+.auth-alert{display:none;align-items:flex-start;gap:12px;padding:14px 18px;border-radius:var(--r2);font-size:.84rem;line-height:1.5;margin-bottom:22px;border:1px solid;animation:slideIn .3s var(--ease)}
+.auth-alert.show{display:flex}
+.auth-alert.error{background:rgba(239,68,68,.08);border-color:rgba(239,68,68,.25);color:#fca5a5}
+.auth-alert.success{background:rgba(34,197,94,.08);border-color:rgba(34,197,94,.25);color:#86efac}
+@keyframes slideIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.auth-footer-link{text-align:center;margin-top:28px;font-size:.87rem;color:var(--tx2)}
+.auth-footer-link a{color:var(--b200);font-weight:700;text-decoration:none;border-bottom:1px solid rgba(74,133,212,.4);transition:all .2s}
+.auth-footer-link a:hover{color:var(--b100);border-color:var(--b200)}
+@media(max-width:900px){.auth-page{grid-template-columns:1fr}.auth-brand{display:none}.auth-form-panel{min-height:100vh;padding:80px 24px 40px;align-items:flex-start}}
+@media(max-width:480px){.auth-row2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="cah-loader" role="status"><div class="ld-ring"><div class="ld-icon"><svg width="30" height="30" viewBox="0 0 48 48" fill="none"><path class="ld-path" d="M6 42L6 20L24 8L42 20L42 42ZM18 42L18 28L30 28L30 42" stroke="#4a85d4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div><div class="ld-brand">Civil At Hand</div><div class="ld-sub">Design &amp; Consultancy</div><div class="ld-bar"><div class="ld-fill"></div></div></div>
 
-<input type="email" id="email" placeholder="Enter Email"><br><br>
-<input type="password" id="password" placeholder="Enter Password"><br><br>
+<div class="auth-page">
 
-<button id="signupBtn">Sign Up</button>
+  <!-- ═══ LEFT PANEL ═══ -->
+  <aside class="auth-brand">
+    <div class="auth-brand-grid" aria-hidden="true"></div>
+    <div class="auth-brand-top">
+      <a href="index.html" class="auth-brand-logo">
+        <div class="brand-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><path d="M3 22L3 10L12 3L21 10L21 22Z"/><rect x="9" y="14" width="6" height="8"/></svg></div>
+        <div class="brand-text"><span class="brand-name">Civil <span>At Hand</span></span><span class="brand-sub">Design &amp; Consultancy</span></div>
+      </a>
+      <h2 class="auth-brand-headline">Start your civil<br>engineering journey<br><span class="grad">the right way.</span></h2>
+      <p class="auth-brand-sub">Join 50+ clients who trust Civil At Hand for house planning, structural design, BOQ estimation, and expert engineering consultancy across India.</p>
+      <div class="auth-steps">
+        <div class="auth-step"><div class="auth-step-num">01</div><div class="auth-step-body"><strong>Create Your Account</strong><span>Free sign-up in under 60 seconds. No credit card required.</span></div></div>
+        <div class="auth-step"><div class="auth-step-num">02</div><div class="auth-step-body"><strong>Share Your Requirements</strong><span>Tell us your plot size, project type, budget, and timeline.</span></div></div>
+        <div class="auth-step"><div class="auth-step-num">03</div><div class="auth-step-body"><strong>Get Expert Delivery</strong><span>Receive professional deliverables in 3–7 business days.</span></div></div>
+      </div>
+    </div>
+    <div class="auth-brand-bottom">
+      <div class="auth-brand-cta">
+        <div class="auth-brand-cta-ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+        <div class="auth-brand-cta-text"><strong>Free initial consultation</strong><span>Get a no-obligation quote within 24 hours of signing up</span></div>
+      </div>
+    </div>
+  </aside>
 
-<p id="error" style="color:red;"></p>
+  <!-- ═══ RIGHT PANEL ═══ -->
+  <main class="auth-form-panel">
+    <div class="auth-form-wrap">
+      <div class="tag" style="margin-bottom:18px;background:rgba(200,168,75,.1);border-color:rgba(200,168,75,.25);color:var(--g)"><span class="tag-dot" style="background:var(--g);box-shadow:0 0 8px var(--g)"></span>Join Civil At Hand</div>
+      <h1 class="auth-form-title">Create your<br>free account</h1>
+      <p class="auth-form-sub">Already a member? <a href="login.html">Sign in here →</a></p>
+
+      <div class="auth-alert" id="authAlert" role="alert">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink:0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span id="authAlertMsg"></span>
+      </div>
+
+      <form id="signupForm" novalidate>
+        <div class="auth-row2">
+          <div class="auth-field" id="fnField">
+            <label for="firstName">First Name</label>
+            <div class="auth-input-wrap">
+              <span class="auth-input-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+              <input type="text" id="firstName" placeholder="Rahul" autocomplete="given-name" required>
+            </div>
+            <div class="auth-field-error"><span>Required.</span></div>
+          </div>
+          <div class="auth-field" id="lnField">
+            <label for="lastName">Last Name</label>
+            <div class="auth-input-wrap">
+              <span class="auth-input-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+              <input type="text" id="lastName" placeholder="Sharma" autocomplete="family-name" required>
+            </div>
+            <div class="auth-field-error"><span>Required.</span></div>
+          </div>
+        </div>
+
+        <div class="auth-field" id="emailField">
+          <label for="email">Email Address</label>
+          <div class="auth-input-wrap">
+            <span class="auth-input-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
+            <input type="email" id="email" placeholder="you@example.com" autocomplete="email" required>
+          </div>
+          <div class="auth-field-error"><span>Please enter a valid email address.</span></div>
+        </div>
+
+        <div class="auth-field" id="pwField">
+          <label for="password">Create Password</label>
+          <div class="auth-input-wrap">
+            <span class="auth-input-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
+            <input type="password" id="password" placeholder="Min. 8 characters" autocomplete="new-password" required>
+            <button type="button" class="auth-pw-toggle" id="pwToggle" aria-label="Toggle password">
+              <svg id="eyeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <div class="pw-strength">
+            <div class="pw-strength-bar">
+              <div class="pw-strength-seg" id="seg0"></div>
+              <div class="pw-strength-seg" id="seg1"></div>
+              <div class="pw-strength-seg" id="seg2"></div>
+              <div class="pw-strength-seg" id="seg3"></div>
+            </div>
+            <div class="pw-strength-label" id="pwLabel">Enter a strong password</div>
+          </div>
+          <div class="auth-field-error"><span>Password must be at least 8 characters.</span></div>
+        </div>
+
+        <div class="auth-field" id="cpwField">
+          <label for="confirmPw">Confirm Password</label>
+          <div class="auth-input-wrap">
+            <span class="auth-input-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+            <input type="password" id="confirmPw" placeholder="Repeat password" autocomplete="new-password" required>
+          </div>
+          <div class="auth-field-error"><span>Passwords do not match.</span></div>
+        </div>
+
+        <label class="auth-terms">
+          <input type="checkbox" id="agreeTerms" required>
+          <span class="auth-terms-text">I agree to Civil At Hand's <a href="terms.html" target="_blank">Terms of Service</a> and <a href="privacy.html" target="_blank">Privacy Policy</a>. I consent to receiving project updates via email.</span>
+        </label>
+
+        <button type="submit" class="auth-submit" id="signupBtn">
+          <span class="btn-text">Create My Free Account →</span>
+          <div class="spin"></div>
+        </button>
+      </form>
+
+      <div class="auth-footer-link">Already have an account? <a href="login.html">Sign in →</a></div>
+    </div>
+  </main>
+</div>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { auth, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged } from './auth.js';
+onAuthStateChanged(auth, u => { if (u) window.location.href = 'dashboard.html'; });
+window.addEventListener('load', () => setTimeout(() => document.getElementById('cah-loader')?.classList.add('done'), 600));
 
-const firebaseConfig = {
-  apiKey: "AIzaSyB5Tnxu44OmT72EJPAKl6QtdgO7-OtP3RI",
-  authDomain: "civil-at-hand-3cc14.firebaseapp.com",
-  projectId: "civil-at-hand-3cc14",
-  appId: "1:399251861477:web:a2711a99f8a9d9c398090c"
+const pwInput = document.getElementById('password');
+const eyeIcon = document.getElementById('eyeIcon');
+document.getElementById('pwToggle').addEventListener('click', () => {
+  const shown = pwInput.type === 'text';
+  pwInput.type = shown ? 'password' : 'text';
+  eyeIcon.innerHTML = shown
+    ? '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>'
+    : '<path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+});
+
+// Password strength
+const segs = [0,1,2,3].map(i => document.getElementById('seg'+i));
+const pwLabel = document.getElementById('pwLabel');
+const levels = ['Weak','Fair','Good','Strong'];
+const lColors = ['s1','s2','s3','s4'];
+pwInput.addEventListener('input', () => {
+  const v = pwInput.value;
+  let score = 0;
+  if (v.length >= 8) score++;
+  if (/[A-Z]/.test(v)) score++;
+  if (/[0-9]/.test(v)) score++;
+  if (/[^A-Za-z0-9]/.test(v)) score++;
+  segs.forEach((s, i) => { s.className = 'pw-strength-seg' + (i < score ? ' ' + lColors[score-1] : ''); });
+  pwLabel.textContent = v ? (score === 0 ? 'Too weak' : levels[score-1]) : 'Enter a strong password';
+  pwLabel.style.color = score > 2 ? 'var(--ok)' : score > 1 ? 'var(--warn)' : 'var(--err)';
+});
+
+const alert_ = document.getElementById('authAlert');
+const alertMsg = document.getElementById('authAlertMsg');
+function showAlert(msg, type='error') { alert_.className = `auth-alert show ${type}`; alertMsg.textContent = msg; }
+function setF(id, ok) { const el = document.getElementById(id); el.classList.toggle('err', !ok); el.classList.toggle('ok', ok); }
+
+const errMap = {
+  'auth/email-already-in-use':'This email is already registered. Sign in instead.',
+  'auth/invalid-email':'Please enter a valid email address.',
+  'auth/weak-password':'Password must be at least 6 characters.',
+  'auth/operation-not-allowed':'Account creation is currently disabled.'
 };
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+document.getElementById('signupForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  alert_.className = 'auth-alert';
+  const fn = document.getElementById('firstName').value.trim();
+  const ln = document.getElementById('lastName').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const pw = pwInput.value;
+  const cpw = document.getElementById('confirmPw').value;
+  const agreed = document.getElementById('agreeTerms').checked;
 
-document.getElementById("signupBtn").onclick = async () => {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+  let ok = true;
+  setF('fnField', !!fn); if (!fn) ok = false;
+  setF('lnField', !!ln); if (!ln) ok = false;
+  setF('emailField', /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)); if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) ok = false;
+  setF('pwField', pw.length >= 8); if (pw.length < 8) ok = false;
+  setF('cpwField', pw === cpw && !!cpw); if (pw !== cpw || !cpw) ok = false;
+  if (!agreed) { showAlert('Please accept the Terms of Service to create an account.'); ok = false; }
+  if (!ok) return;
 
+  const btn = document.getElementById('signupBtn');
+  btn.classList.add('loading'); btn.disabled = true;
   try {
-    await createUserWithEmailAndPassword(auth, email, password);
-    alert("Account created successfully!");
-    window.location.href = "/login.html";
-  } catch (error) {
-    document.getElementById("error").innerText = error.message;
+    const { user } = await createUserWithEmailAndPassword(auth, email, pw);
+    await updateProfile(user, { displayName: fn + ' ' + ln });
+    showAlert('Account created! Redirecting to your dashboard…', 'success');
+    setTimeout(() => window.location.href = 'dashboard.html', 1200);
+  } catch(err) {
+    btn.classList.remove('loading'); btn.disabled = false;
+    showAlert(errMap[err.code] || 'Could not create account. Please try again.');
   }
-};
+});
 </script>
+</body>
+</html>

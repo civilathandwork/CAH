@@ -1,821 +1,377 @@
-/* ═══════════════════════════════════════════════════════════════════
-   CIVIL AT HAND  ·  Master Script  ·  v9.0  FINAL
-   ─────────────────────────────────────────────────────────────────
-   Features  : 24 — zero external dependencies — production ready
-   Phone     : +91 870-852-4647  WhatsApp: 918708524647
-   Email     : civilathand.work@gmail.com
-   Social    : @civilathand (all platforms)
-   ═══════════════════════════════════════════════════════════════════ */
 'use strict';
+/* ═══════════════════════════════════════════════
+   CIVIL AT HAND · script.js · v10.0
+   No theme toggle. Clean. Production ready.
+   ═══════════════════════════════════════════════ */
 
-/* ── Micro helpers ───────────────────────────────────────────── */
-const $   = id  => document.getElementById(id);
-const $$  = sel => document.querySelectorAll(sel);
-const on  = (el, ev, fn, opt) => el && el.addEventListener(ev, fn, opt);
-const raf = fn  => requestAnimationFrame(fn);
-const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+const $ = id => document.getElementById(id);
+const $$ = s => document.querySelectorAll(s);
+const on = (el,ev,fn,opt) => el && el.addEventListener(ev,fn,opt);
 
-/* ══════════════════════════════════════════════════════════════
-   1 · DARK / LIGHT THEME — zero-FOUC persisted
-   ══════════════════════════════════════════════════════════════ */
-const getTheme   = () => localStorage.getItem('cah-theme') || 'dark';
-const applyTheme = t  => document.documentElement.setAttribute('data-theme', t);
-applyTheme(getTheme());
-
-function toggleTheme() {
-  const next = getTheme() === 'dark' ? 'light' : 'dark';
-  applyTheme(next);
-  localStorage.setItem('cah-theme', next);
-  updateThemeIcon();
-}
-
-function updateThemeIcon() {
-  const btn = $('themeToggle');
-  if (!btn) return;
-  const dark = getTheme() === 'dark';
-  btn.innerHTML = dark
-    ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>`
-    : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`;
-  btn.title = dark ? 'Switch to Light Mode' : 'Switch to Dark Mode';
-  btn.setAttribute('aria-label', btn.title);
-}
-
-/* Inject toggle button */
-(function () {
-  const btn = document.createElement('button');
-  btn.id = 'themeToggle';
-  btn.setAttribute('aria-label', 'Toggle colour theme');
-  document.body.appendChild(btn);
-  on(btn, 'click', toggleTheme);
-  updateThemeIcon();
-})();
-
-/* ══════════════════════════════════════════════════════════════
-   2 · PAGE TRANSITION VEIL
-   ══════════════════════════════════════════════════════════════ */
-(function () {
-  const veil = document.createElement('div');
-  veil.id = 'pageVeil';
-  document.body.appendChild(veil);
-  raf(() => veil.classList.add('leaving'));
-
-  on(document, 'click', e => {
-    const a = e.target.closest('a[href]');
-    if (!a) return;
-    const href = a.getAttribute('href') || '';
-    if (!href || href.startsWith('#') || href.startsWith('tel:') ||
-        href.startsWith('mailto:') || href.startsWith('http') ||
-        href.startsWith('//') || a.target === '_blank') return;
-    e.preventDefault();
-    veil.classList.remove('leaving');
-    veil.classList.add('entering');
-    setTimeout(() => { window.location.href = href; }, 430);
+/* ── PAGE VEIL TRANSITION ── */
+(function(){
+  const v = document.createElement('div'); v.id='pageVeil'; document.body.appendChild(v);
+  requestAnimationFrame(()=>v.classList.add('leaving'));
+  on(document,'click',e=>{
+    const a=e.target.closest('a[href]'); if(!a) return;
+    const h=a.getAttribute('href')||'';
+    if(!h||h.startsWith('#')||h.startsWith('tel:')||h.startsWith('mailto:')||h.startsWith('http')||h.startsWith('//')||a.target==='_blank') return;
+    e.preventDefault(); v.classList.remove('leaving'); v.classList.add('entering');
+    setTimeout(()=>window.location.href=h,400);
   });
 })();
 
-/* ══════════════════════════════════════════════════════════════
-   3 · PAGE LOADER (home page only)
-   ══════════════════════════════════════════════════════════════ */
-on(window, 'load', () => {
-  const loader = $('cah-loader');
-  if (!loader) return;
-  setTimeout(() => {
-    loader.classList.add('done');
-    on(loader, 'transitionend', () => loader.remove(), { once: true });
-    startHeroReveal();
-    animateCounters();
-    triggerImpactCounters();
-  }, 820);
+/* ── LOADER ── */
+on(window,'load',()=>{
+  const l=$('cah-loader'); if(!l) return;
+  setTimeout(()=>{ l.classList.add('done'); startReveal(); animateCounters(); animateImpact(); },800);
 });
 
-function startHeroReveal() {
-  $$('.hero .reveal, .hero .rev-l, .hero .rev-r, .hero .rev-s, .hero .rev-bl').forEach((el, i) => {
-    setTimeout(() => el.classList.add('up'), i * 75);
+/* ── NAV SCROLL ── */
+(function(){
+  const p=document.querySelector('.nav-pill'); if(!p) return;
+  const update=()=>p.classList.toggle('scrolled',scrollY>30);
+  update(); on(window,'scroll',update,{passive:true});
+})();
+
+/* ── ACTIVE NAV LINK ── */
+(function(){
+  const page=location.pathname.split('/').pop()||'index.html';
+  $$('.nav-links a, .nav-drawer a').forEach(a=>{
+    const h=a.getAttribute('href')||'';
+    if(h===page||(page===''&&h==='index.html')) a.classList.add('active');
   });
-}
-
-/* ══════════════════════════════════════════════════════════════
-   4 · READING PROGRESS BAR
-   ══════════════════════════════════════════════════════════════ */
-(function () {
-  const bar = document.createElement('div');
-  bar.id = 'readProgress';
-  document.body.appendChild(bar);
-  let ticking = false;
-  on(window, 'scroll', () => {
-    if (!ticking) {
-      raf(() => {
-        const d = document.documentElement;
-        const p = clamp(d.scrollTop / (d.scrollHeight - d.clientHeight), 0, 1);
-        bar.style.transform = `scaleX(${p})`;
-        ticking = false;
-      });
-      ticking = true;
-    }
-  }, { passive: true });
 })();
 
-/* ══════════════════════════════════════════════════════════════
-   5 · CURSOR GLOW (desktop only)
-   ══════════════════════════════════════════════════════════════ */
-(function () {
-  if (window.matchMedia('(hover:none)').matches) return;
-  const g = document.createElement('div');
-  g.id = 'cursorGlow';
-  document.body.appendChild(g);
-  let mx = 0, my = 0, cx = 0, cy = 0;
-  on(window, 'mousemove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
-  on(document, 'mouseleave', () => { g.style.opacity = '0'; });
-  on(document, 'mouseenter', () => { g.style.opacity = '1'; });
-  (function follow() {
-    cx += (mx - cx) * 0.07;
-    cy += (my - cy) * 0.07;
-    g.style.left = cx + 'px';
-    g.style.top  = cy + 'px';
-    raf(follow);
-  })();
-})();
-
-/* ══════════════════════════════════════════════════════════════
-   6 · COOKIE BANNER
-   ══════════════════════════════════════════════════════════════ */
-(function () {
-  if (localStorage.getItem('cah-cookie')) return;
-  const b = $('cookieBanner');
-  if (!b) return;
-  setTimeout(() => b.classList.add('show'), 1800);
-  const hide = v => {
-    localStorage.setItem('cah-cookie', v);
-    b.style.transition = 'transform .4s ease, opacity .4s';
-    b.style.opacity = '0';
-    b.style.transform = 'translateX(-50%) translateY(150px)';
-    setTimeout(() => b.remove(), 450);
+/* ── HAMBURGER ── */
+(function(){
+  const burger=$('navBurger'), drawer=$('navDrawer'), close=$('drawerClose');
+  if(!burger) return;
+  const toggle=open=>{
+    burger.classList.toggle('open',open);
+    drawer.classList.toggle('open',open);
+    burger.setAttribute('aria-expanded',open);
+    drawer.setAttribute('aria-hidden',!open);
+    document.body.style.overflow=open?'hidden':'';
   };
-  on($('cookieAccept'), 'click', () => hide('accepted'));
-  on($('cookieDeny'),   'click', () => hide('declined'));
+  on(burger,'click',()=>toggle(!burger.classList.contains('open')));
+  on(close,'click',()=>toggle(false));
+  on(document,'keydown',e=>{ if(e.key==='Escape') toggle(false); });
+  on(drawer,'click',e=>{ if(e.target===drawer) toggle(false); });
 })();
 
-/* ══════════════════════════════════════════════════════════════
-   7 · BACK TO TOP
-   ══════════════════════════════════════════════════════════════ */
-(function () {
-  const btn = $('backToTop');
-  if (!btn) return;
-  on(window, 'scroll', () => { btn.classList.toggle('show', window.scrollY > 320); }, { passive: true });
-  on(btn, 'click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+/* ── READING PROGRESS ── */
+(function(){
+  const bar=document.createElement('div'); bar.id='readProgress';
+  document.body.prepend(bar);
+  on(window,'scroll',()=>{
+    const h=document.documentElement;
+    bar.style.transform=`scaleX(${scrollY/(h.scrollHeight-h.clientHeight)||0})`;
+  },{passive:true});
 })();
 
-/* ══════════════════════════════════════════════════════════════
-   8 · NAVIGATION — scroll solidify + mobile drawer + active link
-   ══════════════════════════════════════════════════════════════ */
-const navPill     = document.querySelector('.nav-pill');
-const navBurger   = document.querySelector('.nav-burger');
-const navDrawer   = document.querySelector('.nav-drawer');
-const drawerClose = document.querySelector('.drawer-close');
-
-if (navPill) {
-  let nt = false;
-  on(window, 'scroll', () => {
-    if (!nt) {
-      raf(() => { navPill.classList.toggle('solid', window.scrollY > 60); nt = false; });
-      nt = true;
-    }
-  }, { passive: true });
+/* ── REVEAL ON SCROLL ── */
+function startReveal(){
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('up'); });
+  },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+  $$('.reveal,.rev-l,.rev-r').forEach(el=>obs.observe(el));
 }
+if(document.readyState==='complete') startReveal();
+else on(window,'load',startReveal);
 
-function openDrawer() {
-  if (!navDrawer || !navBurger) return;
-  navBurger.classList.add('open');
-  navDrawer.classList.add('open');
-  navBurger.setAttribute('aria-expanded', 'true');
-  navDrawer.setAttribute('aria-hidden', 'false');
-  document.body.style.overflow = 'hidden';
-  navDrawer.querySelectorAll('a').forEach((a, i) => {
-    a.style.transitionDelay = (0.06 + i * 0.055) + 's';
-  });
-}
-function closeDrawer() {
-  if (!navDrawer || !navBurger) return;
-  navBurger.classList.remove('open');
-  navDrawer.classList.remove('open');
-  navBurger.setAttribute('aria-expanded', 'false');
-  navDrawer.setAttribute('aria-hidden', 'true');
-  document.body.style.overflow = '';
-  navDrawer.querySelectorAll('a').forEach(a => { a.style.transitionDelay = '0s'; });
-}
-
-on(navBurger,   'click', () => navDrawer?.classList.contains('open') ? closeDrawer() : openDrawer());
-on(drawerClose, 'click', closeDrawer);
-navDrawer?.querySelectorAll('a').forEach(a => on(a, 'click', closeDrawer));
-on(document, 'keydown', e => { if (e.key === 'Escape') closeDrawer(); });
-
-/* Auto-detect active link */
-(function () {
-  const page = location.pathname.split('/').pop() || 'index.html';
-  $$('.nav-links a, .nav-drawer a').forEach(a => {
-    const href = a.getAttribute('href') || '';
-    if (href === page || (!page && href === 'index.html')) a.classList.add('active');
-  });
-})();
-
-/* Footer year */
-const yr = $('yr');
-if (yr) yr.textContent = new Date().getFullYear();
-
-/* ══════════════════════════════════════════════════════════════
-   9 · SCROLL REVEAL — IntersectionObserver
-   ══════════════════════════════════════════════════════════════ */
-const revObs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) { e.target.classList.add('up'); revObs.unobserve(e.target); }
-  });
-}, { threshold: 0.07, rootMargin: '0px 0px -44px 0px' });
-
-$$('.reveal, .rev-l, .rev-r, .rev-s, .rev-bl, .reveal-left, .reveal-right').forEach(el => {
-  if (!el.closest('.hero')) revObs.observe(el);
-});
-
-/* ══════════════════════════════════════════════════════════════
-   10 · ANIMATED COUNTERS
-   ══════════════════════════════════════════════════════════════ */
-function animateCounters(scope) {
-  const root = scope || document;
-  root.querySelectorAll('[data-count]:not([data-animated])').forEach(el => {
-    el.dataset.animated = '1';
-    const target = parseFloat(el.dataset.count);
-    const suffix = el.dataset.suffix || '';
-    const dec    = el.dataset.dec ? +el.dataset.dec : 0;
-    const dur = 1700, t0 = performance.now();
-    (function tick(now) {
-      const p = Math.min((now - t0) / dur, 1);
-      el.textContent = (target * (1 - Math.pow(1 - p, 3))).toFixed(dec) + (p >= 1 ? suffix : '');
-      if (p < 1) raf(tick);
-    })(t0);
+/* ── HERO COUNTERS ── */
+function animateCounters(){
+  $$('[data-count]').forEach(el=>{
+    const target=+el.dataset.count, decimals=el.dataset.dec||0;
+    let n=0; const dur=1600, step=16;
+    const iv=setInterval(()=>{
+      n=Math.min(n+(target/(dur/step)),target);
+      el.textContent=+n.toFixed(decimals)+(el.dataset.suffix||'');
+      if(n>=target) clearInterval(iv);
+    },step);
   });
 }
 
-/* Progress bars */
-const barContainers = new Set();
-$$('.wcb-fill, .rs-fill').forEach(bar => {
-  const w = bar.getAttribute('data-w') || bar.style.width || '0';
-  bar.setAttribute('data-w', w);
-  bar.style.width = '0';
-  bar.style.transition = 'none';
-  const c = bar.closest('.why-card, .rating-strip');
-  if (c) barContainers.add(c);
-});
-const barObs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (!e.isIntersecting) return;
-    e.target.querySelectorAll('.wcb-fill, .rs-fill').forEach(bar => {
-      raf(() => { bar.style.transition = ''; bar.style.width = bar.getAttribute('data-w'); });
+/* ── IMPACT BAR COUNTERS ── */
+function animateImpact(){
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting) return;
+      e.target.querySelectorAll('[data-count]').forEach(el=>{
+        const target=+el.dataset.count;
+        let n=0; const iv=setInterval(()=>{
+          n=Math.min(n+Math.ceil(target/50),target);
+          el.textContent=n+(el.dataset.suffix||'');
+          if(n>=target) clearInterval(iv);
+        },30);
+      });
+      obs.unobserve(e.target);
     });
-    barObs.unobserve(e.target);
-  });
-}, { threshold: 0.25 });
-barContainers.forEach(c => barObs.observe(c));
-
-/* Impact bar counters */
-function triggerImpactCounters() {
-  const impact = document.querySelector('.impact-bar');
-  if (!impact) return;
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { animateCounters(impact); obs.unobserve(e.target); }
+  },{threshold:.3});
+  const bar=document.querySelector('.impact-bar');
+  if(bar) obs.observe(bar);
+  /* progress bars */
+  const bobs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting) return;
+      e.target.querySelectorAll('.wcb-fill,.rs-fill').forEach(f=>{
+        f.style.width=f.dataset.w||f.style.width;
+      });
+      bobs.unobserve(e.target);
     });
-  }, { threshold: 0.3 });
-  obs.observe(impact);
-}
-triggerImpactCounters();
-
-/* ══════════════════════════════════════════════════════════════
-   11 · HERO CANVAS — Blue animated city skyline + particles
-   ══════════════════════════════════════════════════════════════ */
-(function () {
-  const canvas = $('heroCanvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  let W, H, t = 0, af, buildings = [], particles = [];
-  const B  = n => `rgba(44,102,196,${n})`;
-  const W2 = n => `rgba(180,215,255,${n})`;
-
-  function resize() {
-    W = canvas.width  = canvas.offsetWidth;
-    H = canvas.height = canvas.offsetHeight;
-    build();
-  }
-  function build() {
-    const n = Math.ceil(W / 55) + 3;
-    buildings = Array.from({ length: n }, (_, i) => ({
-      x: ((i - 1) / (n - 2)) * W,
-      w: 30 + Math.random() * 58,
-      h: 60 + Math.random() * H * 0.45,
-      floors: 3 + Math.floor(Math.random() * 14),
-      phase:  Math.random() * Math.PI * 2,
-    }));
-    particles = Array.from({ length: 56 }, () => ({
-      x: Math.random() * W, y: Math.random() * H,
-      vx: (Math.random() - .5) * .2, vy: -.15 - Math.random() * .35,
-      r: .5 + Math.random() * 1.3, life: Math.random(), a: .06 + Math.random() * .2,
-    }));
-  }
-  function draw() {
-    ctx.clearRect(0, 0, W, H);
-    const sky = ctx.createLinearGradient(0, 0, 0, H);
-    sky.addColorStop(0, '#040e22'); sky.addColorStop(1, '#071428');
-    ctx.fillStyle = sky; ctx.fillRect(0, 0, W, H);
-    ctx.strokeStyle = B(.025); ctx.lineWidth = .5;
-    for (let x = 0; x <= W; x += 60) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
-    for (let y = 0; y <= H; y += 60) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
-
-    const ground = H * .78;
-    buildings.forEach(b => {
-      const top = ground - b.h;
-      const grd = ctx.createLinearGradient(b.x, top, b.x, ground);
-      grd.addColorStop(0, B(.055)); grd.addColorStop(1, B(0));
-      ctx.fillStyle = grd; ctx.fillRect(b.x, top, b.w, b.h);
-      ctx.strokeStyle = B(.09); ctx.lineWidth = .9;
-      ctx.strokeRect(b.x + .5, top + .5, b.w - 1, b.h - .5);
-      const fh = b.h / b.floors;
-      ctx.strokeStyle = B(.04); ctx.lineWidth = .4;
-      for (let f = 1; f < b.floors; f++) {
-        ctx.beginPath(); ctx.moveTo(b.x, top + f*fh); ctx.lineTo(b.x + b.w, top + f*fh); ctx.stroke();
-      }
-      const cols = Math.max(1, Math.floor(b.w / 13));
-      for (let c = 0; c < cols; c++) {
-        for (let r = 0; r < b.floors - 1; r++) {
-          if (Math.sin(t*.35 + b.phase + c*1.1 + r*1.8) <= .06) continue;
-          const wx = b.x + 5 + c*13, wy = top + 6 + r*fh;
-          const wg = ctx.createRadialGradient(wx+2.5, wy+2.5, 0, wx+2.5, wy+2.5, 5.5);
-          wg.addColorStop(0, W2(.35)); wg.addColorStop(1, W2(.04));
-          ctx.fillStyle = wg; ctx.fillRect(wx, wy, 5, 5);
-        }
-      }
-    });
-    ctx.strokeStyle = B(.15); ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(0, ground); ctx.lineTo(W, ground); ctx.stroke();
-    const hg = ctx.createLinearGradient(0, ground-55, 0, ground+18);
-    hg.addColorStop(0, B(.08)); hg.addColorStop(1, B(0));
-    ctx.fillStyle = hg; ctx.fillRect(0, ground-55, W, 73);
-    particles.forEach(p => {
-      p.x += p.vx; p.y += p.vy; p.life += .004;
-      if (p.y < 0 || p.life > 1) { p.x = Math.random()*W; p.y = H; p.life = 0; }
-      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-      ctx.fillStyle = B(p.a * Math.sin(p.life * Math.PI)); ctx.fill();
-    });
-    t += .01; af = raf(draw);
-  }
-
-  resize();
-  let rto;
-  on(window, 'resize', () => { clearTimeout(rto); rto = setTimeout(resize, 220); }, { passive: true });
-  draw();
-  on(document, 'visibilitychange', () => { if (document.hidden) cancelAnimationFrame(af); else draw(); });
-})();
-
-/* ══════════════════════════════════════════════════════════════
-   12 · HERO PARALLAX — mouse tracking
-   ══════════════════════════════════════════════════════════════ */
-(function () {
-  const hero = document.querySelector('.hero');
-  if (!hero || window.matchMedia('(hover:none)').matches) return;
-  on(hero, 'mousemove', e => {
-    const r = hero.getBoundingClientRect();
-    const x = (e.clientX - r.left) / r.width  - .5;
-    const y = (e.clientY - r.top)  / r.height - .5;
-    const card   = hero.querySelector('.bp-card');
-    const badges = hero.querySelectorAll('.badge-float');
-    if (card) card.style.transform = `perspective(1200px) rotateX(${-y*4}deg) rotateY(${x*4}deg) translateY(-5px)`;
-    badges.forEach((b, i) => { b.style.transform = `translate(${x*(8+i*4)}px,${y*(6+i*3)}px)`; });
-  });
-  on(hero, 'mouseleave', () => {
-    const card = hero.querySelector('.bp-card');
-    if (card) { card.style.transition = 'transform .5s ease'; card.style.transform = ''; setTimeout(() => { card.style.transition = ''; }, 500); }
-    hero.querySelectorAll('.badge-float').forEach(b => { b.style.transform = ''; });
-  });
-})();
-
-/* ══════════════════════════════════════════════════════════════
-   13 · 3D CARD TILT — desktop only
-   ══════════════════════════════════════════════════════════════ */
-(function () {
-  if (window.matchMedia('(hover:none)').matches) return;
-  $$('.bp-card, .svc-card, .why-card, .testi, .tool-card, .fl-card, .guide-card, .pf-card').forEach(card => {
-    on(card, 'mousemove', e => {
-      const r = card.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width  - .5;
-      const y = (e.clientY - r.top)  / r.height - .5;
-      card.style.transform = `perspective(900px) rotateX(${-y*5}deg) rotateY(${x*5}deg) translateY(-4px)`;
-    });
-    on(card, 'mouseleave', () => {
-      card.style.transition = 'transform .45s ease';
-      card.style.transform = '';
-      setTimeout(() => { card.style.transition = ''; }, 450);
-    });
-  });
-})();
-
-/* ══════════════════════════════════════════════════════════════
-   14 · MAGNETIC BUTTONS — desktop only
-   ══════════════════════════════════════════════════════════════ */
-(function () {
-  if (window.matchMedia('(hover:none)').matches) return;
-  $$('.btn-primary, .btn-gold, .btn-wa, .btn-outline').forEach(btn => {
-    on(btn, 'mousemove', e => {
-      const r = btn.getBoundingClientRect();
-      const x = e.clientX - r.left - r.width  / 2;
-      const y = e.clientY - r.top  - r.height / 2;
-      btn.style.transform = `translate(${x*.15}px,${y*.15}px)`;
-    });
-    on(btn, 'mouseleave', () => { btn.style.transform = ''; });
-  });
-})();
-
-/* ══════════════════════════════════════════════════════════════
-   15 · FAQ ACCORDION
-   ══════════════════════════════════════════════════════════════ */
-$$('.faq-q').forEach(btn => {
-  on(btn, 'click', () => {
-    const item = btn.closest('.faq-item');
-    const ans  = item.querySelector('.faq-a');
-    const open = item.classList.contains('open');
-    $$('.faq-item.open').forEach(i => {
-      i.classList.remove('open');
-      i.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
-      i.querySelector('.faq-a').style.height = '0';
-    });
-    if (!open) {
-      item.classList.add('open');
-      btn.setAttribute('aria-expanded', 'true');
-      ans.style.height = ans.scrollHeight + 'px';
-    }
-  });
-});
-
-/* ══════════════════════════════════════════════════════════════
-   16 · EXPAND / COLLAPSE — student guidance
-   ══════════════════════════════════════════════════════════════ */
-$$('.expand-btn').forEach(btn => {
-  on(btn, 'click', () => {
-    const wrap = btn.nextElementSibling;
-    const open = btn.classList.contains('open');
-    if (open) {
-      wrap.style.height = '0';
-      btn.classList.remove('open');
-      const lbl = btn.querySelector('.expand-lbl');
-      if (lbl) lbl.textContent = 'Read More';
-    } else {
-      wrap.style.height = wrap.scrollHeight + 'px';
-      btn.classList.add('open');
-      const lbl = btn.querySelector('.expand-lbl');
-      if (lbl) lbl.textContent = 'Show Less';
-    }
-  });
-});
-
-/* ══════════════════════════════════════════════════════════════
-   17 · PORTFOLIO FILTER
-   ══════════════════════════════════════════════════════════════ */
-$$('.pf-btn, .filter-btn').forEach(btn => {
-  on(btn, 'click', () => {
-    $$('.pf-btn, .filter-btn').forEach(b => b.classList.remove('on', 'active'));
-    btn.classList.add('on', 'active');
-    const f = btn.dataset.filter || btn.dataset.category || 'all';
-    $$('.pf-card, .blog-card[data-category]').forEach(card => {
-      const cat   = card.dataset.cat || card.dataset.category || '';
-      const match = f === 'all' || cat === f;
-      card.style.transition = 'all .38s ease';
-      card.style.opacity    = match ? '1' : '.15';
-      card.style.transform  = match ? '' : 'scale(.96)';
-      card.style.pointerEvents = match ? 'all' : 'none';
-    });
-  });
-});
-
-/* ══════════════════════════════════════════════════════════════
-   18 · CONTACT FORM — real-time validation + async submit
-   ══════════════════════════════════════════════════════════════ */
-const contactForm = $('contactForm');
-if (contactForm) {
-  contactForm.querySelectorAll('.fc').forEach(f => {
-    on(f, 'blur',  () => validateField(f));
-    on(f, 'input', () => { if (f.classList.contains('invalid')) validateField(f); });
-  });
-
-  function validateField(field) {
-    const val  = field.value.trim();
-    const name = field.name || field.id || '';
-    let err = '';
-    if (field.required && !val)
-      err = 'This field is required.';
-    else if ((name === 'phone' || field.type === 'tel') && val &&
-             !/^[\d\s+\-()\u0900-\u097F]{7,15}$/.test(val))
-      err = 'Enter a valid phone number.';
-    else if (field.type === 'email' && val &&
-             !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val))
-      err = 'Enter a valid email address.';
-
-    let hint = field.nextElementSibling;
-    if (!hint || !hint.classList.contains('field-hint')) {
-      hint = document.createElement('span');
-      hint.className = 'field-hint';
-      field.parentNode.insertBefore(hint, field.nextSibling);
-    }
-    hint.textContent = err;
-    field.classList.toggle('invalid', !!err);
-    field.style.borderColor = err ? 'var(--err)' : '';
-    return !err;
-  }
-
-  on(contactForm, 'submit', async e => {
-    e.preventDefault();
-    let ok = true;
-    contactForm.querySelectorAll('.fc[required]').forEach(f => { if (!validateField(f)) ok = false; });
-    if (!ok) { showToast('Please fix the errors highlighted above.', 4000, true); return; }
-
-    const submitBtn = contactForm.querySelector('[type=submit]');
-    const orig = submitBtn.innerHTML;
-    submitBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:_spin .8s linear infinite"><path d="M21 12a9 9 0 11-6.22-8.56"/></svg> Sending…`;
-    submitBtn.disabled = true;
-
-    /* ── Replace with Formspree / EmailJS / Netlify Forms in production ── */
-    await new Promise(r => setTimeout(r, 1500));
-
-    contactForm.reset();
-    contactForm.querySelectorAll('.fc').forEach(f => { f.style.borderColor = ''; f.classList.remove('invalid'); });
-    contactForm.querySelectorAll('.field-hint').forEach(h => h.remove());
-    submitBtn.innerHTML = orig;
-    submitBtn.disabled  = false;
-
-    const ok2 = $('formOk') || $('formSuccess');
-    if (ok2) { ok2.classList.add('show'); setTimeout(() => ok2.classList.remove('show'), 7000); }
-    else showToast('✓ Message sent! We\'ll reply within 24 hours.');
-  });
+  },{threshold:.2});
+  $$('.why-card,.rating-strip').forEach(el=>bobs.observe(el));
 }
 
-/* ══════════════════════════════════════════════════════════════
-   19 · TOAST NOTIFICATION
-   ══════════════════════════════════════════════════════════════ */
-function showToast(msg, ms = 4200, isError = false) {
+/* ── FAQ ACCORDION ── */
+(function(){
+  $$('.faq-q').forEach(btn=>{
+    on(btn,'click',()=>{
+      const open=btn.getAttribute('aria-expanded')==='true';
+      $$('.faq-q').forEach(b=>{ b.setAttribute('aria-expanded','false'); b.nextElementSibling?.classList.remove('open'); });
+      if(!open){ btn.setAttribute('aria-expanded','true'); btn.nextElementSibling?.classList.add('open'); }
+    });
+  });
+})();
+
+/* ── BACK TO TOP ── */
+(function(){
+  const btn=$('backToTop'); if(!btn) return;
+  on(window,'scroll',()=>btn.classList.toggle('show',scrollY>500),{passive:true});
+  on(btn,'click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+})();
+
+/* ── COOKIE BANNER ── */
+(function(){
+  const banner=$('cookieBanner'); if(!banner) return;
+  if(localStorage.getItem('cah-cookie')) return;
+  setTimeout(()=>banner.classList.add('show'),1400);
+  on($('cookieAccept'),'click',()=>{ localStorage.setItem('cah-cookie','1'); banner.classList.remove('show'); });
+  on($('cookieDeny'),'click',()=>banner.classList.remove('show'));
+})();
+
+/* ── TOAST ── */
+function showToast(msg,ms=4000,isError=false){
   $('toast')?.remove();
-  const el = document.createElement('div');
-  el.id = 'toast';
-  el.textContent = msg;
-  if (isError) el.style.borderColor = 'var(--err)';
+  const el=document.createElement('div'); el.id='toast'; el.textContent=msg;
+  if(isError) el.style.borderColor='var(--err)';
   document.body.appendChild(el);
-  raf(() => { el.style.transform = 'translateY(0)'; el.style.opacity = '1'; });
-  setTimeout(() => {
-    el.style.transform = 'translateY(20px)';
-    el.style.opacity = '0';
-    setTimeout(() => el.remove(), 430);
-  }, ms);
+  requestAnimationFrame(()=>{ el.style.transform='translateX(-50%) translateY(0)'; el.style.opacity='1'; });
+  setTimeout(()=>{ el.style.opacity='0'; setTimeout(()=>el.remove(),400); },ms);
 }
 
-/* ══════════════════════════════════════════════════════════════
-   20 · SMOOTH ANCHOR SCROLL
-   ══════════════════════════════════════════════════════════════ */
-$$('a[href^="#"]').forEach(a => {
-  on(a, 'click', e => {
-    const id  = a.getAttribute('href').slice(1);
-    const tgt = $(id);
-    if (!tgt) return;
+/* ── CONTACT FORM (real FormSubmit.co integration) ── */
+(function(){
+  const form=$('contactForm'); if(!form) return;
+  /* Live validation */
+  form.querySelectorAll('.fc').forEach(f=>{
+    on(f,'blur',()=>validateField(f));
+    on(f,'input',()=>{ if(f.classList.contains('invalid')) validateField(f); });
+  });
+  function validateField(f){
+    const v=f.value.trim(); let err='';
+    if(f.required && !v) err='This field is required.';
+    else if(f.type==='email'&&v&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) err='Enter a valid email.';
+    else if(f.type==='tel'&&v&&v.replace(/\D/g,'').length<10) err='Enter a valid phone number.';
+    showFieldError(f,err); return !err;
+  }
+  function showFieldError(f,msg){
+    f.classList.toggle('invalid',!!msg);
+    const old=f.parentNode.querySelector('.field-hint'); old?.remove();
+    if(msg){ const h=document.createElement('div'); h.className='field-hint'; h.textContent=msg; f.parentNode.appendChild(h); }
+  }
+  on(form,'submit',async e=>{
     e.preventDefault();
-    window.scrollTo({ top: tgt.getBoundingClientRect().top + scrollY - 90, behavior: 'smooth' });
+    let ok=true;
+    form.querySelectorAll('.fc[required]').forEach(f=>{ if(!validateField(f)) ok=false; });
+    if(!ok){ showToast('Please fix the errors above.',4000,true); return; }
+
+    const btn=form.querySelector('[type=submit]'), orig=btn.innerHTML;
+    btn.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 1s linear infinite"><path d="M21 12a9 9 0 11-2.33-6"/></svg> Sending…';
+    btn.disabled=true;
+
+    try {
+      /* FormSubmit.co — replace YOUR_EMAIL below with your actual email or keep as-is */
+      const data=new FormData(form);
+      data.append('_captcha','false');
+      data.append('_template','table');
+      data.append('_subject','New enquiry from Civil At Hand website');
+      const res=await fetch('https://formsubmit.co/civilathand.work@gmail.com',{method:'POST',body:data,headers:{Accept:'application/json'}});
+      if(res.ok){
+        form.reset(); form.querySelectorAll('.fc').forEach(f=>f.classList.remove('invalid'));
+        form.querySelectorAll('.field-hint').forEach(h=>h.remove());
+        const ok2=$('formOk'); if(ok2){ ok2.classList.add('show'); setTimeout(()=>ok2.classList.remove('show'),7000); }
+        else showToast('✓ Message sent! We'll reply within 24 hours.');
+      } else { throw new Error('Server error'); }
+    } catch(_){
+      showToast('Could not send. Please WhatsApp us directly.',5000,true);
+    } finally { btn.innerHTML=orig; btn.disabled=false; }
   });
-});
+})();
 
-/* ══════════════════════════════════════════════════════════════
-   21 · SHARE BUTTONS
-   ══════════════════════════════════════════════════════════════ */
-$$('[data-share]').forEach(btn => {
-  on(btn, 'click', () => {
-    const t   = btn.dataset.share;
-    const url = encodeURIComponent(location.href);
-    const txt = encodeURIComponent('Check out Civil At Hand – Premium Civil Engineering Services India!');
-    if (t === 'wa')   window.open('https://wa.me/?text=' + txt + '%20' + url, '_blank');
-    if (t === 'fb')   window.open('https://www.facebook.com/sharer/sharer.php?u=' + url, '_blank');
-    if (t === 'copy') {
-      navigator.clipboard.writeText(location.href).then(() => {
-        const o = btn.innerHTML;
-        btn.innerHTML = '✓ Copied!';
-        btn.style.color = 'var(--b200)';
-        setTimeout(() => { btn.innerHTML = o; btn.style.color = ''; }, 2000);
-      });
-    }
+/* ── FREELANCER FORM ── */
+(function(){
+  const form=$('freelancerForm'); if(!form) return;
+  on(form,'submit',async e=>{
+    e.preventDefault();
+    const btn=form.querySelector('[type=submit]'), orig=btn.innerHTML;
+    btn.innerHTML='Sending…'; btn.disabled=true;
+    try {
+      const data=new FormData(form);
+      data.append('_subject','New Freelancer Application – Civil At Hand');
+      data.append('_captcha','false');
+      await fetch('https://formsubmit.co/civilathand.work@gmail.com',{method:'POST',body:data,headers:{Accept:'application/json'}});
+      form.reset();
+      showToast('✓ Application sent! We'll review and contact you within 3 business days.');
+    } catch(_){ showToast('Error. Please email us directly.',5000,true); }
+    finally { btn.innerHTML=orig; btn.disabled=false; }
   });
-});
+})();
 
-/* Inject _spin keyframe for form spinner */
-const _ks = document.createElement('style');
-_ks.textContent = '@keyframes _spin{to{transform:rotate(360deg)}}';
-document.head.appendChild(_ks);
-
-/* ══════════════════════════════════════════════════════════════
-   22 · SOCIAL BANNER — hover tooltips + analytics ping
-   ══════════════════════════════════════════════════════════════ */
-(function () {
-  const banner = document.querySelector('.social-banner');
-  if (!banner) return;
-  banner.querySelectorAll('.social-link').forEach(link => {
-    on(link, 'mouseenter', () => {
-      const tip = link.querySelector('.social-tip');
-      if (tip) tip.style.opacity = '1';
-    });
-    on(link, 'mouseleave', () => {
-      const tip = link.querySelector('.social-tip');
-      if (tip) tip.style.opacity = '0';
+/* ── BLOG FILTER ── */
+(function(){
+  const btns=$$('.blog-filter-btn'), cards=$$('.blog-card');
+  if(!btns.length) return;
+  btns.forEach(btn=>{
+    on(btn,'click',()=>{
+      btns.forEach(b=>b.classList.remove('active')); btn.classList.add('active');
+      const cat=btn.dataset.cat;
+      cards.forEach(c=>{ c.style.display=(cat==='all'||c.dataset.cat===cat)?'':'none'; });
     });
   });
 })();
 
-/* ══════════════════════════════════════════════════════════════
-   23 · ALL 8 LIVE CALCULATORS
-   ══════════════════════════════════════════════════════════════ */
-const fmtINR = n => {
-  n = Math.round(n);
-  if (n >= 1e7) return (n / 1e7).toFixed(1) + ' Cr';
-  if (n >= 1e5) return (n / 1e5).toFixed(1) + ' L';
-  return n.toLocaleString('en-IN');
+/* ── PORTFOLIO FILTER ── */
+(function(){
+  const btns=$$('.pf-btn'), items=$$('.pf-item');
+  if(!btns.length) return;
+  btns.forEach(btn=>{
+    on(btn,'click',()=>{
+      btns.forEach(b=>b.classList.remove('active')); btn.classList.add('active');
+      const cat=btn.dataset.cat;
+      items.forEach(it=>{ it.style.display=(cat==='all'||it.dataset.cat===cat)?'':'none'; });
+    });
+  });
+})();
+
+/* ── TOOLS CALCULATORS ── */
+(function(){
+  /* Cement Calculator */
+  const cBtn=$('calcCementBtn');
+  if(cBtn) on(cBtn,'click',()=>{
+    const area=+$('cArea').value, floors=+$('cFloors').value||1, mix=+$('cMix').value||1;
+    if(!area){ showToast('Enter built-up area.',3000,true); return; }
+    const vol=area*floors*0.3*mix; /* simplified estimate */
+    const bags=Math.ceil(vol*6.25);
+    $('cResult').innerHTML=`<strong>Estimated Cement:</strong> ~${bags} bags (50kg each) for ${area*floors} sq ft`;
+    $('cResult').style.display='block';
+  });
+
+  /* Steel Calculator */
+  const sBtn=$('calcSteelBtn');
+  if(sBtn) on(sBtn,'click',()=>{
+    const area=+$('sArea').value, floors=+$('sFloors').value||1;
+    if(!area){ showToast('Enter built-up area.',3000,true); return; }
+    const kg=Math.ceil(area*floors*3.5);
+    $('sResult').innerHTML=`<strong>Estimated Steel:</strong> ~${kg} kg (${(kg/1000).toFixed(2)} MT) for ${area*floors} sq ft`;
+    $('sResult').style.display='block';
+  });
+
+  /* BOQ Estimator */
+  const bBtn=$('calcBoqBtn');
+  if(bBtn) on(bBtn,'click',()=>{
+    const area=+$('bArea').value, qual=+$('bQual').value||3000;
+    if(!area){ showToast('Enter built-up area.',3000,true); return; }
+    const low=Math.round(area*qual*0.9), high=Math.round(area*qual*1.1);
+    $('bResult').innerHTML=`<strong>Estimated Construction Cost:</strong> ₹${low.toLocaleString('en-IN')} – ₹${high.toLocaleString('en-IN')}<br><small>This is a rough estimate. Get a proper BOQ from Civil At Hand for accuracy.</small>`;
+    $('bResult').style.display='block';
+  });
+})();
+
+/* ── RENDER FUNCTIONS (used by pages that load data) ── */
+window.renderServices=function(containerId){
+  const el=$(containerId); if(!el||!window.SITE) return;
+  el.innerHTML=window.SITE.services.map(s=>`
+    <div class="svc-card reveal">
+      <div class="svc-ico">${s.icon}</div>
+      <h3>${s.name}</h3>
+      <p>${s.shortDesc}</p>
+      <div class="svc-price">${s.price} · ${s.delivery}</div>
+      <a href="${s.link}" class="svc-link">Learn more <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>`).join('');
+  startReveal();
 };
-const gv  = id => parseFloat($(id)?.value) || 0;
-const gel = id => $(id);
 
-/* 1 — Construction Cost */
-gel('costCalcForm')?.addEventListener('input', () => {
-  const a = gv('costArea'), t = gel('costType')?.value, f = +gel('costFloor')?.value || 1;
-  const rt = { basic:1700, standard:2200, premium:3000, luxury:4200 };
-  const r = rt[t] || 2200, tot = a * r * f;
-  const res = gel('costResult');
-  if (!res) return;
-  if (a > 0)
-    res.innerHTML = `<div class="r-label">Estimated Range</div><div class="r-val">₹${fmtINR(tot*.92)} – ₹${fmtINR(tot*1.1)}</div><div class="r-unit">${a} sq.ft × ${f} floor(s) · ${t} finish @ ₹${r}/sq.ft</div>`;
-  else res.innerHTML = '<div class="r-label" style="opacity:.4">Enter area above to calculate</div>';
-});
+window.renderTestimonials=function(containerId){
+  const el=$(containerId); if(!el||!window.SITE) return;
+  el.innerHTML=window.SITE.testimonials.map(t=>`
+    <div class="testi reveal">
+      <div class="testi-stars">${'★'.repeat(t.rating)}</div>
+      <blockquote>"${t.text}"</blockquote>
+      <div class="testi-who"><div class="testi-av">${t.initial}</div><div><strong>${t.name}</strong><span>${t.location}</span></div></div>
+    </div>`).join('');
+  startReveal();
+};
 
-/* 2 — Material Estimator */
-gel('matEstForm')?.addEventListener('input', () => {
-  const a = gv('matArea'), fl = +gel('matFloors')?.value || 1;
-  const res = gel('matResult');
-  if (!a || !res) return;
-  const tot = a * fl;
-  const row = (e, l, v, u) =>
-    `<div style="background:rgba(44,102,196,.07);border-radius:10px;padding:12px;border:1px solid rgba(44,102,196,.14)">
-      <div style="font-size:10px;text-transform:uppercase;color:var(--tx3);margin-bottom:4px;font-family:var(--f-brand);font-weight:700;letter-spacing:1px">${e} ${l}</div>
-      <div style="font-weight:800;color:var(--b100);font-size:1rem;font-family:var(--f-brand)">${v} <span style="font-size:.75rem;color:var(--tx3)">${u}</span></div>
-    </div>`;
-  res.innerHTML = `<div class="r-label">Approx. Materials — ${tot} sq.ft</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px">
-      ${row('🧱','Cement',  Math.round((tot/100)*42),  'bags')}
-      ${row('🪨','Sand',    Math.round((tot/100)*125), 'cft')}
-      ${row('🔩','Aggregate',Math.round((tot/100)*155),'cft')}
-      ${row('⚙️','Steel TMT',Math.round((tot/100)*520),'kg')}
-      ${row('🔶','Bricks',  Math.round((tot/100)*1050),'nos')}
-      ${row('💧','Water',   Math.round((tot/100)*900), 'litres')}
-    </div>
-    <div class="r-unit" style="margin-top:12px">Indicative only — contact us for exact BOQ</div>`;
-});
+window.renderBlogCards=function(containerId,limit=6){
+  const el=$(containerId); if(!el||!window.BLOG) return;
+  el.innerHTML=window.BLOG.posts.slice(0,limit).map(p=>`
+    <div class="blog-card reveal" data-cat="${p.category}">
+      <div class="blog-card-ico">${p.icon}</div>
+      <div class="blog-card-body">
+        <div class="blog-meta"><span class="blog-cat">${p.category}</span><span>${p.date}</span><span>${p.readTime}</span></div>
+        <h3>${p.title}</h3>
+        <p>${p.excerpt}</p>
+        <a href="blog-post.html?id=${p.id}" class="svc-link">Read article <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </div>`).join('');
+  startReveal();
+};
 
-/* 3 — Area Calculator */
-(function () {
-  const aF = gel('areaCalcForm');
-  if (!aF) return;
-  const ss = gel('areaShape'), fl = gel('areaFields'), ar = gel('areaCalcResult');
-  const cfg = {
-    rectangle:[['aLen','Length (ft)'],['aWid','Width (ft)']],
-    circle:   [['aRad','Radius (ft)']],
-    triangle: [['aTB','Base (ft)'],['aTH','Height (ft)']],
-    trapezoid:[['aTa','Side A (ft)'],['aTb','Side B (ft)'],['aTH','Height (ft)']],
-    lshape:   [['aLa','Total Length'],['aLb','Total Width'],['aLc','Cutout L'],['aLd','Cutout W']],
-  };
-  function bld(sh) {
-    if (!fl) return;
-    fl.innerHTML = (cfg[sh] || []).map(([id, lbl]) =>
-      `<div class="fg"><label>${lbl}</label><input type="number" id="${id}" class="fc" placeholder="0" min="0" step=".01"/></div>`
-    ).join('');
-    fl.querySelectorAll('input').forEach(i => i.addEventListener('input', calc));
-  }
-  function calc() {
-    const sh = ss?.value; let sqft = 0;
-    const v = id => parseFloat($(id)?.value) || 0;
-    if      (sh === 'rectangle') sqft = v('aLen') * v('aWid');
-    else if (sh === 'circle')    sqft = Math.PI * v('aRad') ** 2;
-    else if (sh === 'triangle')  sqft = .5 * v('aTB') * v('aTH');
-    else if (sh === 'trapezoid') sqft = .5 * (v('aTa') + v('aTb')) * v('aTH');
-    else if (sh === 'lshape')    sqft = v('aLa') * v('aLb') - v('aLc') * v('aLd');
-    if (sqft > 0 && ar)
-      ar.innerHTML = `<div class="r-label">Calculated Area</div>
-        <div class="r-val">${sqft.toFixed(2)}</div>
-        <div class="r-unit">sq.ft · ${(sqft * .0929).toFixed(2)} sq.m · ${(sqft / 9).toFixed(3)} sq.gaj</div>`;
-  }
-  if (ss) {
-    ss.addEventListener('change', () => { bld(ss.value); if (ar) ar.innerHTML = ''; });
-    bld(ss.value);
-  }
-})();
-
-/* 4 — Unit Converter */
-function convertUnit() {
-  const v = parseFloat(gel('ucVal')?.value) || 0;
-  const t = gel('ucType')?.value;
-  const o = gel('ucOut');
-  if (!o || !v) return;
-  const m = {
-    sqft_sqm:[v*.0929,'sq.m'], sqm_sqft:[v*10.7639,'sq.ft'], sqyd_sqft:[v*9,'sq.ft'],
-    sqft_sqyd:[v/9,'sq.yd'], acre_sqft:[v*43560,'sq.ft'], gaj_sqft:[v*9,'sq.ft'],
-    sqft_gaj:[v/9,'Gaj'], ft_m:[v*.3048,'m'], m_ft:[v*3.28084,'ft'],
-    inch_cm:[v*2.54,'cm'], cm_inch:[v*.3937,'inch'], cft_cum:[v*.02832,'m³'],
-    cum_cft:[v*35.3147,'cft'], kg_lb:[v*2.20462,'lb'], lb_kg:[v*.45359,'kg'],
-    ton_kg:[v*1000,'kg'], kg_ton:[v/1000,'MT'],
-  };
-  if (m[t]) {
-    const [r, u] = m[t];
-    o.innerHTML = `<div class="r-label">Result</div><div class="r-val">${r.toFixed(4)}</div><div class="r-unit">${u}</div>`;
-  }
-}
-gel('ucVal')?.addEventListener('input',  convertUnit);
-gel('ucType')?.addEventListener('change', convertUnit);
-
-/* 5 — Concrete Mix */
-function calcConcrete() {
-  const vol = gv('concreteVol'), grade = gel('concreteGrade')?.value, res = gel('concreteResult');
-  if (!vol || !res) return;
-  const dry = vol * 1.54;
-  const mx = {
-    M10:{c:1/10,s:3/10,a:6/10,n:'1:3:6',wc:.6},
-    M15:{c:1/7, s:2/7, a:4/7, n:'1:2:4',wc:.55},
-    M20:{c:1/5.5,s:1.5/5.5,a:3/5.5,n:'1:1.5:3',wc:.5},
-    M25:{c:1/4, s:1/4, a:2/4, n:'1:1:2',wc:.45},
-    M30:{c:1/3.5,s:1/3.5,a:1.5/3.5,n:'1:1:1.5',wc:.4},
-  };
-  const m = mx[grade]; if (!m) return;
-  const cem  = ((dry*m.c)/.0347).toFixed(1);
-  const sand = (dry*m.s).toFixed(3);
-  const agg  = (dry*m.a).toFixed(3);
-  const wat  = (parseFloat(cem)*50*m.wc).toFixed(0);
-  const box = (l, v, u) =>
-    `<div style="background:rgba(44,102,196,.08);border:1px solid rgba(44,102,196,.18);border-radius:10px;padding:14px;text-align:center">
-      <div style="font-size:9px;color:var(--tx3);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;font-family:var(--f-brand);font-weight:700">${l}</div>
-      <div style="font-weight:800;color:var(--b100);font-size:1.2rem;font-family:var(--f-brand)">${v}</div>
-      <div style="font-size:10px;color:var(--tx3);margin-top:2px">${u}</div>
-    </div>`;
-  res.innerHTML = `<div class="r-label">${grade} Mix — Ratio ${m.n}</div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px">
-      ${box('Cement',cem,'bags (50kg)')}${box('Sand',sand,'m³')}
-      ${box('Aggregate',agg,'m³')}${box('Water',wat,'litres')}
-    </div>
-    <div class="r-unit" style="margin-top:12px">IS:10262 based. For ${vol} m³ dry volume.</div>`;
-}
-
-/* 6 — Paint */
-function calcPaint() {
-  const a = gv('paintArea'), c = +gel('paintCoats')?.value || 2;
-  const pt = gel('paintType')?.value, res = gel('paintResult');
-  if (!a || !res) return;
-  const cov = { interior:200, exterior:150, primer:100, enamel:120 }[pt] || 200;
-  const l = (a * c) / cov;
-  res.innerHTML = `<div class="r-label">Paint Required</div>
-    <div class="r-val">${l.toFixed(2)} L</div>
-    <div class="r-unit">≈ ${Math.ceil(l/4)} × 4L cans · ${Math.ceil(l/20)} × 20L drums<br>
-    Coverage: ${cov} sq.ft/L per coat</div>`;
-}
-
-/* 7 — Tiles */
-function calcTile() {
-  const l = gv('tileLen'), w = gv('tileWid'), sz = parseFloat(gel('tileSize')?.value) || 600;
-  const ws = parseFloat(gel('tileWaste')?.value) || 5, res = gel('tileResult');
-  if (!l || !w || !res) return;
-  const room = l * w, ts = (sz / 304.8) ** 2, n = Math.ceil((room/ts) * (1 + ws/100));
-  const pb = sz===600?4 : sz===800?2 : sz===300?9 : 4;
-  res.innerHTML = `<div class="r-label">Tiles Required</div>
-    <div class="r-val">${n}</div>
-    <div class="r-unit">tiles · ≈ ${Math.ceil(n/pb)} boxes · Room: ${room.toFixed(1)} sq.ft<br>Includes ${ws}% wastage</div>`;
-}
-
-/* 8 — Steel Weight */
-function calcSteel() {
-  const d = gv('steelDia'), l = gv('steelLen'), q = gv('steelQty') || 1, res = gel('steelResult');
-  if (!d || !l || !res) return;
-  const wpm = (d*d) / 162, tot = wpm * l * q;
-  res.innerHTML = `<div class="r-label">TMT Steel Weight</div>
-    <div class="r-val">${tot.toFixed(2)} kg</div>
-    <div class="r-unit">${wpm.toFixed(3)} kg/m per bar · ${q} bar(s) × ${l} m<br>Formula: D²÷162 (IS standard)</div>`;
-}
-
-/* ══════════════════════════════════════════════════════════════
-   24 · BLOG FILTER (blog page)
-   ══════════════════════════════════════════════════════════════ */
-$$('.filter-btn').forEach(btn => {
-  on(btn, 'click', () => {
-    $$('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const f = btn.dataset.filter || 'all';
-    $$('#blogGrid .blog-card, #blogGrid article').forEach(card => {
-      const cat   = card.dataset.category || card.dataset.cat || '';
-      const match = f === 'all' || cat === f;
-      card.style.transition = 'all .38s ease';
-      card.style.opacity    = match ? '1' : '.15';
-      card.style.transform  = match ? '' : 'scale(.96)';
-      card.style.pointerEvents = match ? 'all' : 'none';
+window.renderFAQs=function(containerId){
+  const el=$(containerId); if(!el||!window.SITE) return;
+  el.innerHTML=window.SITE.faqs.map((f,i)=>`
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="${i===0}" aria-controls="fa${i}">${f.q}<span class="faq-ico">+</span></button>
+      <div class="faq-a ${i===0?'open':''}" id="fa${i}" role="region"><div class="faq-ai">${f.a}</div></div>
+    </div>`).join('');
+  /* re-wire accordion */
+  el.querySelectorAll('.faq-q').forEach(btn=>{
+    on(btn,'click',()=>{
+      const open=btn.getAttribute('aria-expanded')==='true';
+      el.querySelectorAll('.faq-q').forEach(b=>{ b.setAttribute('aria-expanded','false'); b.nextElementSibling?.classList.remove('open'); });
+      if(!open){ btn.setAttribute('aria-expanded','true'); btn.nextElementSibling?.classList.add('open'); }
     });
   });
-});
+};
+
+/* ── BLOG POST PAGE ── */
+(function(){
+  const article=$('blogArticle'); if(!article||!window.BLOG) return;
+  const params=new URLSearchParams(location.search);
+  const id=params.get('id');
+  const post=window.BLOG.posts.find(p=>p.id===id||p.slug===id);
+  if(!post){ article.innerHTML='<p style="color:var(--tx3)">Post not found. <a href="blog.html" style="color:var(--b200)">Back to blog →</a></p>'; return; }
+  document.title=post.title+' – Civil At Hand';
+  const meta=document.querySelector('meta[name="description"]'); if(meta) meta.content=post.excerpt;
+  article.innerHTML=`
+    <div class="breadcrumb"><a href="index.html">Home</a><span>›</span><a href="blog.html">Blog</a><span>›</span><span class="current">${post.title}</span></div>
+    <div class="post-meta-row"><span class="blog-cat">${post.category}</span><span>${post.date}</span><span>${post.readTime}</span></div>
+    <h1 class="post-title">${post.title}</h1>
+    <div class="post-content">${post.content}</div>
+    <div class="post-cta-box">
+      <p>Have questions about your project? <strong>Civil At Hand</strong> provides free initial consultation.</p>
+      <a href="contact.html" class="btn btn-primary">Get Free Quote →</a>
+      <a href="https://wa.me/${window.SITE?.business?.phoneRaw||'918708524647'}" target="_blank" class="btn btn-wa">WhatsApp Us</a>
+    </div>
+    <a href="blog.html" class="btn btn-outline" style="margin-top:28px">← Back to Blog</a>`;
+})();
+
+/* ── NAV-AUTH injection (also in nav-auth.js for module pages) ── */
+(function(){
+  /* lightweight inline auth check using Firebase CDN — for pages using regular script tags */
+  /* The full auth injection is in nav-auth.js for module pages (login, signup, dashboard) */
+})();
+
+console.log('%cCivil At Hand · civilathand.com','color:#6aa0e0;font-size:12px;font-weight:700');

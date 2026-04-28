@@ -231,20 +231,106 @@
         <a href="services.html#boq-estimation">BOQ Estimation</a><a href="services.html#pdf-autocad">PDF to AutoCAD</a>
         <a href="student-guidance.html">Student Guidance</a><a href="contact.html">Get a Quote</a>
       </nav>
-      <address class="ft-col" aria-label="Contact"><h4>Contact Us</h4>
-        <div class="ft-contact-row"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.02 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg><a href="tel:+918708524647">+91 870-852-4647</a></div>
-        <div class="ft-contact-row"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:civilathand.work@gmail.com">civilathand.work@gmail.com</a></div>
-        <div class="ft-contact-row"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><time>Mon–Sat: 9 AM – 7 PM IST</time></div>
-        <a href="https://wa.me/918708524647" target="_blank" rel="noopener" class="btn btn-wa btn-sm" style="margin-top:18px;width:100%;justify-content:center"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.95 11.95 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.12.55 4.18 1.6 6L0 24l6.22-1.63A11.94 11.94 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.22-3.48-8.52z"/></svg>Chat on WhatsApp</a>
-      </address>
+      <nav class="ft-col" aria-label="Legal"><h4>Legal</h4>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="terms.html">Terms of Service</a>
+        <a href="refund-policy.html">Refund Policy</a>
+        <a href="disclaimer.html">Disclaimer</a>
+        <a href="cookie-policy.html">Cookie Policy</a>
+        <a href="sitemap-page.html">Sitemap</a>
+      </nav>
     </div>
     <div class="footer-bottom">
       <p>&copy; <span id="yr">2025</span> Civil At Hand – Design &amp; Consultancy. All rights reserved.</p>
-      <div class="footer-bottom-links"><a href="index.html">Home</a><a href="services.html">Services</a><a href="contact.html">Contact</a><a href="blog.html">Blog</a></div>
+      <div class="footer-bottom-links">
+        <a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="disclaimer.html">Disclaimer</a><a href="sitemap-page.html">Sitemap</a>
+      </div>
     </div>
   </div>
 </footer>
 </div>
+<script src="data.js"></script>
 <script src="script.js"></script>
+<script>
+/* Rebuild blog grid from data.js */
+(function() {
+  if (!window.CAH_DATA || !window.CAH_DATA.blogs) return;
+  const grid = document.getElementById('blogGrid');
+  if (!grid) return;
+  
+  const blogs = window.CAH_DATA.blogs;
+  const catColors = {
+    construction: '#f97316',
+    autocad: '#3b82f6',
+    structural: '#8b5cf6',
+    vastu: '#10b981',
+    career: '#f59e0b'
+  };
+
+  grid.innerHTML = blogs.map((b, i) => {
+    const isFeat = b.featured;
+    const color = catColors[b.category] || '#4a85d4';
+    const catLabel = b.category.charAt(0).toUpperCase() + b.category.slice(1);
+    
+    return `<article class="blog-card${isFeat ? ' feat' : ''}" data-category="${b.category}">
+      <div class="blog-thumb" style="background:linear-gradient(135deg,rgba(44,102,196,.18),rgba(5,15,36,.95));display:flex;align-items:center;justify-content:center;min-height:${isFeat ? '280' : '180'}px;position:relative;overflow:hidden">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(44,102,196,.12),transparent 70%)"></div>
+        <div style="text-align:center;padding:24px;position:relative">
+          <div style="font-size:${isFeat ? '3.5' : '2.5'}rem;margin-bottom:12px;filter:drop-shadow(0 0 20px rgba(74,133,212,.4))">${b.icon}</div>
+          ${isFeat ? `<div style="font-family:var(--f-mono);font-size:.72rem;color:#7aaae4;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px">⭐ Featured Article</div>` : ''}
+          <div style="font-family:var(--f-mono);font-size:.68rem;color:rgba(122,170,228,.6);letter-spacing:1px">${catLabel.toUpperCase()} · ${b.readTime || ''}</div>
+        </div>
+      </div>
+      <div class="blog-body">
+        <div class="blog-meta">
+          <span class="blog-cat" style="background:rgba(44,102,196,.12);color:#7aaae4">${catLabel}</span>
+          <span class="blog-date">${b.date}</span>
+          ${b.readTime ? `<span>${b.readTime}</span>` : ''}
+        </div>
+        <${isFeat ? 'h2' : 'h3'}>${b.title}</${isFeat ? 'h2' : 'h3'}>
+        <p>${b.excerpt}</p>
+        <a href="blog-post.html?slug=${b.slug}" class="blog-read">Read ${isFeat ? 'Article' : 'More'} <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
+    </article>`;
+  }).join('');
+
+  /* Re-initialize filter buttons after new content */
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.filter || 'all';
+      document.querySelectorAll('#blogGrid .blog-card').forEach(card => {
+        const cat = card.dataset.category || '';
+        const match = f === 'all' || cat === f;
+        card.style.transition = 'all .38s ease';
+        card.style.opacity = match ? '1' : '.15';
+        card.style.transform = match ? '' : 'scale(.96)';
+        card.style.pointerEvents = match ? 'all' : 'none';
+      });
+    });
+  });
+
+  /* Add Schema.org BlogPosting list for SEO */
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "Civil At Hand Blog",
+    "url": "https://www.civilathand.com/blog.html",
+    "blogPost": blogs.map(b => ({
+      "@type": "BlogPosting",
+      "headline": b.title,
+      "description": b.excerpt,
+      "datePublished": b.date,
+      "author": { "@type": "Organization", "name": "Civil At Hand" },
+      "url": "https://www.civilathand.com/blog-post.html?slug=" + b.slug
+    }))
+  };
+  const s = document.createElement('script');
+  s.type = 'application/ld+json';
+  s.textContent = JSON.stringify(schema);
+  document.head.appendChild(s);
+})();
+</script>
 </body>
 </html>

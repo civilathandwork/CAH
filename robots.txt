@@ -1,11 +1,8 @@
 User-agent: *
 Allow: /
-Disallow: /assets/images/
+
+# Block private/internal files
+Disallow: /_components.html
+Disallow: /script.js.bak
+
 Sitemap: https://www.civilathand.com/sitemap.xml
-
-# Block bad bots
-User-agent: AhrefsBot
-Disallow: /
-
-User-agent: MJ12bot
-Disallow: /

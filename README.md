@@ -71,7 +71,7 @@ Each has a clearly labeled section. Copy/paste blocks to add new ones.
 
 1. Go to search.google.com/search-console
 2. Add your site and verify ownership
-3. Go to Sitemaps → enter: `https://www.civilathand.in/sitemap.xml`
+3. Go to Sitemaps → enter: `https://www.civilathand.com/sitemap.xml`
 4. Submit!
 
 ---

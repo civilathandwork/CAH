@@ -1,31 +1,32 @@
-/* ═══════════════════════════════════════════════════════════════════
-   CIVIL AT HAND — nav-auth.js
-   Injects auth state into navigation on all pages
-   ═══════════════════════════════════════════════════════════════════ */
-import { auth, onAuthStateChanged, signOut } from './auth.js';
+/* ═══════════════════════════════════════════════════
+   Civil At Hand · nav-auth.js · Injects auth state into nav
+   Include this as a module on every page
+   ═══════════════════════════════════════════════════ */
+import { auth, onAuthStateChanged, signOut } from "./auth.js";
 
 function getInitials(user) {
   if (user.displayName) {
-    return user.displayName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+    return user.displayName.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2);
   }
   return user.email[0].toUpperCase();
 }
 
 function injectAuthNav(user) {
-  const navLinks = document.querySelector('.nav-links');
-  const drawerCta = document.querySelector('.drawer-cta');
-  
-  // Remove existing auth elements
-  document.querySelectorAll('.nav-auth-zone, .drawer-auth-zone').forEach(el => el.remove());
+  // Desktop nav auth area
+  const navLinks = document.querySelector(".nav-links");
+  const drawerCta = document.querySelector(".drawer-cta");
+
+  // Remove existing auth elements to avoid duplication
+  document.querySelectorAll(".nav-auth-zone, .drawer-auth-zone").forEach(el => el.remove());
 
   if (user) {
-    // ── LOGGED IN ──
+    // ── LOGGED IN: show avatar + dropdown
     const initials = getInitials(user);
-    const displayName = user.displayName || user.email.split('@')[0];
+    const displayName = user.displayName || user.email.split("@")[0];
     const email = user.email;
 
-    const authZone = document.createElement('div');
-    authZone.className = 'nav-auth-zone';
+    const authZone = document.createElement("div");
+    authZone.className = "nav-auth-zone";
     authZone.innerHTML = `
       <div class="nav-user-btn" id="navUserBtn" aria-haspopup="true" aria-expanded="false">
         <div class="nav-avatar">${initials}</div>
@@ -64,8 +65,8 @@ function injectAuthNav(user) {
 
     // Drawer auth zone
     if (drawerCta) {
-      const dz = document.createElement('div');
-      dz.className = 'drawer-auth-zone';
+      const dz = document.createElement("div");
+      dz.className = "drawer-auth-zone";
       dz.innerHTML = `
         <div class="drawer-user-card">
           <div class="nd-avatar" style="width:40px;height:40px;font-size:.95rem">${initials}</div>
@@ -78,29 +79,29 @@ function injectAuthNav(user) {
         <button id="drawerSignOut" class="btn btn-outline" style="width:100%;justify-content:center;margin-top:10px">Sign Out</button>
       `;
       drawerCta.prepend(dz);
-      document.getElementById('drawerSignOut')?.addEventListener('click', doSignOut);
+      document.getElementById("drawerSignOut")?.addEventListener("click", doSignOut);
     }
 
-    // Wire up dropdown
-    const btn = document.getElementById('navUserBtn');
-    const drop = document.getElementById('navDropdown');
-    btn?.addEventListener('click', (e) => {
+    // Wire up dropdown toggle
+    const btn = document.getElementById("navUserBtn");
+    const drop = document.getElementById("navDropdown");
+    btn?.addEventListener("click", (e) => {
       e.stopPropagation();
-      const open = drop.classList.toggle('open');
-      btn.setAttribute('aria-expanded', open);
-      drop.setAttribute('aria-hidden', !open);
+      const open = drop.classList.toggle("open");
+      btn.setAttribute("aria-expanded", open);
+      drop.setAttribute("aria-hidden", !open);
     });
-    document.addEventListener('click', () => {
-      drop?.classList.remove('open');
-      btn?.setAttribute('aria-expanded', 'false');
-      drop?.setAttribute('aria-hidden', 'true');
+    document.addEventListener("click", () => {
+      drop?.classList.remove("open");
+      btn?.setAttribute("aria-expanded", "false");
+      drop?.setAttribute("aria-hidden", "true");
     });
-    document.getElementById('navSignOut')?.addEventListener('click', doSignOut);
+    document.getElementById("navSignOut")?.addEventListener("click", doSignOut);
 
   } else {
-    // ── NOT LOGGED IN ──
-    const authZone = document.createElement('div');
-    authZone.className = 'nav-auth-zone';
+    // ── NOT LOGGED IN: show Login / Sign Up buttons
+    const authZone = document.createElement("div");
+    authZone.className = "nav-auth-zone";
     authZone.innerHTML = `
       <a href="login.html" class="btn btn-ghost btn-sm">Sign In</a>
       <a href="signup.html" class="btn btn-primary btn-sm">Get Started</a>
@@ -109,8 +110,8 @@ function injectAuthNav(user) {
 
     // Drawer guest zone
     if (drawerCta) {
-      const dz = document.createElement('div');
-      dz.className = 'drawer-auth-zone';
+      const dz = document.createElement("div");
+      dz.className = "drawer-auth-zone";
       dz.innerHTML = `
         <a href="login.html" class="btn btn-outline" style="width:100%;justify-content:center;margin-bottom:10px">Sign In</a>
         <a href="signup.html" class="btn btn-primary" style="width:100%;justify-content:center;margin-bottom:14px">Create Account</a>
@@ -123,13 +124,13 @@ function injectAuthNav(user) {
 async function doSignOut() {
   try {
     await signOut(auth);
-    window.location.href = 'index.html';
+    window.location.href = "index.html";
   } catch (e) {
     console.error(e);
   }
 }
 
-// Initialize
+// Initialize on DOM ready
 onAuthStateChanged(auth, (user) => {
   injectAuthNav(user);
 });

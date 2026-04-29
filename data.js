@@ -13,28 +13,28 @@ window.CAH_DATA = {
     phone: "+91 870-852-4647",
     phoneRaw: "918708524647",
     email: "civilathand.work@gmail.com",
-    website: "https://www.civilathand.com",
+    website: "https://www.civilathand.in",
     since: "2016",
     hours: "Mon–Sat: 9 AM – 7 PM IST",
-    address: "Punjab, India (Pan-India Remote Service)"
+    address: "Gurgaon, India (Pan-India Remote Service)"
   },
 
   /* ── Stats ─────────────────────────────────────────────────── */
   stats: {
-    projects: 150,
-    years: 8,
-    clients: 50,
-    rating: 4.9,
+    projects: 1,
+    years: 1,
+    clients: 10,
+    rating: 4.8,
     satisfaction: 100,
-    onTimeDelivery: 97
+    onTimeDelivery: 9
   },
 
   /* ── Social Links ──────────────────────────────────────────── */
   social: {
     instagram: "https://www.instagram.com/civilathand",
     youtube:   "https://www.youtube.com/@civilathand",
-    facebook:  "https://www.facebook.com/civilathand",
-    linkedin:  "https://www.linkedin.com/in/civilathand",
+    facebook:  "https://www.instagram.com/civilathand",
+    linkedin:  "https://www.linkedin.com/company/civil-at-hand",
     telegram:  "https://t.me/civilathand"
   },
 

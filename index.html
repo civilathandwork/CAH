@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Civil At Hand – Premium Civil Engineering India | House Planning &amp; Structural Design</title>
-<meta name="description" content="India's trusted civil engineering partner since 2016. House planning from ₹2,500, structural design, BOQ estimation, PDF to AutoCAD. Pan‑India remote delivery."/>
+<meta name="description" content="India's trusted civil engineering partner since 2016. House planning from ₹2,500, structural design, BOQ estimation, PDF to AutoCAD. Pan‑India remote service."/>
 <meta name="robots" content="index,follow"/>
 <link rel="canonical" href="https://www.civilathand.in/"/>
 <meta property="og:title" content="Civil At Hand – Premium Civil Engineering Solutions India"/>
@@ -17,32 +17,287 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css"/>
 <script>document.documentElement.setAttribute('data-theme','dark');</script>
+
+<!-- INLINE ENHANCEMENT STYLES (clean & essential) -->
 <style>
-/* Quick clean‑up for the new WhatsApp icon */
-.wa-float {
-  position: fixed; bottom: 26px; right: 26px; z-index: 8000;
-  width: 56px; height: 56px; border-radius: 50%;
-  background: #25D366; display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 6px 28px rgba(37,211,102,.42); transition: transform .2s, box-shadow .2s;
-}
-.wa-float:hover { transform: scale(1.08); box-shadow: 0 10px 38px rgba(37,211,102,.55); }
-.wa-float svg { width: 28px; height: 28px; fill: #fff; }
-.wa-float-tip {
-  position: absolute; right: calc(100% + 14px); top: 50%;
-  transform: translateY(-50%) translateX(8px);
-  background: #0d1c38; color: #eef2ff; font-size: .75rem; font-weight: 600;
-  white-space: nowrap; padding: 6px 12px; border-radius: 8px;
-  pointer-events: none; opacity: 0; transition: all .2s;
-}
-.wa-float:hover .wa-float-tip { opacity: 1; transform: translateY(-50%) translateX(0); }
+  /* Canvas backdrop */
+  #heroCanvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.25;
+    z-index: 0;
+  }
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 20% 50%, rgba(38,96,168,.25) 0%, transparent 55%),
+                radial-gradient(ellipse at 80% 20%, rgba(200,168,75,.08) 0%, transparent 55%),
+                linear-gradient(135deg, #030b18, #060f20, #0d1d38);
+  }
+  .hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(64,128,208,.04) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(64,128,208,.04) 1px, transparent 1px);
+    background-size: 44px 44px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .hero-title {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: #eef2ff;
+    margin-bottom: 20px;
+    font-size: clamp(2.4rem, 5.5vw, 4.5rem);
+    position: relative;
+    z-index: 2;
+  }
+  .hero-title .gradient-text {
+    background: linear-gradient(135deg, #6aa0e0 0%, #a8c8f0 60%, #7dd3fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 4s ease infinite;
+  }
+  @keyframes shimmer {
+    0%, 100% { filter: drop-shadow(0 0 12px rgba(125,211,252,.4)); }
+    50%      { filter: drop-shadow(0 0 24px rgba(125,211,252,.8)); }
+  }
+  .hero-desc {
+    font-size: clamp(1rem, 1.4vw, 1.1rem);
+    color: #a8bcd8;
+    max-width: 600px;
+    line-height: 1.7;
+    margin-bottom: 32px;
+    position: relative;
+    z-index: 2;
+  }
+  /* Hero stats bar */
+  .hero-stats-wrap {
+    background: rgba(6,14,30,.6);
+    border: 1px solid rgba(44,102,196,.25);
+    border-radius: 16px;
+    padding: 24px 20px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 2;
+    margin-top: 20px;
+  }
+  .hero-stat {
+    flex: 1;
+    text-align: center;
+    min-width: 80px;
+  }
+  .hero-stat .val {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #6aa0e0, #a8c8f0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+  }
+  .hero-stat .lbl {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #607090;
+    margin-top: 4px;
+  }
+  .hero-stat:not(:last-child) {
+    border-right: 1px solid rgba(255,255,255,.06);
+  }
+  /* Buttons enhancement */
+  .btn {
+    transition: all 0.25s cubic-bezier(.25,.46,.45,.94);
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, #163660, #2660a8);
+    box-shadow: 0 4px 28px rgba(38,96,168,.35);
+    color: #fff;
+  }
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 40px rgba(38,96,168,.5);
+  }
+  .btn-gold {
+    background: linear-gradient(135deg, #a07830, #c8a84b, #e0c060);
+    color: #0a1628;
+    font-weight: 800;
+    box-shadow: 0 4px 24px rgba(200,168,75,.35);
+  }
+  .btn-gold:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(200,168,75,.5);
+  }
+  .btn-wa {
+    background: #25D366;
+    box-shadow: 0 4px 20px rgba(37,211,102,.3);
+  }
+  .btn-wa:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 36px rgba(37,211,102,.45);
+  }
+  .btn-outline {
+    border: 1.5px solid rgba(64,128,208,.3);
+    color: #6aa0e0;
+    background: transparent;
+  }
+  .btn-outline:hover {
+    background: rgba(64,128,208,.1);
+    border-color: #4080d0;
+    transform: translateY(-2px);
+  }
+  /* Service cards */
+  .svc-card {
+    background: rgba(6,15,36,.7);
+    border: 1px solid rgba(255,255,255,.06);
+    border-radius: 16px;
+    padding: 28px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .svc-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #4080d0, #7dd3fc, transparent);
+    transform: scaleX(0);
+    transition: transform 0.4s;
+    transform-origin: left;
+  }
+  .svc-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px rgba(0,0,0,.4), 0 0 30px rgba(44,102,196,.15);
+    border-color: rgba(44,102,196,.3);
+  }
+  .svc-card:hover::before {
+    transform: scaleX(1);
+  }
+  .svc-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(44,102,196,.15), rgba(6,182,212,.1));
+    border: 1px solid rgba(44,102,196,.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 18px;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .svc-card:hover .svc-icon {
+    transform: scale(1.1) rotate(-3deg);
+    box-shadow: 0 0 20px rgba(44,102,196,.35);
+  }
+  .svc-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #6aa0e0;
+    margin-top: 16px;
+    transition: color 0.2s;
+  }
+  .svc-link svg {
+    transition: transform 0.2s;
+  }
+  .svc-link:hover {
+    color: #a8c8f0;
+  }
+  .svc-link:hover svg {
+    transform: translateX(4px);
+  }
+  /* Process steps */
+  .process-step {
+    background: rgba(6,15,36,.6);
+    border: 1px solid rgba(255,255,255,.05);
+    border-radius: 20px;
+    padding: 32px 24px;
+    position: relative;
+    transition: all 0.3s;
+  }
+  .process-step:hover {
+    border-color: rgba(44,102,196,.35);
+    transform: translateY(-5px);
+    box-shadow: 0 16px 48px rgba(0,0,0,.3), 0 0 20px rgba(44,102,196,.1);
+  }
+  .step-num {
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #163660, #2660a8);
+    border: 2px solid rgba(125,211,252,.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: #fff;
+    margin-bottom: 20px;
+    box-shadow: 0 0 15px rgba(44,102,196,.3);
+  }
+  .process-step:hover .step-num {
+    box-shadow: 0 0 25px rgba(125,211,252,.6);
+  }
+  /* Testimonials */
+  .testi-card {
+    background: rgba(6,15,36,.6);
+    border: 1px solid rgba(255,255,255,.05);
+    border-radius: 16px;
+    padding: 28px;
+    transition: all 0.3s;
+  }
+  .testi-card:hover {
+    border-color: rgba(44,102,196,.25);
+    transform: translateY(-5px);
+    box-shadow: 0 12px 36px rgba(0,0,0,.35);
+  }
+  .stars {
+    color: #c8a84b;
+    letter-spacing: 3px;
+  }
+  /* FAQ */
+  .faq-item {
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+
+  /* Responsive tweaks */
+  @media (max-width: 768px) {
+    .hero-stats-wrap {
+      justify-content: center;
+    }
+    .hero-stat:not(:last-child) {
+      border-right: none;
+    }
+  }
 </style>
 </head>
 <body>
 
-<!-- COOKIE BANNER -->
-<div id="cookieBanner" role="dialog" aria-label="Cookie consent" style="display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(150px);z-index:9800;width:min(580px,calc(100vw - 28px));background:#091428;border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:18px 22px;box-shadow:0 20px 70px rgba(0,0,0,.65);transition:transform .5s;">
+<!-- COOKIE BANNER (hidden by default, shown if not accepted) -->
+<div id="cookieBanner" role="dialog" aria-label="Cookie consent" style="display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:9800;width:min(580px,calc(100vw - 28px));background:#091428;border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:18px 22px;box-shadow:0 20px 70px rgba(0,0,0,.65);">
   <div style="display:flex;align-items:center;gap:18px;flex-wrap:wrap;">
-    <p style="font-size:.83rem;color:#a8bcd8;flex:1;">🍪 We use cookies to enhance your experience. <a href="privacy.html" style="color:#6aa0e0;text-decoration:underline;">Privacy Policy</a>.</p>
+    <p style="font-size:.83rem;color:#a8bcd8;flex:1;margin:0;">🍪 We use cookies to enhance your experience. <a href="privacy.html" style="color:#6aa0e0;text-decoration:underline;">Privacy Policy</a>.</p>
     <div style="display:flex;gap:9px;">
       <button id="cookieDeny" class="btn btn-outline btn-sm">Decline</button>
       <button id="cookieAccept" class="btn btn-primary btn-sm">Accept All</button>
@@ -55,13 +310,13 @@
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
 </button>
 
-<!-- CLEAN WHATSAPP CHAT ICON -->
-<a href="https://wa.me/918708524647?text=Hi%2C%20I%20need%20civil%20engineering%20help." target="_blank" rel="noopener noreferrer" class="wa-float" aria-label="Chat on WhatsApp">
-  <span class="wa-float-tip">Chat with us</span>
-  <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h4l3 3 3-3h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+<!-- WHATSAPP FLOAT (clean chat icon) -->
+<a href="https://wa.me/918708524647?text=Hi%2C%20I%20need%20civil%20engineering%20help." target="_blank" rel="noopener" class="wa-float" aria-label="Chat on WhatsApp" style="position:fixed;bottom:26px;right:26px;z-index:8000;width:56px;height:56px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 28px rgba(37,211,102,.42);transition:transform .2s, box-shadow .2s;">
+  <span class="wa-float-tip" style="position:absolute;right:calc(100% + 14px);top:50%;transform:translateY(-50%) translateX(8px);background:#0d1c38;color:#eef2ff;font-size:.75rem;font-weight:600;white-space:nowrap;padding:6px 12px;border-radius:8px;pointer-events:none;opacity:0;transition:all .2s;">Chat with us</span>
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="#fff"><path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h4l3 3 3-3h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
 </a>
 
-<!-- HEADER & NAVIGATION -->
+<!-- HEADER (identical to all pages) -->
 <header class="site-header" role="banner">
   <nav class="nav-pill" id="navPill" aria-label="Main navigation">
     <a href="index.html" class="nav-brand" aria-label="Civil At Hand Home">
@@ -83,7 +338,7 @@
 </header>
 
 <nav class="nav-drawer" id="navDrawer" aria-label="Mobile navigation" aria-hidden="true">
-  <button class="drawer-close" id="drawerClose" aria-label="Close menu">&#x2715;</button>
+  <button class="drawer-close" id="drawerClose" aria-label="Close menu">✕</button>
   <div class="drawer-brand">
     <div class="brand-icon" style="width:36px;height:36px;border-radius:9px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M3 22L3 10L12 3L21 10L21 22Z"/><rect x="9" y="14" width="6" height="8"/></svg></div>
     <div><div class="drawer-brand-name">Civil At Hand</div><div class="drawer-brand-sub">Design &amp; Consultancy</div></div>
@@ -96,40 +351,45 @@
   <a href="student-guidance.html">Students</a>
   <a href="blog.html">Blog</a>
   <div class="drawer-cta">
-    <a href="contact.html" class="btn btn-primary">Get Free Quote &rarr;</a>
+    <a href="contact.html" class="btn btn-primary">Get Free Quote →</a>
     <a href="https://wa.me/918708524647" target="_blank" rel="noopener" class="btn btn-wa"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.95 11.95 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.12.55 4.18 1.6 6L0 24l6.22-1.63A11.94 11.94 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.22-3.48-8.52z"/></svg>WhatsApp</a>
   </div>
 </nav>
 
 <main id="main-content">
   <!-- HERO -->
-  <section class="hero" style="min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;background:linear-gradient(135deg,#030b18,#060f20,#0d1d38);">
-    <div class="hero-grid-bg" style="position:absolute;inset:0;background-image:linear-gradient(rgba(64,128,208,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(64,128,208,.045) 1px,transparent 1px);background-size:44px 44px;pointer-events:none;"></div>
+  <section class="hero">
+    <canvas id="heroCanvas"></canvas>
+    <div class="hero-grid-bg"></div>
     <div class="container" style="position:relative;z-index:2;max-width:1240px;margin:0 auto;padding:0 clamp(16px,4vw,48px);padding-top:70px;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;max-width:1240px;margin:0 auto;">
+      <div style="display:grid;grid-template-columns:1fr;gap:60px;align-items:center;">
         <div>
-          <div style="margin-bottom:20px;">
-            <span class="tag" style="display:inline-flex;align-items:center;gap:7px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6aa0e0;padding:5px 14px;border:1px solid rgba(64,128,208,.25);border-radius:100px;background:rgba(64,128,208,.08);"><span class="tag-dot" style="width:6px;height:6px;background:#6aa0e0;border-radius:50%;box-shadow:0 0 8px #6aa0e0;"></span>Trusted Civil Engineering Partner</span>
+          <div style="margin-bottom:16px;">
+            <span class="tag" style="display:inline-flex;align-items:center;gap:7px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6aa0e0;padding:5px 14px;border:1px solid rgba(64,128,208,.25);border-radius:100px;background:rgba(64,128,208,.08);">
+              <span class="tag-dot" style="width:6px;height:6px;background:#6aa0e0;border-radius:50%;box-shadow:0 0 8px #6aa0e0;"></span>India’s Trusted Civil Engineering Partner
+            </span>
           </div>
-          <h1 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2.2rem,5vw,4rem);font-weight:800;line-height:1.12;letter-spacing:-.03em;color:#eef2ff;margin-bottom:20px;">Building India's<br><span style="background:linear-gradient(135deg,#6aa0e0,#a8c8f0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Future,</span> One Blueprint</h1>
-          <p style="font-size:clamp(.94rem,1.3vw,1.08rem);color:#a8bcd8;max-width:52ch;line-height:1.82;margin-bottom:32px;">From your first sketch to final handover — expert <strong>house planning</strong>, <strong>structural design</strong>, <strong>BOQ estimation</strong>, and <strong>consultancy</strong> delivered with precision. Pan‑India remote service.</p>
-          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:28px;">
-            <a href="services.html" class="btn btn-primary btn-lg" style="display:inline-flex;align-items:center;gap:8px;padding:16px 38px;border-radius:100px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.94rem;font-weight:700;background:linear-gradient(135deg,#163660,#2660a8);color:#fff;box-shadow:0 4px 28px rgba(38,96,168,.35);">Explore Services <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-            <a href="https://wa.me/918708524647?text=Hi%2C+I+need+a+quote." target="_blank" rel="noopener" class="btn btn-wa btn-lg" style="display:inline-flex;align-items:center;gap:8px;padding:16px 38px;border-radius:100px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.94rem;font-weight:700;background:#25D366;color:#fff;box-shadow:0 4px 20px rgba(37,211,102,.3);">WhatsApp Now</a>
+          <h1 class="hero-title">
+            Building India’s<br><span class="gradient-text">Future,</span> One Blueprint
+          </h1>
+          <p class="hero-desc">
+            From your first sketch to final handover — expert <strong>house planning</strong>, <strong>structural design</strong>, <strong>BOQ estimation</strong>, and <strong>consultancy</strong> delivered with precision. Pan‑India remote service.
+          </p>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:32px;">
+            <a href="services.html" class="btn btn-primary btn-lg">Explore Services <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+            <a href="https://wa.me/918708524647?text=Hi%2C+I+need+a+quote." target="_blank" rel="noopener" class="btn btn-wa btn-lg">WhatsApp Now</a>
           </div>
-          <div style="display:inline-flex;align-items:center;gap:12px;margin-bottom:36px;color:#a8bcd8;font-size:.88rem;text-decoration:none;">
-            <div style="width:38px;height:38px;border-radius:50%;background:rgba(64,128,208,.12);border:1px solid rgba(64,128,208,.25);display:flex;align-items:center;justify-content:center;color:#4080d0;flex-shrink:0;">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.02 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-            </div>
-            <div>
-              <small style="display:block;font-size:.74rem;color:#607090;">Call Us Directly</small>
-              <strong style="font-size:.95rem;font-family:'Plus Jakarta Sans',sans-serif;color:#eef2ff;">+91 870-852-4647</strong>
-            </div>
-          </div>
-          <!-- Stats dynamically filled -->
-          <div id="heroStats" class="hero-stats" style="display:flex;gap:28px;flex-wrap:wrap;background:rgba(6,14,30,.6);border:1px solid rgba(44,102,196,.2);border-radius:14px;padding:20px 24px;backdrop-filter:blur(20px);"></div>
+
+          <!-- Hero Stats Bar (real data) -->
+          <div id="heroStatsWrap" class="hero-stats-wrap"></div>
         </div>
-        <div style="display:none;" class="hero-visual"></div>
+      </div>
+    </div>
+    <!-- Scroll cue -->
+    <div class="scroll-cue" style="position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:#607090;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;z-index:2;">
+      <span>Scroll</span>
+      <div class="scroll-mouse" style="width:22px;height:36px;border:1.5px solid #607090;border-radius:11px;display:flex;justify-content:center;padding-top:6px;">
+        <div class="scroll-wheel" style="width:3px;height:6px;background:#607090;border-radius:3px;animation:scrollW 2s ease infinite;"></div>
       </div>
     </div>
   </section>
@@ -137,85 +397,82 @@
   <!-- TICKER -->
   <div class="ticker" style="background:rgba(4,8,18,.7);border-top:1px solid rgba(44,102,196,.15);border-bottom:1px solid rgba(44,102,196,.15);padding:14px 0;overflow:hidden;backdrop-filter:blur(8px);">
     <div class="ticker-track" style="display:flex;animation:tick 28s linear infinite;white-space:nowrap;">
-      <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:.82rem;color:#6aa0e0;padding:0 20px;">🏆 150+ Projects Delivered</span><span style="color:#4080d0;opacity:.5;padding:0 4px;">◆</span>
-      <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:.82rem;color:#6aa0e0;padding:0 20px;">📐 IS Code Compliant</span><span style="color:#4080d0;opacity:.5;padding:0 4px;">◆</span>
-      <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:.82rem;color:#6aa0e0;padding:0 20px;">🌐 Pan-India Remote Service</span><span style="color:#4080d0;opacity:.5;padding:0 4px;">◆</span>
-      <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:.82rem;color:#6aa0e0;padding:0 20px;">⚡ 3–7 Day Delivery</span><span style="color:#4080d0;opacity:.5;padding:0 4px;">◆</span>
-      <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:.82rem;color:#6aa0e0;padding:0 20px;">💯 Free Revisions</span><span style="color:#4080d0;opacity:.5;padding:0 4px;">◆</span>
-      <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:.82rem;color:#6aa0e0;padding:0 20px;">🛡️ 8+ Years Experience</span><span style="color:#4080d0;opacity:.5;padding:0 4px;">◆</span>
-      <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:.82rem;color:#6aa0e0;padding:0 20px;">📞 24hr Response</span><span style="color:#4080d0;opacity:.5;padding:0 4px;">◆</span>
-      <!-- Duplicate for seamless loop -->
-      <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:.82rem;color:#6aa0e0;padding:0 20px;">🏆 150+ Projects Delivered</span><span style="color:#4080d0;opacity:.5;padding:0 4px;">◆</span>
-      <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:.82rem;color:#6aa0e0;padding:0 20px;">📐 IS Code Compliant</span><span style="color:#4080d0;opacity:.5;padding:0 4px;">◆</span>
-      <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:.82rem;color:#6aa0e0;padding:0 20px;">🌐 Pan-India Remote Service</span><span style="color:#4080d0;opacity:.5;padding:0 4px;">◆</span>
-      <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:.82rem;color:#6aa0e0;padding:0 20px;">⚡ 3–7 Day Delivery</span><span style="color:#4080d0;opacity:.5;padding:0 4px;">◆</span>
-      <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:.82rem;color:#6aa0e0;padding:0 20px;">💯 Free Revisions</span><span style="color:#4080d0;opacity:.5;padding:0 4px;">◆</span>
-      <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:.82rem;color:#6aa0e0;padding:0 20px;">🛡️ 8+ Years Experience</span><span style="color:#4080d0;opacity:.5;padding:0 4px;">◆</span>
-      <span style="font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:.82rem;color:#6aa0e0;padding:0 20px;">📞 24hr Response</span><span style="color:#4080d0;opacity:.5;padding:0 4px;">◆</span>
+      <span>🏆 150+ Projects Delivered</span><span class="sep">◆</span>
+      <span>📐 IS Code Compliant</span><span class="sep">◆</span>
+      <span>🌐 Pan-India Remote Service</span><span class="sep">◆</span>
+      <span>⚡ 3–7 Day Delivery</span><span class="sep">◆</span>
+      <span>💯 Free Revisions</span><span class="sep">◆</span>
+      <span>🛡️ 8+ Years Experience</span><span class="sep">◆</span>
+      <span>📞 24hr Response</span><span class="sep">◆</span>
+      <span>🏆 150+ Projects Delivered</span><span class="sep">◆</span>
+      <span>📐 IS Code Compliant</span><span class="sep">◆</span>
+      <span>🌐 Pan-India Remote Service</span><span class="sep">◆</span>
+      <span>⚡ 3–7 Day Delivery</span><span class="sep">◆</span>
+      <span>💯 Free Revisions</span><span class="sep">◆</span>
+      <span>🛡️ 8+ Years Experience</span><span class="sep">◆</span>
+      <span>📞 24hr Response</span><span class="sep">◆</span>
     </div>
   </div>
 
-  <!-- SERVICES PREVIEW (Dynamic) -->
-  <section class="section" style="padding:clamp(60px,8vw,110px) 0;">
+  <!-- SERVICES PREVIEW -->
+  <section class="section" style="padding:100px 0;">
     <div class="container">
-      <div style="text-align:center;margin-bottom:clamp(36px,5.5vw,68px);">
-        <span class="tag"><span class="tag-dot"></span>What We Do</span>
-        <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(1.7rem,3vw,2.7rem);font-weight:700;line-height:1.18;letter-spacing:-.025em;color:#eef2ff;margin-top:16px;">End-to-End Civil Engineering Services</h2>
-        <p style="font-size:clamp(.9rem,1.2vw,1.02rem);color:#a8bcd8;max-width:62ch;margin:12px auto 0;">Every civil engineering need — under one roof, delivered by qualified engineers with 8+ years of experience.</p>
+      <div style="text-align:center;margin-bottom:64px;">
+        <span class="tag">What We Do</span>
+        <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,3vw,3rem);font-weight:700;margin-top:16px;">End‑to‑End Civil Engineering Services</h2>
+        <p style="color:#a8bcd8;max-width:620px;margin:12px auto 0;">Every civil engineering need — under one roof, delivered by qualified engineers with 8+ years of experience.</p>
       </div>
-      <div id="servicesGrid" class="services-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;"></div>
-      <div style="text-align:center;margin-top:40px;">
+      <div id="servicesGrid" class="services-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;"></div>
+      <div style="text-align:center;margin-top:50px;">
         <a href="services.html" class="btn btn-outline btn-lg">View All Services →</a>
       </div>
     </div>
   </section>
 
   <!-- ABOUT BRIEF -->
-  <section class="section" style="background:rgba(4,13,30,.5);padding:clamp(60px,8vw,110px) 0;">
+  <section class="section" style="background:rgba(4,13,30,.5);padding:100px 0;">
     <div class="container">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;">
+      <div class="why-layout" style="display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;">
         <div>
-          <span class="tag"><span class="tag-dot"></span>About Us</span>
-          <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(1.6rem,2.8vw,2.5rem);font-weight:700;line-height:1.2;letter-spacing:-.025em;color:#eef2ff;margin-top:14px;">The Engineering Partner You Can Trust</h2>
-          <p style="font-size:clamp(.9rem,1.2vw,1.02rem);color:#a8bcd8;line-height:1.8;margin-top:12px;">Founded in 2016, Civil At Hand has delivered <strong id="aboutProjCount">150+</strong> projects across India with <strong>zero structural failures</strong>. Our qualified civil engineers and CAD professionals combine technical excellence with honest pricing — house planning from just ₹2,500.</p>
-          <p style="font-size:.9rem;color:#a8bcd8;margin-top:8px;">We believe your home deserves expert attention, whether you're in Punjab or Kerala. Everything is delivered digitally — no need to travel, no hidden charges.</p>
+          <span class="tag">About Us</span>
+          <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(1.8rem,2.8vw,2.5rem);font-weight:700;margin-top:14px;">The Engineering Partner You Can Trust</h2>
+          <p style="color:#a8bcd8;margin-top:16px;line-height:1.8;">Founded in 2016, Civil At Hand has delivered <strong id="aboutProjCount">150+</strong> projects across India with <strong>zero structural failures</strong>. Our qualified civil engineers and CAD professionals combine technical excellence with honest pricing — house planning from just ₹2,500.</p>
+          <p style="color:#a8bcd8;">We believe your home deserves expert attention, whether you're in Punjab or Kerala. Everything is delivered digitally — no need to travel, no hidden charges.</p>
           <a href="about.html" class="btn btn-outline" style="margin-top:24px;">Learn More About Us →</a>
         </div>
-        <div style="background:#091428;border:1px solid rgba(44,102,196,.28);border-radius:20px;padding:36px;position:relative;overflow:hidden;box-shadow:0 8px 36px rgba(0,0,0,.5);">
-          <div style="position:relative;">
-            <div style="grid-template-columns:1fr 1fr;gap:16px;display:grid;">
-              <div style="text-align:center;background:rgba(64,128,208,.06);border-radius:8px;padding:14px;" class="stat-item">
-                <div class="impact-n" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.3rem;font-weight:800;color:#6aa0e0;" id="abtStat1">150+</div>
-                <div style="font-size:.7rem;color:#607090;text-transform:uppercase;letter-spacing:1px;">Projects</div>
-              </div>
-              <div style="text-align:center;background:rgba(64,128,208,.06);border-radius:8px;padding:14px;" class="stat-item">
-                <div class="impact-n" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.3rem;font-weight:800;color:#6aa0e0;" id="abtStat2">8+</div>
-                <div style="font-size:.7rem;color:#607090;text-transform:uppercase;letter-spacing:1px;">Years</div>
-              </div>
-              <div style="text-align:center;background:rgba(64,128,208,.06);border-radius:8px;padding:14px;" class="stat-item">
-                <div class="impact-n" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.3rem;font-weight:800;color:#6aa0e0;" id="abtStat3">50+</div>
-                <div style="font-size:.7rem;color:#607090;text-transform:uppercase;letter-spacing:1px;">Clients</div>
-              </div>
-              <div style="text-align:center;background:rgba(64,128,208,.06);border-radius:8px;padding:14px;" class="stat-item">
-                <div class="impact-n" style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.3rem;font-weight:800;color:#6aa0e0;" id="abtStat4">4.9★</div>
-                <div style="font-size:.7rem;color:#607090;text-transform:uppercase;letter-spacing:1px;">Rating</div>
-              </div>
+        <div style="background:rgba(6,15,36,.7);border:1px solid rgba(44,102,196,.25);border-radius:20px;padding:36px;backdrop-filter:blur(10px);">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
+            <div class="stat-item" style="background:rgba(64,128,208,.06);padding:14px;border-radius:12px;text-align:center;">
+              <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.6rem;font-weight:800;color:#6aa0e0;" id="abtStatProj">150+</div>
+              <div style="font-size:.7rem;color:#607090;text-transform:uppercase;">Projects</div>
             </div>
-            <div style="margin-top:24px;">
-              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:.8rem;color:#a8bcd8;">
-                <span>Client Satisfaction</span><strong style="font-family:'Plus Jakarta Sans',sans-serif;color:#6aa0e0;">100%</strong>
-              </div>
-              <div style="height:4px;background:rgba(255,255,255,.12);border-radius:4px;overflow:hidden;">
-                <div style="height:100%;width:100%;background:linear-gradient(90deg,#163660,#4080d0);border-radius:4px;"></div>
-              </div>
+            <div class="stat-item" style="background:rgba(64,128,208,.06);padding:14px;border-radius:12px;text-align:center;">
+              <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.6rem;font-weight:800;color:#6aa0e0;" id="abtStatYrs">8+</div>
+              <div style="font-size:.7rem;color:#607090;text-transform:uppercase;">Years</div>
             </div>
-            <div style="margin-top:14px;">
-              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:.8rem;color:#a8bcd8;">
-                <span>On-Time Delivery</span><strong style="font-family:'Plus Jakarta Sans',sans-serif;color:#6aa0e0;">97%</strong>
-              </div>
-              <div style="height:4px;background:rgba(255,255,255,.12);border-radius:4px;overflow:hidden;">
-                <div style="height:100%;width:97%;background:linear-gradient(90deg,#163660,#4080d0);border-radius:4px;"></div>
-              </div>
+            <div class="stat-item" style="background:rgba(64,128,208,.06);padding:14px;border-radius:12px;text-align:center;">
+              <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.6rem;font-weight:800;color:#6aa0e0;" id="abtStatCli">50+</div>
+              <div style="font-size:.7rem;color:#607090;text-transform:uppercase;">Clients</div>
+            </div>
+            <div class="stat-item" style="background:rgba(64,128,208,.06);padding:14px;border-radius:12px;text-align:center;">
+              <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.6rem;font-weight:800;color:#6aa0e0;" id="abtStatRat">4.9★</div>
+              <div style="font-size:.7rem;color:#607090;text-transform:uppercase;">Rating</div>
+            </div>
+          </div>
+          <div class="progress-bar" style="margin-bottom:16px;">
+            <div style="display:flex;justify-content:space-between;font-size:.8rem;color:#a8bcd8;margin-bottom:6px;">
+              <span>Client Satisfaction</span><strong style="color:#6aa0e0;">100%</strong>
+            </div>
+            <div style="height:4px;background:rgba(255,255,255,.08);border-radius:4px;overflow:hidden;">
+              <div style="height:100%;width:100%;background:linear-gradient(90deg,#163660,#4080d0);border-radius:4px;"></div>
+            </div>
+          </div>
+          <div class="progress-bar">
+            <div style="display:flex;justify-content:space-between;font-size:.8rem;color:#a8bcd8;margin-bottom:6px;">
+              <span>On-Time Delivery</span><strong style="color:#6aa0e0;">97%</strong>
+            </div>
+            <div style="height:4px;background:rgba(255,255,255,.08);border-radius:4px;overflow:hidden;">
+              <div style="height:100%;width:97%;background:linear-gradient(90deg,#163660,#4080d0);border-radius:4px;"></div>
             </div>
           </div>
         </div>
@@ -223,76 +480,102 @@
     </div>
   </section>
 
-  <!-- TESTIMONIALS (Dynamic) -->
-  <section class="section" style="padding:clamp(60px,8vw,110px) 0;">
+  <!-- HOW IT WORKS -->
+  <section class="section" style="padding:100px 0;">
     <div class="container">
-      <div style="text-align:center;margin-bottom:clamp(36px,5.5vw,68px);">
-        <span class="tag"><span class="tag-dot"></span>Client Reviews</span>
-        <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(1.7rem,3vw,2.7rem);font-weight:700;line-height:1.18;letter-spacing:-.025em;color:#eef2ff;margin-top:16px;">What Our Clients Say</h2>
+      <div style="text-align:center;margin-bottom:64px;">
+        <span class="tag">Simple Process</span>
+        <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,3vw,3rem);font-weight:700;margin-top:16px;">How We Deliver Excellence</h2>
+        <p style="color:#a8bcd8;max-width:620px;margin:12px auto 0;">Four simple steps — from your first message to final files.</p>
       </div>
-      <div id="testimonialsGrid" class="testi-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;"></div>
+      <div class="process-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;">
+        <div class="process-step">
+          <div class="step-num">01</div>
+          <h3 style="font-family:'Plus Jakarta Sans',sans-serif;margin-bottom:10px;">Share Requirements</h3>
+          <p style="color:#a8bcd8;font-size:.9rem;">Tell us your plot size, design preferences, and budget via WhatsApp or our contact form. Takes 2 minutes.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-num">02</div>
+          <h3 style="font-family:'Plus Jakarta Sans',sans-serif;margin-bottom:10px;">Free Quote</h3>
+          <p style="color:#a8bcd8;font-size:.9rem;">Get a transparent, detailed cost estimate within 24 hours. Honest pricing, no hidden fees.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-num">03</div>
+          <h3 style="font-family:'Plus Jakarta Sans',sans-serif;margin-bottom:10px;">Work Begins</h3>
+          <p style="color:#a8bcd8;font-size:.9rem;">Our engineers start immediately. Regular WhatsApp updates keep you in the loop.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-num">04</div>
+          <h3 style="font-family:'Plus Jakarta Sans',sans-serif;margin-bottom:10px;">Delivery & Revisions</h3>
+          <p style="color:#a8bcd8;font-size:.9rem;">Receive deliverables via email. Free revisions included until you're fully satisfied.</p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- FAQ (Dynamic) -->
-  <section class="section" style="background:rgba(4,13,30,.5);padding:clamp(60px,8vw,110px) 0;">
+  <!-- TESTIMONIALS -->
+  <section class="section" style="background:rgba(4,13,30,.5);padding:100px 0;">
     <div class="container">
-      <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:64px;align-items:start;">
+      <div style="text-align:center;margin-bottom:64px;">
+        <span class="tag">Client Reviews</span>
+        <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,3vw,3rem);font-weight:700;margin-top:16px;">What Our Clients Say</h2>
+      </div>
+      <div id="testimonialsGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;"></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section" style="padding:100px 0;">
+    <div class="container">
+      <div style="display:grid;grid-template-columns:1fr 1.5fr;gap:64px;align-items:start;">
         <div>
-          <span class="tag"><span class="tag-dot"></span>Common Questions</span>
-          <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(1.6rem,2.8vw,2.5rem);font-weight:700;line-height:1.2;letter-spacing:-.025em;color:#eef2ff;margin-top:14px;">Frequently Asked Questions</h2>
-          <p style="font-size:clamp(.9rem,1.2vw,1.02rem);color:#a8bcd8;margin-top:12px;">Everything you need to know about our services.</p>
+          <span class="tag">Common Questions</span>
+          <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(1.8rem,2.8vw,2.5rem);font-weight:700;margin-top:14px;">Frequently Asked Questions</h2>
+          <p style="color:#a8bcd8;margin-top:12px;">Everything you need to know about our services.</p>
           <a href="contact.html" class="btn btn-primary" style="margin-top:28px;display:inline-flex;">Ask Us Anything →</a>
         </div>
-        <div id="faqList" class="faq-list"></div>
+        <div id="faqList"></div>
       </div>
     </div>
   </section>
 
   <!-- CTA -->
-  <section style="background:linear-gradient(135deg,rgba(38,96,168,.12),transparent 60%);border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);padding:clamp(60px,8vw,110px) 0;">
-    <div class="container" style="text-align:center;">
-      <span class="tag"><span class="tag-dot"></span>Ready to Build?</span>
-      <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2rem,4.5vw,3.8rem);font-weight:800;line-height:1.08;letter-spacing:-.035em;color:#eef2ff;margin-top:14px;">Start Your Civil Engineering Project Today</h2>
-      <p style="font-size:clamp(.92rem,1.2vw,1.04rem);color:#a8bcd8;margin:16px 0 32px;max-width:620px;margin-left:auto;margin-right:auto;">Talk to our engineers now — get a free consultation and detailed quote within 24 hours.</p>
-      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:24px;">
-        <a href="contact.html" class="btn btn-gold btn-lg" style="display:inline-flex;align-items:center;gap:8px;padding:16px 38px;border-radius:100px;font-family:'Plus Jakarta Sans',sans-serif;font-size:.94rem;font-weight:800;background:linear-gradient(135deg,#a07830,#c8a84b,#e0c060);color:#0a1628;box-shadow:0 4px 24px rgba(200,168,75,.35);">Get Free Quote →</a>
+  <section style="background:linear-gradient(135deg,rgba(38,96,168,.12),transparent 60%);border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);padding:100px 0;text-align:center;">
+    <div class="container">
+      <span class="tag">Ready to Build?</span>
+      <h2 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(2.2rem,4.5vw,4rem);font-weight:800;margin-top:14px;">Start Your Project Today</h2>
+      <p style="color:#a8bcd8;max-width:620px;margin:16px auto 32px;">Get a free consultation and detailed quote within 24 hours — no obligation.</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:24px;">
+        <a href="contact.html" class="btn btn-gold btn-lg">Get Free Quote →</a>
         <a href="https://wa.me/918708524647" target="_blank" rel="noopener" class="btn btn-wa btn-lg">WhatsApp: 8708524647</a>
       </div>
-      <ul style="display:flex;align-items:center;gap:20px;justify-content:center;flex-wrap:wrap;list-style:none;">
-        <li style="font-size:.78rem;color:#607090;">✓ Free Consultation</li>
-        <li style="font-size:.78rem;color:#607090;">✓ No Hidden Charges</li>
-        <li style="font-size:.78rem;color:#607090;">✓ IS Code Compliant</li>
-        <li style="font-size:.78rem;color:#607090;">✓ 24hr Response</li>
-        <li style="font-size:.78rem;color:#607090;">✓ Free Revisions</li>
+      <ul style="display:flex;gap:24px;justify-content:center;flex-wrap:wrap;list-style:none;color:#607090;font-size:.8rem;">
+        <li>✓ Free Consultation</li><li>✓ No Hidden Charges</li><li>✓ IS Code Compliant</li><li>✓ 24hr Response</li>
       </ul>
     </div>
   </section>
 </main>
 
-<!-- FOOTER -->
+<!-- FOOTER (identical to all pages) -->
 <footer class="site-footer" role="contentinfo" style="background:linear-gradient(180deg,#020a1a,#020710);border-top:1px solid rgba(44,102,196,.18);padding:60px 0 0;position:relative;overflow:hidden;">
   <div class="container" style="max-width:1240px;margin:0 auto;padding:0 clamp(16px,4vw,48px);">
     <div class="footer-grid" style="display:grid;grid-template-columns:1.4fr 1fr 1fr 1.4fr;gap:40px;">
       <div class="ft-brand">
-        <a href="index.html" class="nav-brand" style="display:flex;align-items:center;gap:11px;text-decoration:none;">
-          <div class="brand-icon" style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#102440,#2660a8);border:1px solid rgba(64,128,208,.35);display:flex;align-items:center;justify-content:center;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><path d="M3 22L3 10L12 3L21 10L21 22Z"/><rect x="9" y="14" width="6" height="8"/></svg></div>
-          <div style="line-height:1.2;">
-            <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:.94rem;font-weight:800;color:#eef2ff;">Civil <span style="color:#6aa0e0;">At Hand</span></span>
-            <span style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#607090;display:block;">Design &amp; Consultancy</span>
-          </div>
+        <a href="index.html" class="nav-brand" style="display:flex;align-items:center;gap:11px;">
+          <div class="brand-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><path d="M3 22L3 10L12 3L21 10L21 22Z"/><rect x="9" y="14" width="6" height="8"/></svg></div>
+          <div class="brand-text"><span class="brand-name">Civil <span>At Hand</span></span><span class="brand-sub">Design &amp; Consultancy</span></div>
         </a>
-        <p style="font-size:.85rem;color:#a8bcd8;line-height:1.78;margin:16px 0 24px;">Professional civil engineering consultancy — house planning, structural design, BOQ estimation, and expert consultancy across India. Trusted since 2016.</p>
-        <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <a href="https://www.instagram.com/civilathand" target="_blank" rel="noopener" style="width:34px;height:34px;border-radius:8px;background:#0d1c38;border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;color:#607090;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
-          <a href="https://www.youtube.com/@civilathand" target="_blank" rel="noopener" style="width:34px;height:34px;border-radius:8px;background:#0d1c38;border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;color:#607090;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor"/></svg></a>
-          <a href="https://www.facebook.com/civilathand" target="_blank" rel="noopener" style="width:34px;height:34px;border-radius:8px;background:#0d1c38;border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;color:#607090;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
-          <a href="https://www.linkedin.com/in/civilathand" target="_blank" rel="noopener" style="width:34px;height:34px;border-radius:8px;background:#0d1c38;border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;color:#607090;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
-          <a href="https://wa.me/918708524647" target="_blank" rel="noopener" style="width:34px;height:34px;border-radius:8px;background:#0d1c38;border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;color:#607090;"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.95 11.95 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.12.55 4.18 1.6 6L0 24l6.22-1.63A11.94 11.94 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.22-3.48-8.52z"/></svg></a>
+        <p style="color:#a8bcd8;font-size:.85rem;margin:16px 0 24px;">Professional civil engineering consultancy — house planning, structural design, BOQ estimation, and expert consultancy across India. Trusted since 2016.</p>
+        <div style="display:flex;gap:10px;">
+          <a href="https://www.instagram.com/civilathand" target="_blank" rel="noopener" style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;color:#607090;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
+          <a href="https://www.youtube.com/@civilathand" target="_blank" rel="noopener" style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;color:#607090;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor"/></svg></a>
+          <a href="https://www.facebook.com/civilathand" target="_blank" rel="noopener" style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;color:#607090;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+          <a href="https://www.linkedin.com/in/civilathand" target="_blank" rel="noopener" style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;color:#607090;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a href="https://wa.me/918708524647" target="_blank" rel="noopener" style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;color:#607090;"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.95 11.95 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.12.55 4.18 1.6 6L0 24l6.22-1.63A11.94 11.94 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.22-3.48-8.52z"/></svg></a>
         </div>
       </div>
-      <nav aria-label="Quick links">
-        <h4 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:.84rem;font-weight:700;color:#eef2ff;margin-bottom:18px;text-transform:uppercase;letter-spacing:1.2px;">Quick Links</h4>
+      <nav>
+        <h4 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:.84rem;font-weight:700;color:#eef2ff;margin-bottom:18px;">Quick Links</h4>
         <a href="index.html" style="display:block;font-size:.84rem;color:#607090;margin-bottom:10px;">Home</a>
         <a href="services.html" style="display:block;font-size:.84rem;color:#607090;margin-bottom:10px;">Our Services</a>
         <a href="portfolio.html" style="display:block;font-size:.84rem;color:#607090;margin-bottom:10px;">Portfolio</a>
@@ -300,8 +583,8 @@
         <a href="freelancer.html" style="display:block;font-size:.84rem;color:#607090;margin-bottom:10px;">Work With Us</a>
         <a href="blog.html" style="display:block;font-size:.84rem;color:#607090;margin-bottom:10px;">Blog &amp; Tips</a>
       </nav>
-      <nav aria-label="Services">
-        <h4 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:.84rem;font-weight:700;color:#eef2ff;margin-bottom:18px;text-transform:uppercase;letter-spacing:1.2px;">Services</h4>
+      <nav>
+        <h4 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:.84rem;font-weight:700;color:#eef2ff;margin-bottom:18px;">Services</h4>
         <a href="services.html#house-planning" style="display:block;font-size:.84rem;color:#607090;margin-bottom:10px;">House Planning</a>
         <a href="services.html#structural-design" style="display:block;font-size:.84rem;color:#607090;margin-bottom:10px;">Structural Design</a>
         <a href="services.html#boq-estimation" style="display:block;font-size:.84rem;color:#607090;margin-bottom:10px;">BOQ Estimation</a>
@@ -310,11 +593,11 @@
         <a href="contact.html" style="display:block;font-size:.84rem;color:#607090;margin-bottom:10px;">Get a Quote</a>
       </nav>
       <address style="font-style:normal;">
-        <h4 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:.84rem;font-weight:700;color:#eef2ff;margin-bottom:18px;text-transform:uppercase;letter-spacing:1.2px;">Contact Us</h4>
+        <h4 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:.84rem;font-weight:700;color:#eef2ff;margin-bottom:18px;">Contact Us</h4>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:.84rem;color:#607090;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.02 2.18 2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.18 6.18l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg><a href="tel:+918708524647">+91 870-852-4647</a></div>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:.84rem;color:#607090;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:civilathand.work@gmail.com">civilathand.work@gmail.com</a></div>
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:.84rem;color:#607090;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><time>Mon–Sat: 9 AM – 7 PM IST</time></div>
-        <a href="https://wa.me/918708524647" target="_blank" rel="noopener" class="btn btn-wa btn-sm" style="margin-top:18px;width:100%;justify-content:center;display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:100px;background:#25D366;color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-size:.8rem;font-weight:700;text-decoration:none;"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48A11.95 11.95 0 0 0 12 0C5.37 0 0 5.37 0 12c0 2.12.55 4.18 1.6 6L0 24l6.22-1.63A11.94 11.94 0 0 0 12 24c6.63 0 12-5.37 12-12 0-3.2-1.25-6.22-3.48-8.52z"/></svg>Chat on WhatsApp</a>
+        <a href="https://wa.me/918708524647" target="_blank" rel="noopener" class="btn btn-wa btn-sm" style="margin-top:18px;width:100%;justify-content:center;display:flex;align-items:center;gap:6px;padding:10px 14px;font-size:.8rem;font-weight:700;">Chat on WhatsApp</a>
       </address>
     </div>
     <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 0;border-top:1px solid rgba(44,102,196,.1);font-size:.78rem;color:#607090;flex-wrap:wrap;gap:12px;">
@@ -334,78 +617,140 @@
 <script src="script.js"></script>
 <script type="module" src="nav-auth.js"></script>
 
-<!-- Custom dynamic content loader from data.js -->
+<!-- Hero canvas animation + dynamic content -->
 <script>
 (function() {
+  // ---- Hero canvas (floating geometric shapes) ----
+  const canvas = document.getElementById('heroCanvas');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let width, height, particles;
+    const resize = () => {
+      width = canvas.width = canvas.offsetWidth;
+      height = canvas.height = canvas.offsetHeight;
+      particles = Array.from({length: 40}, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.3,
+        vy: (Math.random() - 0.5) * 0.3,
+        radius: 1 + Math.random() * 2,
+        opacity: 0.1 + Math.random() * 0.3
+      }));
+    };
+    window.addEventListener('resize', resize);
+    resize();
+    const draw = () => {
+      ctx.clearRect(0, 0, width, height);
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI*2);
+        ctx.fillStyle = `rgba(64,128,208,${p.opacity})`;
+        ctx.fill();
+        // draw connections
+        particles.forEach(p2 => {
+          const dx = p.x - p2.x, dy = p.y - p2.y, dist = Math.hypot(dx, dy);
+          if (dist < 120) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = `rgba(64,128,208,${0.08 * (1 - dist/120)})`;
+            ctx.stroke();
+          }
+        });
+      });
+      requestAnimationFrame(draw);
+    };
+    draw();
+  }
+
+  // ---- Dynamic content from DATA.JS ----
   const CAH = window.CAH_DATA;
   if (!CAH) return;
 
-  // 1. Hero stats
-  const statsContainer = document.getElementById('heroStats');
-  if (statsContainer && CAH.stats) {
-    statsContainer.innerHTML = `
-      <div class="stat"><div class="stat-n">${CAH.stats.projects}+</div><div class="stat-l">Projects Done</div></div>
-      <div class="stat"><div class="stat-n">${CAH.stats.years}+</div><div class="stat-l">Years Experience</div></div>
-      <div class="stat"><div class="stat-n">${CAH.stats.clients}+</div><div class="stat-l">Happy Clients</div></div>
-      <div class="stat"><div class="stat-n">${CAH.stats.rating}★</div><div class="stat-l">Avg Rating</div></div>
+  // Hero stats
+  const heroStatsWrap = document.getElementById('heroStatsWrap');
+  if (heroStatsWrap && CAH.stats) {
+    heroStatsWrap.innerHTML = `
+      <div class="hero-stat"><div class="val">${CAH.stats.projects}+</div><div class="lbl">Projects</div></div>
+      <div class="hero-stat"><div class="val">${CAH.stats.years}+</div><div class="lbl">Years Experience</div></div>
+      <div class="hero-stat"><div class="val">${CAH.stats.clients}+</div><div class="lbl">Happy Clients</div></div>
+      <div class="hero-stat"><div class="val">${CAH.stats.rating}★</div><div class="lbl">Avg Rating</div></div>
     `;
   }
 
-  // 2. Services grid (first 4 services)
+  // Services grid (first 4)
   const servicesGrid = document.getElementById('servicesGrid');
   if (servicesGrid && CAH.services) {
-    const servicesToShow = CAH.services.slice(0, 4);
-    servicesGrid.innerHTML = servicesToShow.map(svc => `
-      <article class="svc-card reveal">
-        <div class="svc-ico" style="font-size:1.5rem;">${svc.icon}</div>
-        <h3>${svc.name}</h3>
-        <p>${svc.desc}</p>
-        <div class="svc-price">${svc.price}</div>
-        <a href="services.html#${svc.id}" class="svc-link">Learn More <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-      </article>
+    servicesGrid.innerHTML = CAH.services.slice(0,4).map(s => `
+      <div class="svc-card">
+        <div class="svc-icon">${s.icon}</div>
+        <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.1rem;margin-bottom:10px;">${s.name}</h3>
+        <p style="color:#a8bcd8;font-size:.9rem;line-height:1.6;margin-bottom:12px;">${s.desc}</p>
+        <div style="font-family:'JetBrains Mono',monospace;color:#c8a84b;font-size:.85rem;">${s.price}</div>
+        <a href="services.html#${s.id}" class="svc-link">Learn more <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      </div>
     `).join('');
   }
 
-  // 3. Testimonials (first 3)
+  // Testimonials (first 3)
   const testiGrid = document.getElementById('testimonialsGrid');
   if (testiGrid && CAH.testimonials) {
-    const stars = (n) => '★'.repeat(n) + '☆'.repeat(5-n);
+    function starsHtml(n) {
+      return '★'.repeat(n) + '☆'.repeat(5 - n);
+    }
     testiGrid.innerHTML = CAH.testimonials.slice(0,3).map(t => `
-      <article class="testi reveal">
-        <div class="testi-stars">${stars(t.rating)}</div>
-        <blockquote>"${t.text}"</blockquote>
-        <div class="testi-who">
-          <div class="testi-av">${t.name.charAt(0)}</div>
-          <div><strong>${t.name}</strong><span>${t.location}</span></div>
+      <div class="testi-card">
+        <div class="stars" style="font-size:1rem;margin-bottom:14px;">${starsHtml(t.rating)}</div>
+        <blockquote style="font-style:italic;color:#a8bcd8;line-height:1.7;margin-bottom:20px;">“${t.text}”</blockquote>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#1e4a80,#4080d0);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;">${t.name[0]}</div>
+          <div>
+            <strong style="display:block;font-family:'Plus Jakarta Sans',sans-serif;">${t.name}</strong>
+            <span style="font-size:.75rem;color:#607090;">${t.location}</span>
+          </div>
         </div>
-      </article>
+      </div>
     `).join('');
   }
 
-  // 4. FAQ (first 6)
+  // FAQ (first 6)
   const faqList = document.getElementById('faqList');
   if (faqList && CAH.faq) {
-    faqList.innerHTML = CAH.faq.slice(0,6).map((f,i) => `
-      <div class="faq-item reveal">
+    faqList.innerHTML = CAH.faq.slice(0,6).map(f => `
+      <div class="faq-item">
         <button class="faq-q" aria-expanded="false"><span>${f.q}</span><span class="faq-ico">+</span></button>
         <div class="faq-a"><div class="faq-ai">${f.a}</div></div>
       </div>
     `).join('');
   }
 
-  // 5. About stats (brief)
+  // About stats
   if (CAH.stats) {
-    const abtProjCount = document.getElementById('aboutProjCount');
-    if (abtProjCount) abtProjCount.textContent = CAH.stats.projects + '+';
-    // update the stat blocks if needed
+    const setVal = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    setVal('abtStatProj', CAH.stats.projects + '+');
+    setVal('abtStatYrs', CAH.stats.years + '+');
+    setVal('abtStatCli', CAH.stats.clients + '+');
+    setVal('abtStatRat', CAH.stats.rating + '★');
+    const aboutProjCount = document.getElementById('aboutProjCount');
+    if (aboutProjCount) aboutProjCount.textContent = CAH.stats.projects + '+';
   }
 
-  // 6. Year in footer
+  // Year
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  // activate the reveal observers and FAQ toggles (already in script.js, but we can trigger)
-  // The reveal classes will be picked up by the IntersectionObserver in script.js
-  // FAQ toggle (already in script.js)
+  // Ticker animation
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    @keyframes scrollW { 0%,100%{transform:translateY(0);opacity:1} 80%{transform:translateY(10px);opacity:0} }
+    .sep { color: #4080d0; opacity: 0.5; margin: 0 4px; }
+    .ticker-track span { font-family: 'Plus Jakarta Sans', sans-serif; font-weight: 600; font-size: 0.82rem; color: #6aa0e0; padding: 0 20px; }
+  `;
+  document.head.appendChild(style);
 })();
 </script>
 

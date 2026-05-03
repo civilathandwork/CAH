@@ -1,91 +1,152 @@
-# Civil At Hand — Website v2.0
+# Civil At Hand — Website v2.1
 
-> Professional civil engineering consultancy website. Built for performance, SEO, and easy content editing.
+> Professional civil engineering consultancy website. Built for performance, SEO, and easy content management.
 
----
-
-## HOW TO EDIT CONTENT (No Coding Needed!)
-
-**All editable content lives in ONE file: `data.js`**
-
-Open `data.js` in Notepad (Windows) or TextEdit (Mac). Change any text between the "quotes".
-
-### Edit Business Info
-Look for the `business:` section and change phone, email, hours, address.
-
-### Edit Stats (Numbers on Homepage)
-Look for `stats:` and change projects, years, clients, rating numbers.
-
-### Edit Social Media Links
-Look for `social:` and paste your profile URLs.
-
-### Edit Services, FAQ, Testimonials
-Each has a clearly labeled section. Copy/paste blocks to add new ones.
+**Live site:** [civilathand.com](https://www.civilathand.com)  
+**Phone:** +91 870-852-4647  
+**Email:** civilathand.work@gmail.com
 
 ---
 
-## HOW TO ADD A NEW BLOG POST
+## Quick Start
 
-1. Open `data.js`
-2. Find `blogs: [` near the bottom
-3. Add this at the TOP of the list (after `blogs: [`):
+This is a **static HTML website** — no build tools required.
+
+1. Unzip the folder
+2. Open `index.html` in a browser to preview
+3. Deploy by uploading all files to your web host / cPanel / Netlify / GitHub Pages
+
+---
+
+## ✏️ Editing Content (No Coding Needed)
+
+**All editable content is in `Site.data.js`** and `data.js`.
+
+Open in Notepad and change values in quotes:
+
+| What to edit | File | Section |
+|---|---|---|
+| Phone, email, address | `Site.data.js` | `business:` |
+| Stats (projects, years, etc.) | `Site.data.js` | `stats:` |
+| Services list | `Site.data.js` | `services:` |
+| Testimonials | `Site.data.js` | `testimonials:` |
+| FAQs | `Site.data.js` | `faqs:` |
+| Social links | `Site.data.js` | `social:` |
+| Blog posts | `data.js` | `blogs:` |
+
+---
+
+## 📧 Setting Up the Contact Form (REQUIRED)
+
+The contact form currently requires a **Formspree** account to actually send emails.
+
+1. Go to [formspree.io](https://formspree.io) and sign up (free)
+2. Create a new form — copy the **Form ID** (e.g. `xpwzkgvb`)
+3. Open `script.js`, find `FORMSPREE_ID` (around line 543)
+4. Replace `'YOUR_FORMSPREE_ID'` with your actual ID
+5. Done! Form submissions will be emailed to your Formspree inbox
+
+---
+
+## 📁 File Structure
 
 ```
-{
-  id: "your-post-slug",
-  slug: "your-post-slug",
-  title: "Your Post Title",
-  category: "construction",
-  date: "February 2025",
-  readTime: "5 min read",
-  featured: false,
-  icon: "🏗️",
-  excerpt: "Short summary of the post.",
-  content: `
-    <p>Your post content with HTML tags.</p>
-    <h2>Section Heading</h2>
-    <p>More paragraphs...</p>
-  `
-},
+/
+├── index.html              Homepage
+├── about.html              About Us
+├── services.html           Services page
+├── portfolio.html          Portfolio / Gallery
+├── contact.html            Contact form
+├── blog.html               Blog listing
+├── blog-post.html          Individual blog posts (dynamic)
+├── tools.html              Free engineering calculators
+├── freelancer.html         Freelancer opportunities
+├── student-guidance.html   Student resources
+├── thank-you.html          Post-form-submission page
+├── 404.html                Not Found page
+│
+├── privacy.html            Privacy Policy
+├── terms.html              Terms of Service
+├── refund-policy.html      Refund Policy
+├── disclaimer.html         Disclaimer
+├── cookie-policy.html      Cookie Policy
+│
+├── login.html              Client login (Firebase Auth)
+├── signup.html             New account signup
+├── dashboard.html          Client dashboard
+│
+├── style.css               Main stylesheet (design system)
+├── pages.css               Inner page styles
+├── ultra.css               Extended styles (privacy/sitemap pages)
+├── script.js               All JavaScript (24 features)
+├── data.js                 Blog posts & page data
+├── Site.data.js            Business data (services, FAQs, etc.)
+├── firebase.js             Firebase Auth config
+├── auth.js                 Auth helpers
+├── nav-auth.js             Nav auth state
+│
+├── sitemap.xml             Submit to Google Search Console
+├── robots.txt              Search engine directives
+│
+└── assets/
+    └── images/
+        ├── favicon.svg
+        ├── favicon.ico
+        ├── og-image.jpg    Social share image (1200×630)
+        └── Logo.svg
 ```
 
-4. Also add the URL to `sitemap.xml` for Google.
+---
+
+## 🔍 SEO Setup
+
+1. Go to [search.google.com/search-console](https://search.google.com/search-console)
+2. Add `https://www.civilathand.com` and verify ownership
+3. Submit sitemap: `https://www.civilathand.com/sitemap.xml`
 
 ---
 
-## FILE STRUCTURE
+## 🚀 Deployment
 
-- `data.js` — Edit ALL content here (business info, blogs, services, testimonials, FAQ)
-- `index.html` — Homepage
-- `services.html` — Services page
-- `blog.html` — Blog listing
-- `blog-post.html` — Individual blog article (auto-populated from data.js)
-- `contact.html` — Contact form
-- `tools.html` — Free calculators
-- `sitemap.xml` — Submit to Google Search Console
-- `robots.txt` — Search engine rules
+### Shared Hosting (cPanel)
+Upload all files to `public_html/` via File Manager or FTP.
 
----
+### Netlify (Recommended — Free)
+1. Drag & drop this folder at [netlify.com/drop](https://app.netlify.com/drop)
+2. Set custom domain in Netlify dashboard
 
-## GOOGLE SEO SETUP
-
-1. Go to search.google.com/search-console
-2. Add your site and verify ownership
-3. Go to Sitemaps → enter: `https://www.civilathand.com/sitemap.xml`
-4. Submit!
+### GitHub Pages
+1. Push to a GitHub repo
+2. Enable Pages in repo Settings → Pages → Deploy from branch `main`
 
 ---
 
-## FIXES APPLIED IN v2.0
+## 🔒 Security Notes
 
-- Back button blank page — FIXED (pageshow bfcache handler)
-- Blog "Read More" links now open full detailed articles
-- Legal links added to all page footers
-- Mobile navigation redesigned as bottom sheet with icons
-- Structured data (JSON-LD) added to all pages for Google
-- Counter animations on stat numbers
-- Read progress bar on blog posts
-- TOC with active section highlighting on blog posts
-- data.js central data file for easy editing
-- sitemap.xml and robots.txt updated
-- README with full editing guide
+- **Firebase API key** is safe to expose client-side (it's restricted to your domain)
+- Set authorized domains in Firebase Console → Authentication → Settings
+- Enable Firebase Security Rules for Firestore/Storage
+- Contact form via Formspree uses HTTPS and no server code needed
+
+---
+
+## 📋 Changelog
+
+### v2.1 (May 2025)
+- ✅ Contact form wired to Formspree (real email delivery)
+- ✅ Thank-you page added after form submission
+- ✅ Cookie banner now links to privacy policy correctly
+- ✅ OG image + Twitter card meta added to all pages
+- ✅ Structured data (JSON-LD) enhanced with service offerings
+- ✅ About Us added to footer quick links
+- ✅ Sitemap updated with current dates
+- ✅ Robots.txt updated to block admin/auth pages
+- ✅ Firebase security note added
+- ✅ README completely rewritten
+
+### v2.0 (January 2025)
+- Back button blank page fixed (bfcache handler)
+- Blog detail articles implemented
+- Mobile navigation redesigned
+- Counter animations added
+- data.js central data file introduced

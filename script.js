@@ -538,18 +538,30 @@ if (contactForm) {
     submitBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:_spin .8s linear infinite"><path d="M21 12a9 9 0 11-6.22-8.56"/></svg> Sending…`;
     submitBtn.disabled = true;
 
-    /* ── Replace with Formspree / EmailJS / Netlify Forms in production ── */
-    await new Promise(r => setTimeout(r, 1500));
+    /* ── Formspree submission (free tier — replace FORM_ID with your own) ── */
+    /* Sign up at formspree.io, create a form, copy the form ID below        */
+    const FORMSPREE_ID = 'YOUR_FORMSPREE_ID'; // e.g. 'xpwzkgvb'
+    let sent = false;
+    try {
+      const fd = new FormData(contactForm);
+      const res = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+        method: 'POST', headers: { Accept: 'application/json' }, body: fd
+      });
+      sent = res.ok;
+    } catch (_) { sent = false; }
 
-    contactForm.reset();
     contactForm.querySelectorAll('.fc').forEach(f => { f.style.borderColor = ''; f.classList.remove('invalid'); });
     contactForm.querySelectorAll('.field-hint').forEach(h => h.remove());
     submitBtn.innerHTML = orig;
     submitBtn.disabled  = false;
 
-    const ok2 = $('formOk') || $('formSuccess');
-    if (ok2) { ok2.classList.add('show'); setTimeout(() => ok2.classList.remove('show'), 7000); }
-    else showToast('✓ Message sent! We\'ll reply within 24 hours.');
+    if (sent) {
+      contactForm.reset();
+      // Redirect to thank-you page
+      setTimeout(() => { window.location.href = 'thank-you.html'; }, 400);
+    } else {
+      showToast('⚠ Could not send. Please WhatsApp or call us directly.', 6000, true);
+    }
   });
 }
 

@@ -1,8 +1,10 @@
 User-agent: *
 Allow: /
-
-# Block private/internal files
+Disallow: /dashboard.html
+Disallow: /login.html
+Disallow: /signup.html
+Disallow: /auth.js
 Disallow: /_components.html
-Disallow: /script.js.bak
+Disallow: /thank-you.html
 
 Sitemap: https://www.civilathand.com/sitemap.xml
